@@ -20,3 +20,4 @@ D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\VB_THESIS_WPS.genruntimeconfig.cache
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ref\VB_THESIS_WPS.dll
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\View\LoginView.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\View\LoginView.baml
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\VB_THESIS_WPS.sourcelink.json
