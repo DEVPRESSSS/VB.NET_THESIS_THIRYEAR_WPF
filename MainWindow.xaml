@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:VB_THESIS_WPS"
+        xmlns:local="clr-namespace:VB_THESIS_WPS" xmlns:Icon="clr-namespace:MahApps.Metro.IconPacks;assembly=MahApps.Metro.IconPacks.Material"
         mc:Ignorable="d"
         Title="DASHBOARD" Height="600" Width="1100"
         WindowStartupLocation="CenterScreen"
@@ -58,19 +58,92 @@
                         <ColumnDefinition Width="200"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+                    
+                    
+                    
+                    
+                    
 
                     <!-- Sidebar -->
+                    
+                    
                     <Border Grid.Column="0"
-                            Background="#333"
+                            Background="#073b4c"
                             CornerRadius="0,10,0,0"
                             Effect="{StaticResource dropShadow}"
-                            Padding="10">
+                            Padding="10" Margin="-2,0,2,0">
                         <StackPanel>
-                            <TextBlock Text="Dashboard" Foreground="White" Margin="0,10"/>
-                            <TextBlock Text="Settings" Foreground="White" Margin="0,10"/>
-                            <TextBlock Text="Profile" Foreground="White" Margin="0,10"/>
+
+
+
+                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="0,100,0,5"
+                                    Cursor="Hand" Width="160">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="Menu" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Dashboard"  FontFamily="Roboto"/>
+                                </StackPanel>
+                            </Button>
+
+
+                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="5"
+                                 Cursor="Hand" Width="160">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="ShoeSneaker" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Inventory" FontFamily="Roboto"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="5"
+                                    Cursor="Hand" Width="160">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="Sale" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Sales"  FontFamily="Roboto"/>
+                                </StackPanel>
+                            </Button>
+
+
+                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="5"
+                                 Cursor="Hand" Width="160">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="GoogleAnalytics" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Analytics"  FontFamily="Roboto"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="5"
+                                     Cursor="Hand" Width="160">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="AccountMultipleOutline" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Employee"  FontFamily="Roboto"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="5"
+                                 Cursor="Hand" Width="160">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="SettingsHelper" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Settings"  FontFamily="Roboto"/>
+                                </StackPanel>
+                            </Button>
+
+
+                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="5"
+                                                  Cursor="Hand" Width="160">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Logout"  FontFamily="Roboto"/>
+                                </StackPanel>
+                            </Button>
+
+
+
+
+
                         </StackPanel>
                     </Border>
+                    
+                    
+                    
 
                     <!-- Main Content Area -->
                     <Border Grid.Column="1"
@@ -125,10 +198,10 @@
 
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Background" Value="#FF605C"/>
+                                <Setter Property="Background" Value="#EF476F"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#C62DAE"/>
+                                        <Setter Property="Background" Value="#FF60"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -166,10 +239,10 @@
                        VerticalAlignment="Center">
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Background" Value="#FFBD44"/>
+                                <Setter Property="Background" Value="#FFD166"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#C62DAE"/>
+                                        <Setter Property="Background" Value="#FFBD44"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -208,10 +281,10 @@
                      VerticalAlignment="Center">
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Background" Value="#00CA4E"/>
+                                <Setter Property="Background" Value="#06D6A0"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#9D0B0B"/>
+                                        <Setter Property="Background" Value="#00CA4E"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>

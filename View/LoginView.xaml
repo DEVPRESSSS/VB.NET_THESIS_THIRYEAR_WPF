@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:VB_THESIS_WPS"
         mc:Ignorable="d"
         Title="LoginView"
-        Height="550"
-        Width="900"
+        Height="500"
+        Width="800"
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent"
@@ -56,7 +56,10 @@
                                             Grid.Column="0"
                                             VerticalAlignment="Center"
                                             Margin="10"
+                                      
+                                            
                                             FontWeight="Medium"/>
+                    <!--BtnMinimize-->
 
                     <Button x:Name="btnMinimize"
                             BorderThickness="0"
@@ -70,10 +73,10 @@
 
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Background" Value="#FF605C"/>
+                                <Setter Property="Background" Value="#EF476F"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#C62DAE"/>
+                                        <Setter Property="Background" Value="#FF60"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -95,6 +98,9 @@
 
 
                     </Button>
+                        
+                        
+                      <!--BtnMaximize-->
                     <Button x:Name="btnMaximize"
                            BorderThickness="0"
                            Foreground="White"
@@ -106,10 +112,10 @@
                            VerticalAlignment="Center">
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Background" Value="#FFBD44"/>
+                                <Setter Property="Background" Value="#FFD166"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#C62DAE"/>
+                                        <Setter Property="Background" Value="#FFBD44"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -129,6 +135,10 @@
 
 
                     </Button>
+                        
+                        
+                        
+                        <!--btn close  -->
                     <Button x:Name="btnClose"
                          BorderThickness="0"
                          Foreground="White"
@@ -140,10 +150,10 @@
                          VerticalAlignment="Center">
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Background" Value="#00CA4E"/>
+                                <Setter Property="Background" Value="#06D6A0"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#9D0B0B"/>
+                                        <Setter Property="Background" Value="#00CA4E"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -267,10 +277,10 @@
 
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Background" Value="#00CA4E"/>
+                                <Setter Property="Background" Value="#118AB2"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#097031"/>
+                                        <Setter Property="Background" Value="#073b4C"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
