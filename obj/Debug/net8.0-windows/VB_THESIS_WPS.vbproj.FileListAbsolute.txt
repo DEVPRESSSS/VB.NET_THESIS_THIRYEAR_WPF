@@ -66,3 +66,5 @@ D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\View\Inventory.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\View\Inventory.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\View\Settings.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\View\Settings.baml
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\LiveCharts.dll
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\LiveCharts.Wpf.dll
