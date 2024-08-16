@@ -10,34 +10,23 @@
         Width="900"
         WindowStyle="None"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen"
         Background="Transparent"
         AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
         MouseDown="Window_MouseDown">
 
-    <Border CornerRadius="10">
-        <Border.Background>
-            <ImageBrush ImageSource="D:\VB_THESIS_WPS\Images\Shoes1.jpg"/>
-        </Border.Background>
+    <Border CornerRadius="10" Background="Transparent">
+       
 
-        <Border CornerRadius="5"
-                 BorderThickness="3"
-                Opacity="0.95">
+        <Border CornerRadius="10"
+                 BorderThickness="3">
     
-            <Border.BorderBrush>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#462AD8" Offset="0"/>
-                            <GradientStop Color="#DA34AE" Offset="0.75"/>
-                            <GradientStop Color="#8A16C1" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.BorderBrush>
+           
 
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
-                            <GradientStop Color="#060531" Offset="0"/>
-                            <GradientStop Color="#1B1448" Offset="0.75"/>
-                        </LinearGradientBrush>
-                     </Border.Background>
+                <Border.Background>
+                  <SolidColorBrush Color="#F4F5F6"/>
+
+                </Border.Background>
 
                 <Grid>
 
@@ -52,64 +41,151 @@
                             <Grid.ColumnDefinitions>
 
                                       <ColumnDefinition/>
-                                     <ColumnDefinition Width="30" />
-                                     <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="30"/>
+                                     <ColumnDefinition Width="35" />
+                                     <ColumnDefinition Width="35"/>
+                                    <ColumnDefinition Width="35"/>
 
 
 
                              </Grid.ColumnDefinitions>
 
                                  <TextBlock Text="LOGIN"
-                                            Foreground="White"
-                                            FontSize="12"
-                                            FontFamily="Tahoma"
+                                            Foreground="#383838"
+                                            FontSize="14"
+                                            FontFamily="Roboto"
                                             Grid.Column="0"
                                             VerticalAlignment="Center"
-                                            Margin="10"/>
+                                            Margin="10"
+                                            FontWeight="Medium"/>
 
                     <Button x:Name="btnMinimize"
-                            Background="Transparent"
                             BorderThickness="0"
                             Foreground="White"
-                            FontSize="20"
+                            FontSize="13"
+                            Content="-"
                             Cursor="Hand"
                             Grid.Column="1"
                             Click="btnMinimize_Click"
                             VerticalAlignment="Center">
-                            <Image Source="D:\VB_THESIS_WPS\Images\minus.png" Width="16" Height="16"/>
+
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#FF605C"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#C62DAE"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="25" Height="25"
+                          CornerRadius="15"
+                          Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                          HorizontalAlignment="Center"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+
 
 
 
                     </Button>
                     <Button x:Name="btnMaximize"
-                           Background="Transparent"
                            BorderThickness="0"
                            Foreground="White"
-                           FontSize="20"
+                           FontSize="13"
+                           Content="+"
                            Cursor="Hand"
                            Grid.Column="2"
                            Click="btnMaximize_Click"
                            VerticalAlignment="Center">
-                            <Image Source="D:\VB_THESIS_WPS\Images\maximize.png" Width="16" Height="16"/>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#FFBD44"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#C62DAE"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                        <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                        <Border Width="25" Height="25"
+                                                 CornerRadius="15"
+                                                 Background="{TemplateBinding Background}">
+                                              <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
 
 
                     </Button>
                     <Button x:Name="btnClose"
-                         Background="Transparent"
                          BorderThickness="0"
                          Foreground="White"
-                         FontSize="20"
+                         FontSize="12"
+                         Content="x"
                          Cursor="Hand"
                          Grid.Column="3"
                          Click="btnClose_Click"
                          VerticalAlignment="Center">
-                        <Image Source="D:\VB_THESIS_WPS\Images\close_1.png" Width="16" Height="16"/>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#00CA4E"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#9D0B0B"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
 
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="25" Height="25"
+                                CornerRadius="15"
+                                Margin="0px 2px 0px 2px"
+                                Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
 
                     </Button>
 
                 </Grid>
+
+                <StackPanel Width="300"
+                            Grid.Row="2"
+                            Orientation="Vertical"
+                            Margin="0, 40,0,0">
+
+                             <Image Source="D:\VB_THESIS_WPS\Images\POS-2.PNG"
+                           Width="120" Height="120"/>
+
+
+
+                    <TextBlock Foreground="#383838"
+                               FontSize="12" FontWeight="Medium" TextAlignment="Center" Margin="0, 5,0,5"><Run Text="W"/><Run Language="en-ph" Text="elcome to Cartimar Shoes POS"/></TextBlock>
+
+
+
+
+
+                </StackPanel>
+                    
+             
 
 
 
