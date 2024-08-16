@@ -84,8 +84,8 @@
 
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border Width="25" Height="25"
-                          CornerRadius="15"
+                                <Border Width="20" Height="20"
+                          CornerRadius="10"
                           Background="{TemplateBinding Background}">
                                     <ContentPresenter VerticalAlignment="Center"
                           HorizontalAlignment="Center"/>
@@ -123,8 +123,8 @@
 
                         <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                        <Border Width="25" Height="25"
-                                                 CornerRadius="15"
+                                        <Border Width="20" Height="20"
+                                                 CornerRadius="10"
                                                  Background="{TemplateBinding Background}">
                                               <ContentPresenter VerticalAlignment="Center"
                                               HorizontalAlignment="Center"/>
@@ -161,8 +161,8 @@
 
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border Width="25" Height="25"
-                                CornerRadius="15"
+                                <Border Width="20" Height="20"
+                                CornerRadius="10"
                                 Margin="0px 2px 0px 2px"
                                 Background="{TemplateBinding Background}">
                                     <ContentPresenter VerticalAlignment="Center"
@@ -250,7 +250,6 @@
 
 
                     <!--Forgot Password-->
-
                     <TextBlock Foreground="#383838"
                          FontSize="10" FontWeight="Regular"
                          TextAlignment="center"

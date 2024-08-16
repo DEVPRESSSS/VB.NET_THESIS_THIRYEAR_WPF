@@ -58,11 +58,11 @@
                         <ColumnDefinition Width="200"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+
                     
-                    
-                    
-                    
-                    
+
+
+
 
                     <!-- Sidebar -->
                     
@@ -73,10 +73,24 @@
                             Effect="{StaticResource dropShadow}"
                             Padding="10" Margin="-2,0,2,0">
                         <StackPanel>
+                            <Border Width="80" Height="80" Background="White" BorderThickness="4" CornerRadius="40" Margin="0,6,0,0">
+                                <Ellipse>
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="D:\VB_THESIS_WPS\Images\pic.jpg"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                
+                                
+                               
+                            </Border>
+
+
+                            <TextBlock Text="Montemor, Jerald R." TextAlignment="Center" Foreground="White"
+                                       />
 
 
 
-                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="0,100,0,5"
+                            <Button Style="{StaticResource menuButton}"  Foreground="White" Margin="0,50,0,5"
                                     Cursor="Hand" Width="160">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="Menu" Style="{StaticResource menuButtonIcon}"/>
@@ -85,15 +99,15 @@
                             </Button>
 
 
-                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="5"
-                                 Cursor="Hand" Width="160">
+                            <Button Style="{StaticResource menuButton}"  Foreground="White" Margin="5"
+                                 Cursor="Hand" Width="160" Click="Button_Click_1">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="ShoeSneaker" Style="{StaticResource menuButtonIcon}"/>
                                     <TextBlock Text="Inventory" FontFamily="Roboto"/>
                                 </StackPanel>
                             </Button>
 
-                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="5"
+                            <Button Style="{StaticResource menuButton}"  Foreground="White" Margin="5"
                                     Cursor="Hand" Width="160">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="Sale" Style="{StaticResource menuButtonIcon}"/>
@@ -102,7 +116,7 @@
                             </Button>
 
 
-                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="5"
+                            <Button Style="{StaticResource menuButton}"  Foreground="White" Margin="5"
                                  Cursor="Hand" Width="160">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="GoogleAnalytics" Style="{StaticResource menuButtonIcon}"/>
@@ -110,7 +124,7 @@
                                 </StackPanel>
                             </Button>
 
-                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="5"
+                            <Button Style="{StaticResource menuButton}" Foreground="White" Margin="5"
                                      Cursor="Hand" Width="160">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="AccountMultipleOutline" Style="{StaticResource menuButtonIcon}"/>
@@ -118,8 +132,8 @@
                                 </StackPanel>
                             </Button>
 
-                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="5"
-                                 Cursor="Hand" Width="160">
+                            <Button Style="{StaticResource menuButton}" Foreground="White" Margin="5"
+                                 Cursor="Hand" Width="160" Click="Button_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="SettingsHelper" Style="{StaticResource menuButtonIcon}"/>
                                     <TextBlock Text="Settings"  FontFamily="Roboto"/>
@@ -127,7 +141,7 @@
                             </Button>
 
 
-                            <Button Style="{StaticResource menuButton}" Background="#118AB2" Foreground="White" Margin="5"
+                            <Button Style="{StaticResource menuButton}" Foreground="White" Margin="5"
                                                   Cursor="Hand" Width="160">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"/>
@@ -150,10 +164,15 @@
                             Background="White"
                             Margin="10"
                             CornerRadius="10">
-                        <TextBlock Text="Main Content Area"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontSize="20"/>
+
+                        <ContentControl x:Name="MainContentArea">
+
+                            <TextBlock Text="Main Content Area"
+                             
+                               FontSize="20"/>
+
+                        </ContentControl>
+                            
                     </Border>
 
                 </Grid>

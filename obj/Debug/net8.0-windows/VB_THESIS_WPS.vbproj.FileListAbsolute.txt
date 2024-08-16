@@ -62,3 +62,7 @@ D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\MahApps.Metro.IconPacks.VaadinIcons.dl
 D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\MahApps.Metro.IconPacks.WeatherIcons.dll
 D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\MahApps.Metro.IconPacks.Zondicons.dll
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\Application.baml
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\View\Inventory.g.vb
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\View\Inventory.baml
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\View\Settings.g.vb
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\View\Settings.baml

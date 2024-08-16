@@ -26,4 +26,13 @@
     End Sub
 
 
+
+    Private Sub Button_Click_1(sender As Object, e As RoutedEventArgs)
+        MainContentArea.Content = New Inventory()
+    End Sub
+
+    Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
+        MainContentArea.Content = New Settings()
+
+    End Sub
 End Class
