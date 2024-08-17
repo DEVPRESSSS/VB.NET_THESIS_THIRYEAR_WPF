@@ -21,7 +21,15 @@
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As RoutedEventArgs)
+
+        'Dim response As Integer
+
+        ' response = MessageBox.Show("Confirmation", "Are you sure you want to exit?", MessageBoxButton.YesNo, MessageBoxImage.Question)
+
+
         Application.Current.Shutdown()
+
+
 
     End Sub
 
@@ -34,5 +42,23 @@
     Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
         MainContentArea.Content = New Settings()
 
+    End Sub
+
+    Private Sub Sales_Click(sender As Object, e As RoutedEventArgs)
+
+        MainContentArea.Content = New Sales()
+    End Sub
+
+    Private Sub Analysis_Click(sender As Object, e As RoutedEventArgs)
+        MainContentArea.Content = New Analysis()
+
+    End Sub
+
+    Private Sub Logout(sender As Object, e As RoutedEventArgs)
+
+
+        Dim login As New LoginView()
+        login.Show()
+        Me.Close()
     End Sub
 End Class

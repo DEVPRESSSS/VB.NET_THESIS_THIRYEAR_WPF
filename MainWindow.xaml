@@ -108,7 +108,7 @@
                             </Button>
 
                             <Button Style="{StaticResource menuButton}"  Foreground="White" Margin="5"
-                                    Cursor="Hand" Width="160">
+                                    Cursor="Hand" Width="160" Click="Sales_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="Sale" Style="{StaticResource menuButtonIcon}"/>
                                     <TextBlock Text="Sales"  FontFamily="Roboto"/>
@@ -117,7 +117,7 @@
 
 
                             <Button Style="{StaticResource menuButton}"  Foreground="White" Margin="5"
-                                 Cursor="Hand" Width="160">
+                                 Cursor="Hand" Width="160" Click="Analysis_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="GoogleAnalytics" Style="{StaticResource menuButtonIcon}"/>
                                     <TextBlock Text="Analytics"  FontFamily="Roboto"/>
@@ -142,7 +142,7 @@
 
 
                             <Button Style="{StaticResource menuButton}" Foreground="White" Margin="5"
-                                                  Cursor="Hand" Width="160">
+                                                  Cursor="Hand" Width="160" Click="Logout">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"/>
                                     <TextBlock Text="Logout"  FontFamily="Roboto"/>
@@ -167,9 +167,7 @@
 
                         <ContentControl x:Name="MainContentArea">
 
-                            <TextBlock Text="Main Content Area"
                              
-                               FontSize="20"/>
 
                         </ContentControl>
                             

@@ -5,23 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VB_THESIS_WPS" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
-              Background="AliceBlue"
+             Background="Transparent"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <lvc:CartesianChart>
-            <lvc:CartesianChart.Series>
-                <lvc:ColumnSeries Title="2024"
-                                  Values="30, 70, 45, 85"/>
-                <lvc:ColumnSeries Title="2023"
-                                  Values="40, 60, 55, 75"/>
-            </lvc:CartesianChart.Series>
-            <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Months"
-                          Labels="Jan, Feb, Mar, Apr"/>
-            </lvc:CartesianChart.AxisX>
-            <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Sales"/>
-            </lvc:CartesianChart.AxisY>
-        </lvc:CartesianChart>
+        <TextBlock Text="This is settings"/>
     </Grid>
 </UserControl>
