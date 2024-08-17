@@ -10,11 +10,7 @@
         MouseDown="Window_MouseDown"
         WindowStyle="None">
         <Window.Resources>
-            <DropShadowEffect x:Key="dropShadow"
-                              BlurRadius="10"
-                              ShadowDepth="5"
-                              Opacity="0.5"
-                              Color="LightGray"/>
+          
         </Window.Resources>
 
 
@@ -72,8 +68,14 @@
                             CornerRadius="0,10,0,0"
                             Effect="{StaticResource dropShadow}"
                             Padding="10" Margin="-2,0,2,0">
+                        
+                        <!--The panel that holds the buttons-->
                         <StackPanel>
+                            
+                            <!--The border for the profile -->
                             <Border Width="80" Height="80" Background="White" BorderThickness="4" CornerRadius="40" Margin="0,6,0,0">
+                               
+                                <!--The ellipse that shapes the image to circle-->
                                 <Ellipse>
                                     <Ellipse.Fill>
                                         <ImageBrush ImageSource="D:\VB_THESIS_WPS\Images\pic.jpg"/>
@@ -84,12 +86,14 @@
                                
                             </Border>
 
+                            <!--Textblock for the name of admin-->
 
                             <TextBlock Text="Montemor, Jerald R." TextAlignment="Center" Foreground="White"
                                        />
 
-
-
+                              <!--Buttons in the sidebar-->
+                            
+                            <!--Dashboard-->
                             <Button Style="{StaticResource menuButton}"  Foreground="White" Margin="0,50,0,5"
                                     Cursor="Hand" Width="160">
                                 <StackPanel Orientation="Horizontal">
@@ -98,6 +102,7 @@
                                 </StackPanel>
                             </Button>
 
+                            <!--Inventory-->
 
                             <Button Style="{StaticResource menuButton}"  Foreground="White" Margin="5"
                                  Cursor="Hand" Width="160" Click="Button_Click_1">
@@ -107,6 +112,9 @@
                                 </StackPanel>
                             </Button>
 
+
+                            <!--Sales-->
+
                             <Button Style="{StaticResource menuButton}"  Foreground="White" Margin="5"
                                     Cursor="Hand" Width="160" Click="Sales_Click">
                                 <StackPanel Orientation="Horizontal">
@@ -114,6 +122,8 @@
                                     <TextBlock Text="Sales"  FontFamily="Roboto"/>
                                 </StackPanel>
                             </Button>
+
+                            <!--Analytics-->
 
 
                             <Button Style="{StaticResource menuButton}"  Foreground="White" Margin="5"
@@ -123,7 +133,9 @@
                                     <TextBlock Text="Analytics"  FontFamily="Roboto"/>
                                 </StackPanel>
                             </Button>
-
+                            
+                            
+                            <!--Employee-->             
                             <Button Style="{StaticResource menuButton}" Foreground="White" Margin="5"
                                      Cursor="Hand" Width="160">
                                 <StackPanel Orientation="Horizontal">
@@ -131,6 +143,9 @@
                                     <TextBlock Text="Employee"  FontFamily="Roboto"/>
                                 </StackPanel>
                             </Button>
+
+
+                            <!--Settings-->
 
                             <Button Style="{StaticResource menuButton}" Foreground="White" Margin="5"
                                  Cursor="Hand" Width="160" Click="Button_Click">
@@ -140,6 +155,8 @@
                                 </StackPanel>
                             </Button>
 
+
+                            <!--Logout-->
 
                             <Button Style="{StaticResource menuButton}" Foreground="White" Margin="5"
                                                   Cursor="Hand" Width="160" Click="Logout">
@@ -165,6 +182,8 @@
                             Margin="10"
                             CornerRadius="10">
 
+                        
+                        <!--Name of the MainContentArea where the user control will appear-->
                         <ContentControl x:Name="MainContentArea">
 
                              
@@ -181,9 +200,15 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
 
+                        
+                        <!--Column for the logo picture-->
                         <ColumnDefinition/>
+                        <!--Column for Minimize-->
                         <ColumnDefinition Width="35"/>
+                        <!--Column for maximize-->
                         <ColumnDefinition Width="35"/>
+                        <!--Column for Close-->
+
                         <ColumnDefinition Width="35"/>
 
 
@@ -191,7 +216,7 @@
                     </Grid.ColumnDefinitions>
 
 
-                    <!--Welcome message for user -->
+                    <!--Logo picture -->
                     <TextBlock Text="Logo Picture"
                                         Foreground="#383838"
                                         FontSize="14"
@@ -213,6 +238,7 @@
                         Click="btnMinimize_Click"
                         VerticalAlignment="Center">
 
+                        <!--Button style like hover-->
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="#EF476F"/>
@@ -254,6 +280,9 @@
                        Grid.Column="2"
                        Click="btnMaximize_Click"
                        VerticalAlignment="Center">
+                        <!--Button style like hover-->
+
+
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="#FFD166"/>
@@ -296,6 +325,8 @@
                      Grid.Column="3"
                      Click="btnClose_Click"
                      VerticalAlignment="Center">
+                        <!--Button style like hover-->
+
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="#06D6A0"/>
