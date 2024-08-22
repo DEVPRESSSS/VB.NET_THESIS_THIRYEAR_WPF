@@ -2008,19 +2008,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\xmont\\.nuget\\packages\\": {}
+    "C:\\Users\\Celestino\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\VB_THESIS_WPS\\VB_THESIS_WPS.vbproj",
+      "projectUniqueName": "C:\\Users\\Celestino\\OneDrive\\Desktop\\clonesystem\\VB.NET_THESIS_THIRYEAR_WPF\\VB_THESIS_WPS.vbproj",
       "projectName": "VB_THESIS_WPS",
-      "projectPath": "D:\\VB_THESIS_WPS\\VB_THESIS_WPS.vbproj",
-      "packagesPath": "C:\\Users\\xmont\\.nuget\\packages\\",
-      "outputPath": "D:\\VB_THESIS_WPS\\obj\\",
+      "projectPath": "C:\\Users\\Celestino\\OneDrive\\Desktop\\clonesystem\\VB.NET_THESIS_THIRYEAR_WPF\\VB_THESIS_WPS.vbproj",
+      "packagesPath": "C:\\Users\\Celestino\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Celestino\\OneDrive\\Desktop\\clonesystem\\VB.NET_THESIS_THIRYEAR_WPF\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\xmont\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Celestino\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

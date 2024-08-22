@@ -24,5 +24,6 @@
                 <lvc:Axis Title="Sales"/>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
+        <TextBlock Text="test"/>
     </Grid>
 </UserControl>

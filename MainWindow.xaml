@@ -78,7 +78,7 @@
                                 <!--The ellipse that shapes the image to circle-->
                                 <Ellipse>
                                     <Ellipse.Fill>
-                                        <ImageBrush ImageSource="D:\VB_THESIS_WPS\Images\pic.jpg"/>
+                                        <ImageBrush ImageSource="C:\Users\Celestino\OneDrive\Desktop\clonesystem\VB.NET_THESIS_THIRYEAR_WPF\Images\pic.jpg"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
                                 

@@ -181,7 +181,7 @@
                             Orientation="Vertical"
                             Margin="0, 40,0,0">
 
-                             <Image Source="D:\VB_THESIS_WPS\Images\POS-2.PNG"
+                    <Image Source="C:\Users\Celestino\OneDrive\Desktop\clonesystem\VB.NET_THESIS_THIRYEAR_WPF\Images\POS-2.png"
                            Width="120" Height="120"/>
 
 
