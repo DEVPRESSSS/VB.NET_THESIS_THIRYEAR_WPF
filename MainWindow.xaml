@@ -8,6 +8,7 @@
         Title="DASHBOARD" Height="600" Width="1100"
         WindowStartupLocation="CenterScreen"
         MouseDown="Window_MouseDown"
+        MinHeight="600" MinWidth="1100"
         WindowStyle="None">
         <Window.Resources>
           
@@ -95,7 +96,7 @@
                             
                             <!--Dashboard-->
                             <Button Style="{StaticResource menuButton}"  Foreground="White" Margin="0,50,0,5"
-                                    Cursor="Hand" Width="160">
+                                    Cursor="Hand" Width="160" Click="Button_Click_2">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="Menu" Style="{StaticResource menuButtonIcon}"/>
                                     <TextBlock Text="Dashboard"  FontFamily="Roboto"/>

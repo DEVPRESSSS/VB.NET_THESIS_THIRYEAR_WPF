@@ -7,22 +7,28 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="View\Analysis.xaml.vb">
+    <Compile Update="ViewModel\Analysis.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\Employee.xaml.vb">
+    <Compile Update="ViewModel\Dashboard.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\Inventory.xaml.vb">
+    <Compile Update="ViewModel\EditMember.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\LoginView.xaml.vb">
+    <Compile Update="ViewModel\Employee.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\Sales.xaml.vb">
+    <Compile Update="ViewModel\Inventory.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\Settings.xaml.vb">
+    <Compile Update="ViewModel\LoginView.xaml.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ViewModel\Sales.xaml.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ViewModel\Settings.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -30,22 +36,28 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Analysis.xaml">
+    <Page Update="ViewModel\Analysis.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Employee.xaml">
+    <Page Update="ViewModel\Dashboard.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Inventory.xaml">
+    <Page Update="ViewModel\EditMember.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\LoginView.xaml">
+    <Page Update="ViewModel\Employee.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Sales.xaml">
+    <Page Update="ViewModel\Inventory.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Settings.xaml">
+    <Page Update="ViewModel\LoginView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModel\Sales.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModel\Settings.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

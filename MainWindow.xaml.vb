@@ -1,4 +1,9 @@
 ﻿Class MainWindow
+    Public Sub New()
+        InitializeComponent()
+
+        MainContentArea.Content = New Dashboard()
+    End Sub
     Private Sub Window_MouseDown(sender As Object, e As MouseButtonEventArgs)
         If e.LeftButton = MouseButtonState.Pressed Then
 
@@ -22,12 +27,17 @@
 
     Private Sub btnClose_Click(sender As Object, e As RoutedEventArgs)
 
-        'Dim response As Integer
+        Dim response As MessageBoxResult
 
-        ' response = MessageBox.Show("Confirmation", "Are you sure you want to exit?", MessageBoxButton.YesNo, MessageBoxImage.Question)
+        response = MessageBox.Show("Confirmation", "Are you sure you want to exit?", MessageBoxButton.YesNo, MessageBoxImage.Question)
+
+        If response = MessageBoxResult.Yes Then
+
+            Application.Current.Shutdown()
+
+        End If
 
 
-        Application.Current.Shutdown()
 
 
 
@@ -60,5 +70,10 @@
         Dim login As New LoginView()
         login.Show()
         Me.Close()
+    End Sub
+
+    Private Sub Button_Click_2(sender As Object, e As RoutedEventArgs)
+        MainContentArea.Content = New Dashboard()
+
     End Sub
 End Class
