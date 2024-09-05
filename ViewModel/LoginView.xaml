@@ -13,6 +13,7 @@
         Background="Transparent"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
+        MinHeight="400" MinWidth="800"
         MouseDown="Window_MouseDown">
 
     <Border CornerRadius="10" Background="Transparent">
@@ -49,7 +50,7 @@
 
                              </Grid.ColumnDefinitions>
 
-                                 <TextBlock Text="WELCOME TO PAMELA FOOTWEAR"
+                                 <TextBlock Text="Welcome!"
                                             Foreground="#383838"
                                             FontSize="14"
                                             FontFamily="Roboto"

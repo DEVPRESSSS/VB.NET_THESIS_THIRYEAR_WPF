@@ -138,7 +138,7 @@
                             
                             <!--Employee-->             
                             <Button Style="{StaticResource menuButton}" Foreground="White" Margin="5"
-                                     Cursor="Hand" Width="160">
+                                     Cursor="Hand" Width="160" Click="EmployeeClick">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="AccountMultipleOutline" Style="{StaticResource menuButtonIcon}"/>
                                     <TextBlock Text="Employee"  FontFamily="Roboto"/>

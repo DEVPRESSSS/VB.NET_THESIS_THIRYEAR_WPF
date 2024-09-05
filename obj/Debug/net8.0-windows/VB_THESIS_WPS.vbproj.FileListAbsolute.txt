@@ -78,3 +78,11 @@ D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Sales.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Settings.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Dashboard.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Dashboard.baml
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\POS.g.vb
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\POS.baml
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\System.Data.SqlClient.dll
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\runtimes\win-arm64\native\sni.dll
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\runtimes\win-x64\native\sni.dll
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\runtimes\win-x86\native\sni.dll
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

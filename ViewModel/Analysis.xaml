@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
 
-        <lvc:CartesianChart>
+        <lvc:CartesianChart Margin="0,166,0,0">
             <lvc:CartesianChart.Series>
                 <lvc:ColumnSeries Title="2024"
                                 Values="30, 70, 45, 85"/>

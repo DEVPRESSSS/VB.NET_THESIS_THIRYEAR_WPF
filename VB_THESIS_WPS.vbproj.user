@@ -25,6 +25,9 @@
     <Compile Update="ViewModel\LoginView.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ViewModel\POS.xaml.vb">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ViewModel\Sales.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -52,6 +55,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ViewModel\LoginView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModel\POS.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ViewModel\Sales.xaml">

@@ -2,6 +2,7 @@
     Public Sub New()
         InitializeComponent()
 
+
         MainContentArea.Content = New Dashboard()
     End Sub
     Private Sub Window_MouseDown(sender As Object, e As MouseButtonEventArgs)
@@ -11,6 +12,8 @@
 
         End If
     End Sub
+
+
 
     Private Sub btnMinimize_Click(sender As Object, e As RoutedEventArgs)
         WindowState = WindowState.Minimized
@@ -74,6 +77,11 @@
 
     Private Sub Button_Click_2(sender As Object, e As RoutedEventArgs)
         MainContentArea.Content = New Dashboard()
+
+    End Sub
+
+    Private Sub EmployeeClick(sender As Object, e As RoutedEventArgs)
+        MainContentArea.Content = New Employee()
 
     End Sub
 End Class
