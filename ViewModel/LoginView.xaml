@@ -17,14 +17,11 @@
         MouseDown="Window_MouseDown">
 
     <Border CornerRadius="10" Background="Transparent">
-       
+
 
         <Border CornerRadius="10"
                  BorderThickness="3">
-    
-           
-
-                <Border.Background>
+            <Border.Background>
                   <SolidColorBrush Color="#F4F5F6"/>
 
                 </Border.Background>
@@ -35,6 +32,7 @@
 
                         <RowDefinition Height="40"/>
                         <RowDefinition/>
+                        
                     </Grid.RowDefinitions>
 
 

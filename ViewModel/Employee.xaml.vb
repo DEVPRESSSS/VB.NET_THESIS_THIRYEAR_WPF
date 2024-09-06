@@ -16,7 +16,8 @@ Public Class Employee
     End Sub
 
     Private Sub AddbtnClick(sender As Object, e As RoutedEventArgs)
-
+        Dim AddEmployee As New AddEmployee()
+        AddEmployee.Show()
     End Sub
 
     Private Sub FetchCashierData()
