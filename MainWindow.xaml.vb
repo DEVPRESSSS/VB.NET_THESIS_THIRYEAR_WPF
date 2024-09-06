@@ -5,6 +5,9 @@
 
         MainContentArea.Content = New Dashboard()
     End Sub
+
+
+
     Private Sub Window_MouseDown(sender As Object, e As MouseButtonEventArgs)
         If e.LeftButton = MouseButtonState.Pressed Then
 

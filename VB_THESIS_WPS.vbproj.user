@@ -16,6 +16,9 @@
     <Compile Update="ViewModel\Dashboard.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ViewModel\EditEmployee.xaml.vb">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ViewModel\EditMember.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -49,6 +52,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ViewModel\Dashboard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModel\EditEmployee.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ViewModel\EditMember.xaml">

@@ -10,11 +10,11 @@ none
 false
 
 D:\VB_THESIS_WPS\Application.xaml
-11198684911
+121537529832
 
-201092235490
+21-2121835294
 239-588421388
-MainWindow.xaml;ViewModel\AddEmployee.xaml;ViewModel\Analysis.xaml;ViewModel\Dashboard.xaml;ViewModel\EditMember.xaml;ViewModel\Employee.xaml;ViewModel\Inventory.xaml;ViewModel\LoginView.xaml;ViewModel\POS.xaml;ViewModel\Sales.xaml;ViewModel\Settings.xaml;
+MainWindow.xaml;ViewModel\AddEmployee.xaml;ViewModel\Analysis.xaml;ViewModel\Dashboard.xaml;ViewModel\EditEmployee.xaml;ViewModel\EditMember.xaml;ViewModel\Employee.xaml;ViewModel\Inventory.xaml;ViewModel\LoginView.xaml;ViewModel\POS.xaml;ViewModel\Sales.xaml;ViewModel\Settings.xaml;
 
 True
 

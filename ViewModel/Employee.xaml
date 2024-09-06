@@ -6,22 +6,23 @@
              xmlns:local="clr-namespace:VB_THESIS_WPS" xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
              Background="Transparent"
-             d:DesignHeight="450" d:DesignWidth="800">
-    
-        <!-- Parent grid-->
-        <Grid>
+             d:DesignHeight="450" d:DesignWidth="800"
+             Loaded="UserControl_Loaded">
 
-            <Grid.RowDefinitions>
-                <!--Row 0-->
-                <RowDefinition Height="40"/>
+    <!-- Parent grid-->
+    <Grid>
 
-                <!--Row 1-->
+        <Grid.RowDefinitions>
+            <!--Row 0-->
+            <RowDefinition Height="40"/>
 
-                <RowDefinition/>
+            <!--Row 1-->
+
+            <RowDefinition/>
 
 
-            </Grid.RowDefinitions>
-            <Border Grid.Row="0"
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0"
          Background="White"
          Margin="0,0,0,0"
          CornerRadius="4"
@@ -29,36 +30,44 @@
 
 
 
-            </Border>
+        </Border>
 
-            <!--Grid column for first row 0-->
-            <Grid>
+        <!--Grid column for first row 0-->
+        <Grid>
 
-                <Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
 
-                    <ColumnDefinition />
-                    <ColumnDefinition/>
-
-
-                </Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition/>
 
 
+            </Grid.ColumnDefinitions>
 
-                <!--Title of the current Page-->
-                <TextBlock Text="Employee" Grid.Column="0" 
+
+
+            <!--Title of the current Page-->
+            <TextBlock Text="Employee" Grid.Column="0" 
                    TextAlignment="left" VerticalAlignment="Center"
                    FontSize="16" Padding="6" FontWeight="Medium"/>
 
 
 
-                <!--Add new productbutton-->
-                <Button Style="{StaticResource addButton}" Foreground="#ffff" Margin="5"
-                                   Cursor="Hand" Width="80" Height="30" Click="AddbtnClick" Grid.Column="1">
-                    <StackPanel Orientation="Horizontal">
-                        <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}"/>
-                        <TextBlock Text="Add"  FontFamily="Roboto"/>
-                    </StackPanel>
-                </Button>
+            <!--Add new productbutton-->
+            <Button Style="{StaticResource addButton}" Foreground="#ffff" Margin="0,5,5,5"
+                                   Cursor="Hand" Height="30" Click="AddbtnClick" Grid.Column="1" Width="80">
+                <StackPanel Orientation="Horizontal">
+                    <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}"/>
+                    <TextBlock Text="Add"  FontFamily="Roboto"/>
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource addButton}" Foreground="#ffff" Margin="230,0,90,0"
+                         Cursor="Hand" Height="30"  Grid.Column="1" Click="Refresh_Click" VerticalAlignment="Center" HorizontalAlignment="right" Width="80">
+                <StackPanel Orientation="Horizontal">
+                    <Icon:PackIconMaterial Kind="Refresh" Style="{StaticResource addButtonIcon}"/>
+                    <TextBlock Text="Refresh"  FontFamily="Roboto"/>
+                </StackPanel>
+            </Button>
 
 
 
@@ -68,35 +77,35 @@
 
 
 
-            </Grid>
+        </Grid>
 
-            <Border Grid.Row="1"
+        <Border Grid.Row="1"
          Background="White"
          Margin="0,0,0,0"
          CornerRadius="4">
 
             <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="cashierDataGrid" Style="{DynamicResource DataGridStyle1}">
-                    <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Header="C" CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
-                            <DataGridCheckBoxColumn.HeaderTemplate>
-                                <DataTemplate>
-                                    <CheckBox Style="{StaticResource CheckBoxStyle1}"/>
-                                </DataTemplate>
-                            </DataGridCheckBoxColumn.HeaderTemplate>
-                        </DataGridCheckBoxColumn>
-                        <DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="50" Binding="{Binding CashierID}"/>
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="C" CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
+                        <DataGridCheckBoxColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <CheckBox Style="{StaticResource CheckBoxStyle1}"/>
+                            </DataTemplate>
+                        </DataGridCheckBoxColumn.HeaderTemplate>
+                    </DataGridCheckBoxColumn>
+                    <DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="50" Binding="{Binding CashierID}"/>
                     <DataGridTemplateColumn Header="Cashier" CanUserResize="False" IsReadOnly="True" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="25" Height="25" CornerRadius="50" Margin="0 0 10 0" Background="{Binding BgColor}">
-                                            <TextBlock Text="{Binding Character }" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"/>
-                                        </Border>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Width="25" Height="25" CornerRadius="50" Margin="0 0 10 0" Background="{Binding BgColor}">
+                                        <TextBlock Text="{Binding Character }" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"/>
+                                    </Border>
 
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Username" CanUserResize="False"  Binding="{Binding Username}" IsReadOnly="True" Width="100"/>
 
                     <DataGridTextColumn Header="Firstname" CanUserResize="False" Binding="{Binding FirstName}" IsReadOnly="True" Width="*"/>
@@ -104,26 +113,26 @@
                     <DataGridTextColumn Header="Email" CanUserResize="False" Binding="{Binding Email}" IsReadOnly="True" Width="*"/>
 
                     <DataGridTemplateColumn Header="Operations" CanUserResize="False" IsReadOnly="True" Width="auto">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Style="{StaticResource gridEditButton}" Click="EditBtn">
-                                            <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
-                                        </Button>
-                                        <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}">
-                                            <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
-                                        </Button>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Style="{StaticResource gridEditButton}" Click="EditBtn">
+                                        <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
+                                    </Button>
+                                    <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" Click="Delete_Click">
+                                        <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
 
 
 
-            </Border>
+        </Border>
 
-        </Grid>
-    
+    </Grid>
+
 </UserControl>

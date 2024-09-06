@@ -10,8 +10,28 @@ Public Class Employee
 
     End Sub
 
+
+
     Dim con As New ConnectionString
     Private Sub EditBtn(sender As Object, e As RoutedEventArgs)
+
+        Dim deleteButton As Button = CType(sender, Button)
+
+        Dim selectedCashier As Cashier = CType(deleteButton.DataContext, Cashier)
+
+        Dim passToEdit As New EditEmployee(
+         Integer.Parse(selectedCashier.CashierID),
+         selectedCashier.Username,
+         selectedCashier.FirstName,
+         selectedCashier.LastName,
+         selectedCashier.Email
+     )
+
+        passToEdit.Show()
+
+
+
+
 
     End Sub
 
@@ -62,5 +82,44 @@ Public Class Employee
         End Using
     End Sub
 
+    Private Sub UserControl_Loaded(sender As Object, e As RoutedEventArgs)
 
+    End Sub
+
+    Private Sub Refresh_Click(sender As Object, e As RoutedEventArgs)
+        FetchCashierData()
+    End Sub
+
+    Private Sub Delete_Click(sender As Object, e As RoutedEventArgs)
+        Dim deleteButton As Button = CType(sender, Button)
+
+        Dim selectedCashier As Cashier = CType(deleteButton.DataContext, Cashier)
+
+        Dim cashierId As String = selectedCashier.CashierID
+
+
+        Dim result As MessageBoxResult = MessageBox.Show("Are you sure you want to delete this cashier?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question)
+
+        If result = MessageBoxResult.Yes Then
+            Dim query As String = "DELETE FROM Cashier WHERE CashierID = @CashierID"
+
+            Using connection As New SqlConnection(con.connectionString)
+                Try
+                    connection.Open()
+                    Dim cmd As New SqlCommand(query, connection)
+                    cmd.Parameters.AddWithValue("@CashierID", cashierId)
+
+                    cmd.ExecuteNonQuery()
+
+                    MessageBox.Show("Cashier deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+
+                    FetchCashierData()
+
+                Catch ex As Exception
+                    MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+                End Try
+            End Using
+        End If
+
+    End Sub
 End Class
