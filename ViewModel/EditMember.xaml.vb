@@ -14,7 +14,7 @@ Public Class EditMember
         _member = member
     End Sub
 
-    Public Property Name As String
+    Public Overloads Property Name As String
         Get
             Return _member.Name
         End Get

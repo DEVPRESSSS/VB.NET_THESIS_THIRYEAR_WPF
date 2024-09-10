@@ -15,9 +15,9 @@ Public Class Employee
     Dim con As New ConnectionString
     Private Sub EditBtn(sender As Object, e As RoutedEventArgs)
 
-        Dim deleteButton As Button = CType(sender, Button)
+        Dim edit_Button As Button = CType(sender, Button)
 
-        Dim selectedCashier As Cashier = CType(deleteButton.DataContext, Cashier)
+        Dim selectedCashier As Cashier = CType(edit_Button.DataContext, Cashier)
 
         Dim passToEdit As New EditEmployee(
          Integer.Parse(selectedCashier.CashierID),

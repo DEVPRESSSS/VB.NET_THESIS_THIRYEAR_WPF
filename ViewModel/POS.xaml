@@ -3,10 +3,411 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:VB_THESIS_WPS"
+        xmlns:local="clr-namespace:VB_THESIS_WPS" xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="POS" Height="450" Width="800">
+        WindowStartupLocation="CenterScreen"
+        Title="POS" Height="600" Width="1100"
+         MinHeight="600" MinWidth="1100">
     <Grid>
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="130"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition />
+
+
+
+            </Grid.ColumnDefinitions>
+
+
+            <!--This is ScanQR-->
+            <Button x:Name="ScanQR"
+                            Margin="477,96,413,0"
+                            BorderThickness="0"
+                            Content="Open Scanner"
+                            Foreground="White"
+                            FontSize="12"
+                            FontWeight="Medium"
+                            Cursor="Hand"
+                            Grid.Column="0"
+                            VerticalAlignment="Top"
+                            HorizontalContentAlignment="Left" RenderTransformOrigin="0.373,0.942"
+                    
+                            >
+
+
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#118AB2" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#073b4C"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="100" Height="30"
+                                          Margin="0px 2px 0px 2px"
+                                          Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"/>
+
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+
+
+
+
+            </Button>
+
+            <!--This is searchbox textbox-->
+            <TextBox Width="200" Height="30" 
+                     Grid.Column="0" HorizontalAlignment="Left"
+                     VerticalAlignment="Top"  
+                     Margin="141,10,0,0"
+                     TextAlignment="left"
+                     FontSize="20"
+                     MaxLength="10"
+                     />
+
+
+            <!--SearchButton-->
+            <Button x:Name="LoginBtn"
+                            Margin="-3,8,917,0"
+                            BorderThickness="0"
+                            Content="Search"
+                            Foreground="White"
+                            FontSize="12"
+                            FontWeight="Medium"
+                            Cursor="Hand"
+                            Grid.Column="0"
+                            VerticalAlignment="Top"
+                            HorizontalContentAlignment="Left" RenderTransformOrigin="0.602,0.942"
+                    
+                            >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#118AB2" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#073b4C"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="100" Height="30"
+                                          Margin="0px 2px 0px 2px"
+                                          Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"/>
+
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+
+
+
+
+            </Button>
+
+            <TextBox Width="200" Height="31" 
+             Grid.Column="0" HorizontalAlignment="Left"
+             VerticalAlignment="Top"  
+             Margin="140,60,0,0"
+             TextAlignment="left"
+             FontSize="20"
+             MaxLength="10"
+             />
+
+            <Label Content="Quantity :" 
+                   HorizontalAlignment="Left" 
+                   Height="24" Margin="66,100,0,0" 
+                   VerticalAlignment="Top" 
+                   Width="64"/>
+
+            <TextBox Width="200" Height="31" 
+             Grid.Column="0" HorizontalAlignment="Left"
+             VerticalAlignment="Top"  
+             Margin="141,100,0,0"
+             TextAlignment="left"
+             FontSize="20"
+             MaxLength="10"
+             />
+
+            <Label Content="Prodct Name:" 
+                   HorizontalAlignment="Left" 
+                   Height="24" Margin="45,64,0,0" 
+                   VerticalAlignment="Top" 
+                   Width="90"/>
+
+
+            <TextBox Width="200" Height="32" 
+                     Grid.Column="0" HorizontalAlignment="Left"
+                     VerticalAlignment="Top"  
+                     Margin="424,60,0,0"
+                     TextAlignment="left"
+                     FontSize="20"
+                     MaxLength="10"
+             />
+
+            <Label Content="Size :" 
+                   HorizontalAlignment="Left" 
+                   Height="24" Margin="374,64,0,0" 
+                   VerticalAlignment="Top" 
+                   Width="45"/>
+
+
+            <Label Content="Product ID :" 
+                    HorizontalAlignment="Left" 
+                    Height="24" Margin="374,13,0,0" 
+                    VerticalAlignment="Top" 
+                    Width="71"/>
+
+            <Label Content="1" 
+                HorizontalAlignment="Left" 
+                Height="24" Margin="450,13,0,0" 
+                VerticalAlignment="Top"
+                Width="85"/>
+
+            <Label Content="Pice :" 
+                HorizontalAlignment="Left" 
+                Height="24" Margin="553,13,0,0" 
+                VerticalAlignment="Top" 
+                Width="71"/>
+
+            <Label Content="250" 
+                HorizontalAlignment="Left" 
+                Height="24" Margin="600,13,0,0" 
+                VerticalAlignment="Top"
+                FontWeight="Bold"
+                Width="85"/>
+
+
+
+
+            <Button x:Name="AddItem"
+                Margin="376,96,514,0"
+                BorderThickness="0"
+                Content="Add Item"
+                Foreground="White"
+                FontSize="12"
+                FontWeight="Medium"
+                Cursor="Hand"
+                Grid.Column="0"
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Left" RenderTransformOrigin="0.373,0.942"
         
+                >
+
+
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#118AB2" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#073b4C"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="100" Height="30"
+                              Margin="0px 2px 0px 2px"
+                              Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                              HorizontalAlignment="Center"/>
+
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+
+
+
+
+            </Button>
+
+
+
+        </Grid>
+        <Border
+              Background="White"
+              Margin="0,148,0,0"
+              CornerRadius="4" Grid.RowSpan="2">
+
+            <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="membersDataGrid" Style="{DynamicResource DataGridStyle1}">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="C" CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
+                        <DataGridCheckBoxColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <CheckBox Style="{StaticResource CheckBoxStyle1}"/>
+                            </DataTemplate>
+                        </DataGridCheckBoxColumn.HeaderTemplate>
+                    </DataGridCheckBoxColumn>
+                    <DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Number}"/>
+                    <DataGridTemplateColumn Header="Member" IsReadOnly="True" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Width="25" Height="25" CornerRadius="50" Margin="0 0 10 0" Background="{Binding BgColor}">
+                                        <TextBlock Text="{Binding Character}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"/>
+                                    </Border>
+
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Position" Binding="{Binding Position}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Email Address" Binding="{Binding Email}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Phone Number" Binding="{Binding Phone}" IsReadOnly="True" Width="*"/>
+                    <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Style="{StaticResource gridEditButton}">
+                                        <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
+                                    </Button>
+                                    <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}">
+                                        <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+
+
+        </Border>
+
+        <Border Margin="0,0,0,6" Grid.Row="2"
+                Background="#118AB2">
+
+            <Grid>
+
+                <Label Content="Total :" 
+                    HorizontalAlignment="Left" 
+                    Height="43" Margin="10,61,0,0" 
+                    VerticalAlignment="Top" 
+                    Width="99"
+                       FontSize="20"
+                       FontFamily="Segoe UI"
+                    />
+
+                <Label Content="1000" 
+                    HorizontalAlignment="Left" 
+                    Height="50" Margin="114,59,0,0" 
+                    VerticalAlignment="Top" 
+                    Width="99"
+                       FontSize="25"
+                       FontWeight="Bold"
+                    />
+
+                <Label Content="Change :" 
+                    HorizontalAlignment="Left" 
+                    Height="43" Margin="253,61,0,0" 
+                    VerticalAlignment="Top" 
+                    Width="117"
+                       FontSize="20"
+                       FontFamily="Segoe UI"
+                    />
+
+                <Label Content="1000" 
+                    HorizontalAlignment="Left" 
+                    Height="50" Margin="375,59,0,0" 
+                    VerticalAlignment="Top" 
+                    Width="99"
+                       FontSize="25"
+                       FontWeight="Bold"
+                    />
+
+                <Label Content="Charge :" 
+                    HorizontalAlignment="Left" 
+                    Height="43" Margin="503,62,0,0" 
+                    VerticalAlignment="Top" 
+                    Width="105"
+                       FontSize="20"
+                       FontFamily="Segoe UI"
+                    />
+
+                <TextBox Width="200" Height="32" 
+                     Grid.Column="0" HorizontalAlignment="Left"
+                     VerticalAlignment="Top"  
+                     Margin="613,68,0,0"
+                     TextAlignment="left"
+                     FontSize="20"
+                     MaxLength="10"
+                     FontWeight="Bold"
+                    />
+
+                <Button x:Name="ConfirmBtn"
+                Margin="904,52,10,0"
+                BorderThickness="0"
+                Content="Confirm"
+                Foreground="#118AB2"
+                Background="White"
+                FontSize="12"
+                FontWeight="Medium"
+                Cursor="Hand"
+                Grid.Column="0"
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Left" RenderTransformOrigin="0.602,0.942"
+           
+                >
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#118AB2" />
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#073b4C"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="150" Height="50"
+                              Margin="0px 2px 0px 2px"
+                              Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                              HorizontalAlignment="Center"/>
+
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+
+                </Button>
+
+
+
+            </Grid>
+
+
+
+        </Border>
+
+
+
     </Grid>
 </Window>

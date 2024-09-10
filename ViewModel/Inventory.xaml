@@ -48,7 +48,7 @@
 
 
             <!--Title of the current Page-->
-            <TextBlock Text="Inventory" Grid.Column="0" 
+            <TextBlock Text="Product List" Grid.Column="0" 
                        TextAlignment="left" VerticalAlignment="Center"
                        FontSize="16" Padding="6" FontWeight="Medium"/>
 
@@ -78,32 +78,19 @@
              Margin="0,0,0,0"
              CornerRadius="4">
 
-            <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="membersDataGrid" Style="{DynamicResource DataGridStyle1}">
+            <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="productDataGrid" Style="{DynamicResource DataGridStyle1}">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Header="C" CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
-                        <DataGridCheckBoxColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <CheckBox Style="{StaticResource CheckBoxStyle1}"/>
-                            </DataTemplate>
-                        </DataGridCheckBoxColumn.HeaderTemplate>
-                    </DataGridCheckBoxColumn>
-                    <DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Number}"/>
-                    <DataGridTemplateColumn Header="Member" IsReadOnly="True" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Border Width="25" Height="25" CornerRadius="50" Margin="0 0 10 0" Background="{Binding BgColor}">
-                                        <TextBlock Text="{Binding Character}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"/>
-                                    </Border>
+                  
+                    <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding ProductID}"/>
+                    <DataGridTextColumn Header="ProductName" Binding="{Binding ProductName}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Brand" Binding="{Binding Brand}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Size" Binding="{Binding Size}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Color" Binding="{Binding Color}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="CreatedAt" Binding="{Binding CreatedAt}" IsReadOnly="True" Width="*"/>
 
-                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Position" Binding="{Binding Position}" IsReadOnly="True" Width="*"/>
-                    <DataGridTextColumn Header="Email Address" Binding="{Binding Email}" IsReadOnly="True" Width="*"/>
-                    <DataGridTextColumn Header="Phone Number" Binding="{Binding Phone}" IsReadOnly="True" Width="*"/>
                     <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
