@@ -136,7 +136,7 @@
 
             <!--CATEGORY-->
 
-            <ComboBox HorizontalAlignment="Left" Margin="411,48,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
+            <ComboBox  x:Name="ComboCat"      HorizontalAlignment="Left" Margin="411,48,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
             <TextBlock HorizontalAlignment="Left" Margin="411,30,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Category" VerticalAlignment="Top"/>
             <!--BRAND-->
 

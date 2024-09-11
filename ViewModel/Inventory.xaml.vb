@@ -20,8 +20,8 @@ Public Class Inventory
 
         Dim prod As New ObservableCollection(Of Product)()
 
-        Dim query As String = "SELECT ProductID, ProductName, Price, Description, Category, Brand, Size, Color, CreatedAt FROM Product"
-
+        Dim query As String = "SELECT p.ProductID, p.ProductName, p.Price, p.Description, p.CategoryID, c.CategoryName, p.Brand, p.Size, p.Color, p.CreatedAt " &
+                          "FROM Product p JOIN Category c ON p.CategoryID = c.CategoryID"
         Using connection As New SqlConnection(con.connectionString)
             Dim command As New SqlCommand(query, connection)
             Dim adapter As New SqlDataAdapter(command)
@@ -34,11 +34,12 @@ Public Class Inventory
                 prod.Add(New Product With {
                 .ProductID = Convert.ToInt32(row("ProductID")),
                 .ProductName = row("ProductName").ToString(),
-                .Price = Convert.ToDouble(row("Price")),
+                .Price = Convert.ToDecimal(row("Price")),
                 .Description = row("Description"),
-                .Category = row("Category").ToString(),
+                .CategoryID = Convert.ToInt32(row("CategoryID")),
+                 .CategoryName = row("CategoryName").ToString(),
                 .Brand = row("Brand").ToString(),
-                .Size = Convert.ToDecimal(row("Size")),
+                .Size = row("Size").ToString(),
                 .Color = row("Color").ToString(),
                 .CreatedAt = row("CreatedAt")
             })
@@ -47,6 +48,9 @@ Public Class Inventory
             productDataGrid.ItemsSource = prod
         End Using
     End Sub
+
+
+
 
 
 
@@ -60,7 +64,7 @@ Public Class Inventory
             selected.ProductName,
             selected.Price,
             selected.Description,
-            selected.Category,
+            selected.CategoryName,
             selected.Brand,
             selected.Size,
             selected.Color

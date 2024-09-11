@@ -3,6 +3,15 @@ Imports System.Data.SqlClient
 
 Public Class AddProduct
 
+
+    Public Sub New()
+
+
+        InitializeComponent()
+
+        FetchCategory()
+    End Sub
+
     Dim con As New ConnectionString
     Private Sub ProductName_PreviewKeyDown(sender As Object, e As KeyEventArgs)
         If (e.Key < Key.A OrElse e.Key > Key.Z) AndAlso e.Key <> Key.Back Then
@@ -45,6 +54,7 @@ Public Class AddProduct
         Dim descrip As String = Description.Text
         Dim brands As String = Brand.Text
         Dim Sizes As String = Size.Text
+        Dim selectedCat As String = ComboCat.SelectedIndex.ToString()
         Dim Colors As String = Color.Text
         Dim prices As Decimal
         If Not Decimal.TryParse(Price.Text, prices) Then
@@ -61,25 +71,53 @@ Public Class AddProduct
 
 
 
-        InsertCashier(pname, descrip, brands, Sizes, Colors, prices)
+        InsertCashier(pname, descrip, selectedCat, brands, Sizes, Colors, prices)
 
+
+    End Sub
+    Public Sub FetchCategory()
+
+
+        Dim query As String = "SELECT CategoryName FROM Category"
+        ComboCat.Items.Clear()
+
+        Using cons As New SqlConnection(con.connectionString)
+
+            Using cmd As New SqlCommand(query, cons)
+
+                cons.Open()
+
+                Using reader As SqlDataReader = cmd.ExecuteReader()
+
+
+                    While reader.Read()
+
+                        ComboCat.Items.Add(reader("CategoryName").ToString())
+                    End While
+
+
+                End Using
+
+
+
+            End Using
+        End Using
     End Sub
 
 
-    Public Function InsertCashier(pname As String, descrip As String, brands As String, Sizes As String, Colors As String, prices As Decimal)
+    Public Function InsertCashier(pname As String, descrip As String, catIndex As Integer, brands As String, Sizes As String, Colors As String, prices As Decimal)
 
 
 
-        Dim query As String = "INSERT INTO [dbo].[Product] ([ProductName], [Description], [Category], [Brand], [Size], [Color], [Price]) " &
-                          "VALUES (@ProductName, @Description, @Category, @Brand, @Size, @Color, @Price)"
+        Dim query As String = "INSERT INTO [dbo].[Product] ([ProductName], [Description], [CategoryID], [Brand], [Size], [Color], [Price]) " &
+                          "VALUES (@ProductName, @Description, @CategoryID, @Brand, @Size, @Color, @Price)"
 
         Using connection As New SqlConnection(con.connectionString)
             Using command As New SqlCommand(query, connection)
                 ' Use SqlParameter with specific types and sizes
                 command.Parameters.Add(New SqlParameter("@ProductName", SqlDbType.NVarChar, 150)).Value = pname
                 command.Parameters.Add(New SqlParameter("@Description", SqlDbType.NVarChar, 500)).Value = descrip
-                command.Parameters.Add(New SqlParameter("@Category", SqlDbType.NVarChar, 100)).Value = brands
-
+                command.Parameters.Add(New SqlParameter("@CategoryID", SqlDbType.Int, 8)).Value = catIndex
                 command.Parameters.Add(New SqlParameter("@Brand", SqlDbType.NVarChar, 100)).Value = brands
                 command.Parameters.Add(New SqlParameter("@Size", SqlDbType.NVarChar, 50)).Value = Sizes
                 command.Parameters.Add(New SqlParameter("@Color", SqlDbType.NVarChar, 50)).Value = Colors
@@ -91,9 +129,9 @@ Public Class AddProduct
 
 
                 connection.Open()
-                    command.ExecuteNonQuery()
-                    MessageBox.Show("Product record inserted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
-                    Return True
+                command.ExecuteNonQuery()
+                MessageBox.Show("Product record inserted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+                Return True
 
             End Using
         End Using
@@ -123,7 +161,17 @@ Public Class AddProduct
     End Sub
 
     Private Sub Price_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        ' Allow control keys like Backspace, Delete, Left, Right arrows, etc.
+        If e.Key = Key.Back OrElse e.Key = Key.Delete OrElse e.Key = Key.Left OrElse e.Key = Key.Right Then
+            Return
+        End If
 
+        ' Only allow number keys (0-9) and a decimal point
+        If Not ((e.Key >= Key.D0 And e.Key <= Key.D9) OrElse
+                (e.Key >= Key.NumPad0 And e.Key <= Key.NumPad9) OrElse
+                (e.Key = Key.Decimal OrElse e.Key = Key.OemPeriod)) Then
+            e.Handled = True
+        End If
     End Sub
 
     Private Sub Window_MouseDown(sender As Object, e As MouseButtonEventArgs)
