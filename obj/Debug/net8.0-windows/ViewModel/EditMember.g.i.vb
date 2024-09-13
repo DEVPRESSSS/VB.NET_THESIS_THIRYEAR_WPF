@@ -56,7 +56,7 @@ Partial Public Class EditMember
             Return
         End If
         _contentLoaded = true
-        Dim resourceLocater As System.Uri = New System.Uri("/VB_THESIS_WPS;V1.0.0.0;component/viewmodel/editmember.xaml", System.UriKind.Relative)
+        Dim resourceLocater As System.Uri = New System.Uri("/VB_THESIS_WPS;component/viewmodel/editmember.xaml", System.UriKind.Relative)
         
         #ExternalSource("..\..\..\..\ViewModel\EditMember.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)

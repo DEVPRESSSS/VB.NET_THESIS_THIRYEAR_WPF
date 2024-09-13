@@ -47,7 +47,7 @@
 
 
             <!--Title of the current Page-->
-            <TextBlock Text="Employee" Grid.Column="0" 
+            <TextBlock Text="Cashier List" Grid.Column="0" 
                    TextAlignment="left" VerticalAlignment="Center"
                    FontSize="16" Padding="6" FontWeight="Medium"/>
 
@@ -75,7 +75,7 @@
 
         <Border Grid.Row="1"
          Background="White"
-         Margin="0,0,0,0"
+         Margin="0,10,0,0"
          CornerRadius="4">
 
             <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="cashierDataGrid" Style="{DynamicResource DataGridStyle1}">
@@ -87,7 +87,7 @@
                             </DataTemplate>
                         </DataGridCheckBoxColumn.HeaderTemplate>
                     </DataGridCheckBoxColumn>
-                    <DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="50" Binding="{Binding CashierID}"/>
+                    <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="50" Binding="{Binding CashierID}"/>
                     <DataGridTemplateColumn Header="Cashier" CanUserResize="False" IsReadOnly="True" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -106,7 +106,7 @@
                     <DataGridTextColumn Header="Lastname" CanUserResize="False" Binding="{Binding LastName}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Email" CanUserResize="False" Binding="{Binding Email}" IsReadOnly="True" Width="*"/>
 
-                    <DataGridTemplateColumn Header="Operations" CanUserResize="False" IsReadOnly="True" Width="auto">
+                    <DataGridTemplateColumn Header="Action" CanUserResize="False" IsReadOnly="True" Width="auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

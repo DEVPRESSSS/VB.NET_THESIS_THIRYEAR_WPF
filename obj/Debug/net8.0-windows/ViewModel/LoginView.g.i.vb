@@ -98,7 +98,7 @@ Partial Public Class LoginView
             Return
         End If
         _contentLoaded = true
-        Dim resourceLocater As System.Uri = New System.Uri("/VB_THESIS_WPS;V1.0.0.0;component/viewmodel/loginview.xaml", System.UriKind.Relative)
+        Dim resourceLocater As System.Uri = New System.Uri("/VB_THESIS_WPS;component/viewmodel/loginview.xaml", System.UriKind.Relative)
         
         #ExternalSource("..\..\..\..\ViewModel\LoginView.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)

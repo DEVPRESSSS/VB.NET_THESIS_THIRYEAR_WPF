@@ -142,7 +142,7 @@
                                      Cursor="Hand" Width="160" Click="EmployeeClick">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="AccountMultipleOutline" Style="{StaticResource menuButtonIcon}"/>
-                                    <TextBlock Text="Employee"  FontFamily="Roboto"/>
+                                    <TextBlock Text="Cashier"  FontFamily="Roboto"/>
                                 </StackPanel>
                             </Button>
 

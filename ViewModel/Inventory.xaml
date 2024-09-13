@@ -75,14 +75,14 @@
 
         <Border Grid.Row="1"
              Background="White"
-             Margin="0,0,0,0"
+             Margin="0,10,0,0"
              CornerRadius="4">
 
             <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="productDataGrid" Style="{DynamicResource DataGridStyle1}">
                 <DataGrid.Columns>
                   
                     <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding ProductID}"/>
-                    <DataGridTextColumn Header="ProductName" Binding="{Binding ProductName}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding ProductName}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Brand" Binding="{Binding Brand}" IsReadOnly="True" Width="*"/>
@@ -91,7 +91,7 @@
                     <DataGridTextColumn Header="Price" Binding="{Binding Price}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="CreatedAt" Binding="{Binding CreatedAt}" IsReadOnly="True" Width="*"/>
 
-                    <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
+                    <DataGridTemplateColumn Header="Action" IsReadOnly="True" Width="auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

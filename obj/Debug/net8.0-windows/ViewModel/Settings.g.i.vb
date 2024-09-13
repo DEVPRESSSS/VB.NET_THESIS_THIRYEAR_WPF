@@ -57,7 +57,7 @@ Partial Public Class Settings
             Return
         End If
         _contentLoaded = true
-        Dim resourceLocater As System.Uri = New System.Uri("/VB_THESIS_WPS;V1.0.0.0;component/viewmodel/settings.xaml", System.UriKind.Relative)
+        Dim resourceLocater As System.Uri = New System.Uri("/VB_THESIS_WPS;component/viewmodel/settings.xaml", System.UriKind.Relative)
         
         #ExternalSource("..\..\..\..\ViewModel\Settings.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)

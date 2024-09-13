@@ -73,9 +73,15 @@
     Private Sub Logout(sender As Object, e As RoutedEventArgs)
 
 
-        Dim login As New LoginView()
-        login.Show()
-        Me.Close()
+        Dim result As MessageBoxResult = MessageBox.Show("Are you sure you want to log out?", "Confirm Logout", MessageBoxButton.YesNo, MessageBoxImage.Question)
+
+        If result = MessageBoxResult.Yes Then
+            Dim login As New LoginView()
+            login.Show()
+            Me.Close()
+        Else
+            Return
+        End If
     End Sub
 
     Private Sub Button_Click_2(sender As Object, e As RoutedEventArgs)
