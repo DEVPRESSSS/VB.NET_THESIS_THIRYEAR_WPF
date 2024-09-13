@@ -9,15 +9,28 @@
     <Grid>
 
         <Grid.RowDefinitions>
-
-            <RowDefinition Height="200"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+            
 
 
         </Grid.RowDefinitions>
 
 
-        <Grid>
+
+        <Grid Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Welcome admin here are the reports today" FontSize="16"
+                       FontWeight="DemiBold" HorizontalAlignment="Left" Margin="2,2,2,0"></TextBlock>
+
+        </Grid>
+
+        <!--4 columns of row 1-->
+        <Grid Grid.Row="1">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -29,14 +42,18 @@
 
 
             </Grid.ColumnDefinitions>
-            
-            
+
+
+            <!--Welcome message to admin-->
+
+
             <!--Product count-->
 
 
             <StackPanel Grid.Column="0"  
                   Background="white"
-                  Margin="10,50,10,50"
+                  Margin="10,20,10,90"
+                   VerticalAlignment="Top"
                    Effect="{StaticResource dropShadow}">
 
 
@@ -55,7 +72,7 @@
 
                     </StackPanel>
                 </Grid>
-               
+
 
 
 
@@ -69,8 +86,9 @@
             <StackPanel Grid.Column="1"
                         Background="
                         white"
-                        Margin="10,50,10,50"
-                         Effect="{StaticResource dropShadow}">
+                        Margin="10,20,10,90"
+                         Effect="{StaticResource dropShadow}"
+                        VerticalAlignment="Top">
 
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -92,7 +110,8 @@
 
             <StackPanel Grid.Column="2"
                         Background="white"
-                        Margin="10,50,10,50"
+                        Margin="10,20,10,90"
+                         VerticalAlignment="Top"
                          Effect="{StaticResource dropShadow}">
 
                 <Grid>
@@ -112,9 +131,10 @@
                 </Grid>
             </StackPanel>
 
-            <StackPanel Grid.Column="4" 
+            <StackPanel Grid.Column="3" 
                         Background="white"
-                        Margin="10,50,10,50"
+                        Margin="10,20,10,90"
+                         VerticalAlignment="Top"
                          Effect="{StaticResource dropShadow}">
 
                 <Grid>
@@ -142,10 +162,13 @@
 
 
 
+        <TextBlock Text="Analytics Report"
+            FontWeight="DemiBold" HorizontalAlignment="Center" Margin="2,116,0,289"
+                   Grid.Row="1"/>
 
 
 
-        <lvc:CartesianChart Margin="0,0,0,0" Grid.Row="2">
+        <lvc:CartesianChart Margin="0,146,0,0" Grid.Row="1" Grid.RowSpan="3">
             <lvc:CartesianChart.Series>
                 <lvc:ColumnSeries Title="2024"
                          Values="30, 70, 45, 85"/>
