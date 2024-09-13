@@ -12,11 +12,11 @@ Public Class Inventory
 
     Public Sub New()
         InitializeComponent()
-        FetchCashierData()
+        FetchProductData()
 
     End Sub
 
-    Private Sub FetchCashierData()
+    Public Sub FetchProductData()
 
         Dim prod As New ObservableCollection(Of Product)()
 
@@ -67,7 +67,8 @@ Public Class Inventory
             selected.CategoryName,
             selected.Brand,
             selected.Size,
-            selected.Color
+            selected.Color,
+            Me
         )
 
         edit_prodform.Show()
