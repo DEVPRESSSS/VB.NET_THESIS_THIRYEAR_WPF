@@ -21,7 +21,7 @@
 
         <Border CornerRadius="10"
                  BorderThickness="3">
-            <Border.Background>
+                <Border.Background>
                   <SolidColorBrush Color="#F4F5F6"/>
 
                 </Border.Background>

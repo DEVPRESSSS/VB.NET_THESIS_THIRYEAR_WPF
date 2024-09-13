@@ -3,13 +3,15 @@ Imports System.Data.SqlClient
 
 Public Class AddProduct
 
-
-    Public Sub New()
+    Dim inv As Inventory
+    Public Sub New(inventoryForm As Inventory)
 
 
         InitializeComponent()
 
         FetchCategory()
+
+        inv = inventoryForm
     End Sub
 
     Dim con As New ConnectionString
@@ -54,9 +56,11 @@ Public Class AddProduct
         Dim descrip As String = Description.Text
         Dim brands As String = Brand.Text
         Dim Sizes As String = Size.Text
-        Dim selectedCat As String = ComboCat.SelectedIndex.ToString()
         Dim Colors As String = Color.Text
         Dim prices As Decimal
+
+
+
         If Not Decimal.TryParse(Price.Text, prices) Then
             MessageBox.Show("Please enter a valid decimal value for the price.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning)
             Return
@@ -69,40 +73,35 @@ Public Class AddProduct
             Return
         End If
 
+        Dim selectedCategory = CType(ComboCat.SelectedItem, Category)
+        Dim selectedCatID As Integer = selectedCategory.CategoryID
 
 
-        InsertCashier(pname, descrip, selectedCat, brands, Sizes, Colors, prices)
+        InsertCashier(pname, descrip, selectedCatID, brands, Sizes, Colors, prices)
 
 
     End Sub
     Public Sub FetchCategory()
-
-
-        Dim query As String = "SELECT CategoryName FROM Category"
+        Dim query As String = "SELECT CategoryID, CategoryName FROM Category"
         ComboCat.Items.Clear()
 
         Using cons As New SqlConnection(con.connectionString)
-
             Using cmd As New SqlCommand(query, cons)
-
                 cons.Open()
 
                 Using reader As SqlDataReader = cmd.ExecuteReader()
-
-
                     While reader.Read()
-
-                        ComboCat.Items.Add(reader("CategoryName").ToString())
+                        Dim category As New Category() With {
+                        .CategoryID = reader("CategoryID"),
+                        .CategoryName = reader("CategoryName").ToString()
+                    }
+                        ComboCat.Items.Add(category)
                     End While
-
-
                 End Using
-
-
-
             End Using
         End Using
     End Sub
+
 
 
     Public Function InsertCashier(pname As String, descrip As String, catIndex As Integer, brands As String, Sizes As String, Colors As String, prices As Decimal)
@@ -131,8 +130,8 @@ Public Class AddProduct
                 connection.Open()
                 command.ExecuteNonQuery()
                 MessageBox.Show("Product record inserted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
-                Return True
-
+                inv.FetchProductData()
+                Me.Hide()
             End Using
         End Using
 

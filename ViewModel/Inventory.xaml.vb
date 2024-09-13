@@ -5,7 +5,7 @@ Imports System.Data.SqlClient
 Public Class Inventory
     Dim con As New ConnectionString
     Private Sub AddNewProduct_Click(sender As Object, e As RoutedEventArgs)
-        Dim openAddProduct As New AddProduct()
+        Dim openAddProduct As New AddProduct(Me)
 
         openAddProduct.Show()
     End Sub
@@ -49,11 +49,6 @@ Public Class Inventory
         End Using
     End Sub
 
-
-
-
-
-
     Private Sub EditBtn(sender As Object, e As RoutedEventArgs)
         Dim edit_button As Button = CType(sender, Button)
 
@@ -75,6 +70,35 @@ Public Class Inventory
 
     End Sub
 
+    Private Sub Remove_Click(sender As Object, e As RoutedEventArgs)
+        Dim deleteButton As Button = CType(sender, Button)
+
+        Dim selectedProduct As Product = CType(deleteButton.DataContext, Product)
+
+        Dim productID As String = selectedProduct.ProductID
 
 
+        Dim result As MessageBoxResult = MessageBox.Show("Are you sure you want to delete this Product?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question)
+
+        If result = MessageBoxResult.Yes Then
+            Dim query As String = "DELETE FROM Product WHERE ProductID = @ProductID"
+
+            Using connection As New SqlConnection(con.connectionString)
+                Try
+                    connection.Open()
+                    Dim cmd As New SqlCommand(query, connection)
+                    cmd.Parameters.AddWithValue("@ProductID", productID)
+
+                    cmd.ExecuteNonQuery()
+
+                    MessageBox.Show("Product deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+
+                    FetchProductData()
+
+                Catch ex As Exception
+                    MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+                End Try
+            End Using
+        End If
+    End Sub
 End Class

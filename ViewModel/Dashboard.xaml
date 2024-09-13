@@ -7,8 +7,66 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="This is dashboard"/>
-        <lvc:CartesianChart Margin="0,166,0,0">
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="*"/>
+     
+
+        </Grid.RowDefinitions>
+
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+
+
+
+
+            </Grid.ColumnDefinitions>
+
+           
+            <StackPanel Grid.Column="0"  
+                  Background="white"
+                  Margin="10,50,10,50"
+                   Effect="{StaticResource dropShadow}"/>
+
+          
+                        
+
+            <StackPanel Grid.Column="1"
+                        Background="
+                        white"
+                        Margin="10,50,10,50"
+                         Effect="{StaticResource dropShadow}"/>
+
+            <StackPanel Grid.Column="2"
+                        Background="white"
+                        Margin="10,50,10,50"
+                         Effect="{StaticResource dropShadow}"/>
+
+            <StackPanel Grid.Column="4" 
+                        Background="white"
+                        Margin="10,50,10,50"
+                         Effect="{StaticResource dropShadow}"/>
+
+
+
+        </Grid>
+      
+
+
+
+
+
+
+
+        <lvc:CartesianChart Margin="0,0,0,0" Grid.Row="2">
             <lvc:CartesianChart.Series>
                 <lvc:ColumnSeries Title="2024"
                          Values="30, 70, 45, 85"/>
