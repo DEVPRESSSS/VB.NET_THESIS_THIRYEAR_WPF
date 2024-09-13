@@ -1,5 +1,4 @@
 ﻿Public Class Product
-
     Public Property ProductID As Integer
 
     Public Property ProductName As String

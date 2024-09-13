@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:VB_THESIS_WPS" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:local="clr-namespace:VB_THESIS_WPS" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" xmlns:Icon="clr-namespace:MahApps.Metro.IconPacks;assembly=MahApps.Metro.IconPacks.Material"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -12,7 +12,7 @@
 
             <RowDefinition Height="200"/>
             <RowDefinition Height="*"/>
-     
+
 
         </Grid.RowDefinitions>
 
@@ -29,36 +29,115 @@
 
 
             </Grid.ColumnDefinitions>
+            
+            
+            <!--Product count-->
 
-           
+
             <StackPanel Grid.Column="0"  
                   Background="white"
                   Margin="10,50,10,50"
-                   Effect="{StaticResource dropShadow}"/>
+                   Effect="{StaticResource dropShadow}">
 
-          
-                        
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Products" FontSize="16" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="ProductCounts"  Text="0" FontSize="18" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="30, 40 0,0"/>
+
+                    <StackPanel Grid.Column="1" Width="70" Height="80" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,5,5,5">
+                        <Icon:PackIconMaterial Kind="ShoeSneaker" Foreground="#073b4c" HorizontalAlignment="Center" RenderTransformOrigin="4.792,2.972" Height="80" Width="36"/>
+
+                    </StackPanel>
+                </Grid>
+               
+
+
+
+
+            </StackPanel>
+
+
+
+            <!--Cashier count-->
 
             <StackPanel Grid.Column="1"
                         Background="
                         white"
                         Margin="10,50,10,50"
-                         Effect="{StaticResource dropShadow}"/>
+                         Effect="{StaticResource dropShadow}">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Cashier" FontSize="16" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="CashierCounts"  Text="0" FontSize="18" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="30, 40 0,0"/>
+
+                    <StackPanel Grid.Column="1" Width="70" Height="80" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,5,5,5">
+                        <Icon:PackIconMaterial Kind="AccountMultiple" Foreground="#073b4c" HorizontalAlignment="Center" RenderTransformOrigin="4.792,2.972" Height="80" Width="36"/>
+
+                    </StackPanel>
+                </Grid>
+
+            </StackPanel>
 
             <StackPanel Grid.Column="2"
                         Background="white"
                         Margin="10,50,10,50"
-                         Effect="{StaticResource dropShadow}"/>
+                         Effect="{StaticResource dropShadow}">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Out of Stock" FontSize="16" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="ZeroCounts"  Text="0" FontSize="18" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="30, 40 0,0"/>
+
+                    <StackPanel Grid.Column="1" Width="70" Height="80" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,5,5,5">
+                        <Icon:PackIconMaterial Kind="Cancel" Foreground="#073b4c" HorizontalAlignment="Center" RenderTransformOrigin="4.792,2.972" Height="80" Width="36"/>
+
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
 
             <StackPanel Grid.Column="4" 
                         Background="white"
                         Margin="10,50,10,50"
-                         Effect="{StaticResource dropShadow}"/>
+                         Effect="{StaticResource dropShadow}">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Sales" FontSize="16" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="Sale"  Text="0" FontSize="18" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="30, 40 0,0"/>
+
+                    <StackPanel Grid.Column="1" Width="70" Height="80" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,5,5,5">
+                        <Icon:PackIconMaterial Kind="Cash" Foreground="#073b4c" HorizontalAlignment="Center" RenderTransformOrigin="4.792,2.972" Height="80" Width="36"/>
+
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
 
 
 
         </Grid>
-      
+
 
 
 
