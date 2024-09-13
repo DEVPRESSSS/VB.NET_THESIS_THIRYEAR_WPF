@@ -64,7 +64,7 @@ Partial Public Class Inventory
             Return
         End If
         _contentLoaded = true
-        Dim resourceLocater As System.Uri = New System.Uri("/VB_THESIS_WPS;component/viewmodel/inventory.xaml", System.UriKind.Relative)
+        Dim resourceLocater As System.Uri = New System.Uri("/VB_THESIS_WPS;V1.0.0.0;component/viewmodel/inventory.xaml", System.UriKind.Relative)
         
         #ExternalSource("..\..\..\..\ViewModel\Inventory.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)

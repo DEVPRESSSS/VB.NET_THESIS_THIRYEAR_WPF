@@ -8,6 +8,7 @@
         Title="LoginView"
         Height="500"
         Width="800"
+         FontFamily="Roboto"
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent"

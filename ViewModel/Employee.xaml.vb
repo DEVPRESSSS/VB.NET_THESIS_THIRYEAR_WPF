@@ -86,9 +86,7 @@ Public Class Employee
 
     End Sub
 
-    Private Sub Refresh_Click(sender As Object, e As RoutedEventArgs)
-        FetchCashierData()
-    End Sub
+
 
     Private Sub Delete_Click(sender As Object, e As RoutedEventArgs)
         Dim deleteButton As Button = CType(sender, Button)

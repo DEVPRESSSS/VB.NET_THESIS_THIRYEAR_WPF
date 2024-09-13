@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VB_THESIS_WPS" xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
+             FontFamily="Roboto"
              Background="Transparent"
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="UserControl_Loaded">
@@ -61,14 +62,7 @@
                 </StackPanel>
             </Button>
 
-            <Button Style="{StaticResource addButton}" Foreground="#ffff" Margin="230,0,90,0"
-                         Cursor="Hand" Height="30"  Grid.Column="1" Click="Refresh_Click" VerticalAlignment="Center" HorizontalAlignment="right" Width="80">
-                <StackPanel Orientation="Horizontal">
-                    <Icon:PackIconMaterial Kind="Refresh" Style="{StaticResource addButtonIcon}"/>
-                    <TextBlock Text="Refresh"  FontFamily="Roboto"/>
-                </StackPanel>
-            </Button>
-
+           
 
 
 

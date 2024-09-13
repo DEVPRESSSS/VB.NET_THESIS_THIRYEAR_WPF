@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VB_THESIS_WPS"
         mc:Ignorable="d"
+        FontFamily="Roboto"
         Title="EditMember" Height="450" Width="700">
     <Grid>
         <StackPanel Margin="20">

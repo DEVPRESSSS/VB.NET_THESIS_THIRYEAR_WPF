@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:VB_THESIS_WPS" xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        FontFamily="Roboto"
         Title="POS" Height="600" Width="1100"
          MinHeight="600" MinWidth="1100">
     <Grid>

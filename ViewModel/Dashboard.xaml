@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VB_THESIS_WPS" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" xmlns:Icon="clr-namespace:MahApps.Metro.IconPacks;assembly=MahApps.Metro.IconPacks.Material"
              mc:Ignorable="d" 
+             FontFamily="Roboto"
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="25"/>
             <RowDefinition/>
             
 
@@ -25,7 +27,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Welcome admin here are the reports today" FontSize="16"
-                       FontWeight="DemiBold" HorizontalAlignment="Left" Margin="2,2,2,0"></TextBlock>
+                       FontWeight="DemiBold" HorizontalAlignment="Left" Margin="10,12,0,-9"/>
 
         </Grid>
 
@@ -163,8 +165,9 @@
 
 
         <TextBlock Text="Analytics Report"
-            FontWeight="DemiBold" HorizontalAlignment="Center" Margin="2,116,0,289"
-                   Grid.Row="1"/>
+            FontWeight="DemiBold" HorizontalAlignment="Left"
+Margin="10,116,0,289"                   Grid.Row="1" FontSize="16"
+                   />
 
 
 

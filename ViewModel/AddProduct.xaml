@@ -8,6 +8,7 @@
         Title="Add Product" Height="338" Width="800"
         WindowStyle="None"
         ResizeMode="NoResize"
+        FontFamily="Roboto"
         Background="Transparent"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
