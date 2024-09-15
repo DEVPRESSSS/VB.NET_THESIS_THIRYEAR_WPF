@@ -3,11 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:VB_THESIS_WPS"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
-            StartupUri="/ViewModel/POS.xaml">
+            StartupUri="MainWindow.xaml">
 
     <!---->
     <Application.Resources>
 
+        
+        <!-- Menu Button template-->
         <Style x:Key="menuButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="#D0C0FF"/>
@@ -45,7 +47,164 @@
             <Setter Property="Height" Value="15" />
         </Style>
 
+        
+        <!-- Textboxes template-->
+        <Style x:Key="TextBoxes" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="#D9D9D9" 
+                        BorderThickness="1"
+                        CornerRadius="6">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
+        <!--Combobox-->
+        <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="ComboBoxBorder" 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="#D9D9D9" 
+                            BorderThickness="1" 
+                            CornerRadius="6">
+                                <Grid>
+                                    <ContentPresenter Margin="5,0,25,0"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                              Content="{TemplateBinding SelectionBoxItem}"/>
+                                    <ToggleButton x:Name="DropDownToggle" 
+                                          Grid.Column="2"
+                                          Focusable="False"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Background="Transparent" 
+                                          BorderBrush="Transparent" 
+                                          BorderThickness="0"
+                                          Margin="0,0,6,0"
+                                          HorizontalAlignment="Right">
+                                        <Path x:Name="Arrow" 
+                                      Data="M 0 0 L 4 4 L 8 0 Z" 
+                                      Fill="Gray"
+                                      HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center"/>
+                                    </ToggleButton>
+                                </Grid>
+                            </Border>
+
+                            <Popup x:Name="PART_Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}">
+                                <Border Background="White" 
+                                BorderBrush="Transparent" 
+                                BorderThickness="1"
+                                CornerRadius="6">
+                                    <ScrollViewer>
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+        <!--Submit button template-->
+        <Style x:Key="SubmitButton" TargetType="Button">
+            <Setter Property="Background" Value="#118AB2"/>
+            <Setter Property="Foreground" Value="#ffff"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="15 3"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                 BorderBrush="{TemplateBinding BorderBrush}" 
+                                 BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="15">
+                            <ContentPresenter VerticalAlignment="Center" 
+                                  HorizontalAlignment="Center"
+ 
+                                     ContentSource="Content"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#116AB2"/>
+                    <Setter Property="Foreground" Value="#ffffff"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Clear button template-->
+        <Style x:Key="ClearButton" TargetType="Button">
+            <Setter Property="Background" Value="#ffff"/>
+            <Setter Property="Foreground" Value="#118AB2"/>
+            <Setter Property="BorderBrush" Value="#118AB2"/>
+            <Setter Property="BorderThickness" Value="1"/>
+
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="15 3"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                              BorderBrush="{TemplateBinding BorderBrush}" 
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                         CornerRadius="15">
+                            <ContentPresenter VerticalAlignment="Center" 
+                               HorizontalAlignment="Center"
+ 
+                                  ContentSource="Content"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#118AB2"/>
+                    <Setter Property="Foreground" Value="#ffffff"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+
+
+        <Style x:Key="SubmitButtonIcon" TargetType="Icon:PackIconMaterial">
+            <Setter Property="Margin" Value="5 2 5 0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Width" Value="10" />
+            <Setter Property="Height" Value="10" />
+        </Style>
         <!--Dropshadow-->
         <DropShadowEffect x:Key="dropShadow"
                     BlurRadius="10"

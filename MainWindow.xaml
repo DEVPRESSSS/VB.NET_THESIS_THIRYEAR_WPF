@@ -11,9 +11,7 @@
         MinHeight="600" MinWidth="1100"
         FontFamily="Roboto"
         WindowStyle="None">
-        <Window.Resources>
-          
-        </Window.Resources>
+      
 
 
 
@@ -23,7 +21,7 @@
         <!--This is for the border radius or corner radius of the window-->
 
         <Border CornerRadius="10"
-             BorderThickness="3">
+             BorderThickness="1">
 
 
 
@@ -43,7 +41,7 @@
 
                 <Border Grid.Row="0"
                         Background="White"
-                        Margin="0,0,0,0"
+                    
                         CornerRadius="4"
                         Effect="{StaticResource dropShadow}">
 
@@ -219,14 +217,18 @@
 
 
                     <!--Logo picture -->
-                    <TextBlock Text="Logo Picture"
-                                        Foreground="#383838"
-                                        FontSize="14"
-                                        FontFamily="Roboto"
-                                        Grid.Column="0"
-                                        VerticalAlignment="Center"
-                                        Margin="10"
-                                        FontWeight="Medium"/>
+                    <Border Width="40" Height="40" Background="White"  CornerRadius="20" Margin="32,0,0,0" HorizontalAlignment="Left">
+
+                        <!--The ellipse that shapes the image to circle-->
+                        <Ellipse Grid.Column="0">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="D:\VB_THESIS_WPS\Images\logo.png"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+
+
+
+                    </Border>
 
 
                     <!--Button minimize -->
