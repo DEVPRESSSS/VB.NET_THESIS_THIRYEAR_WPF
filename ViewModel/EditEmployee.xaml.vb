@@ -4,7 +4,8 @@ Imports System.Data.SqlClient
 Public Class EditEmployee
 
     Dim editID As Integer
-    Public Sub New(cashierID As Integer, usernames As String, firstNames As String, lastNames As String, emails As String)
+    Dim load As Employee
+    Public Sub New(cashierID As Integer, usernames As String, firstNames As String, lastNames As String, emails As String, cashier As Employee)
         InitializeComponent()
 
         Username.Text = usernames
@@ -12,13 +13,18 @@ Public Class EditEmployee
         Lastname.Text = lastNames
         Email.Text = emails
         editID = cashierID.ToString()
-
+        load = cashier
     End Sub
     Dim con As New ConnectionString
     Private Sub Clear_Click(sender As Object, e As RoutedEventArgs)
-
+        Username.Text = ""
+        Firstname.Text = ""
+        Lastname.Text = ""
+        Email.Text = ""
     End Sub
-
+    Private Sub Refresh()
+        load.FetchCashierData()
+    End Sub
     Private Sub Update_Click(sender As Object, e As RoutedEventArgs)
         Dim cashierIDs As Integer = Integer.Parse(editID)
         Dim usernames As String = Username.Text
@@ -26,14 +32,11 @@ Public Class EditEmployee
         Dim lastNames As String = Lastname.Text
         Dim emails As String = Email.Text
 
-        Dim result As Boolean = UpdateCashier(cashierIDs, usernames, firstNames, lastNames, emails)
-        If result Then
-            Me.Close()
-        End If
+        UpdateCashier(cashierIDs, usernames, firstNames, lastNames, emails)
+
     End Sub
 
-    Public Function UpdateCashier(cashierID As Integer, username As String, firstName As String, lastName As String, email As String) As Boolean
-
+    Public Sub UpdateCashier(cashierID As Integer, username As String, firstName As String, lastName As String, email As String)
         Dim query As String = "UPDATE [dbo].[Cashier] SET [Username] = @Username, [FirstName] = @FirstName, [LastName] = @LastName, [Email] = @Email " &
                           "WHERE [CashierID] = @CashierID"
 
@@ -50,23 +53,26 @@ Public Class EditEmployee
                 Dim rowsAffected As Integer = command.ExecuteNonQuery()
                 If rowsAffected > 0 Then
                     MessageBox.Show("Cashier record updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
-                    Return True
+                    Refresh()
+                    Me.Close()
                 Else
                     MessageBox.Show("No record found to update.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning)
-                    Return False
+
                 End If
 
             End Using
         End Using
 
-    End Function
+    End Sub
 
     Private Sub Window_MouseDown(sender As Object, e As MouseButtonEventArgs)
-
+        If e.LeftButton = MouseButtonState.Pressed Then
+            DragMove()
+        End If
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As RoutedEventArgs)
-
+        Me.Close()
     End Sub
 
     Private Sub Username_TextChanged(sender As Object, e As TextChangedEventArgs)
@@ -75,5 +81,10 @@ Public Class EditEmployee
 
     Private Sub Username_PreviewKeyDown(sender As Object, e As KeyEventArgs)
 
+    End Sub
+
+    Private Sub btnMinimize_Click(sender As Object, e As RoutedEventArgs)
+
+        WindowState = WindowState.Minimized
     End Sub
 End Class

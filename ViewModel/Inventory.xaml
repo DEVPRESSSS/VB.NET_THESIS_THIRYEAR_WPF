@@ -8,9 +8,9 @@
              FontFamily="Roboto"
              Background="Transparent"
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    
-    
+
+
+
     <!-- Parent grid-->
     <Grid>
 
@@ -40,6 +40,7 @@
             <Grid.ColumnDefinitions>
 
                 <ColumnDefinition />
+
                 <ColumnDefinition/>
 
 
@@ -53,20 +54,41 @@
                        FontSize="16" Padding="6" FontWeight="Medium"/>
 
 
-          
-             <!--Add new productbutton-->
-            <Button Style="{StaticResource addButton}" Foreground="#ffff" Margin="5"
-                                       Cursor="Hand" Width="80" Height="30" Click="AddNewProduct_Click" Grid.Column="1">
-                    <StackPanel Orientation="Horizontal">
-                        <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}"/>
-                        <TextBlock Text="Add"  FontFamily="Roboto"/>
-                    </StackPanel>
-             </Button>
+
+            <!--Add new product button-->
+            <Button Style="{StaticResource addButton}" Margin="5" Cursor="Hand" Click="AddNewProduct_Click" Grid.Column="1">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
+                    <TextBlock Text="Add" FontFamily="Roboto" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
 
 
-            
+            <!-- Search Box -->
 
-           
+
+            <TextBox x:Name="Search" 
+               Style="{StaticResource TextBoxes}"
+               Margin="0,0,244,0" Grid.Column="1"
+               TextWrapping="Wrap" 
+               VerticalAlignment="Center"
+               MaxLength="20" 
+               HorizontalAlignment="Right" 
+               TextChanged="Search_TextChanged"
+               Width="146"/>
+
+            <!--Search Button icon -->
+            <Button Style="{StaticResource addButton}" Margin="0,5,145,5" Cursor="Hand" Click="Search_Click" Grid.Column="1" 
+                    Width="94"
+                    >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Icon:PackIconMaterial Kind="Magnify" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
+                    <TextBlock Text="Search" FontFamily="Roboto" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+
+
 
 
 
@@ -80,7 +102,7 @@
 
             <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="productDataGrid" Style="{DynamicResource DataGridStyle1}">
                 <DataGrid.Columns>
-                  
+
                     <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding ProductID}"/>
                     <DataGridTextColumn Header="Name" Binding="{Binding ProductName}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="True" Width="*"/>
@@ -113,7 +135,7 @@
         </Border>
 
     </Grid>
-    
-    
-    
+
+
+
 </UserControl>

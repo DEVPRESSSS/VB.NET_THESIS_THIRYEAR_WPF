@@ -32,6 +32,7 @@
 
 
         </Border>
+   
 
         <!--Grid column for first row 0-->
         <Grid>
@@ -45,6 +46,25 @@
             </Grid.ColumnDefinitions>
 
 
+            <TextBox x:Name="Search" 
+                Style="{StaticResource TextBoxes}"
+                Margin="0,0,244,0" Grid.Column="1"
+                TextWrapping="Wrap" 
+                VerticalAlignment="Center"
+                MaxLength="20" 
+                HorizontalAlignment="Right" 
+                TextChanged="Search_TextChanged"
+                Width="146"/>
+
+
+            <Button Style="{StaticResource addButton}" Margin="0,5,145,5" Cursor="Hand" Click="Button_Click" Grid.Column="1" 
+             Width="94"
+             >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Icon:PackIconMaterial Kind="Magnify" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
+                    <TextBlock Text="Search" FontFamily="Roboto" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
 
             <!--Title of the current Page-->
             <TextBlock Text="Cashier List" Grid.Column="0" 
@@ -61,8 +81,15 @@
                     <TextBlock Text="Add"  FontFamily="Roboto"/>
                 </StackPanel>
             </Button>
+            <Button Style="{StaticResource addButton}" Margin="5" Cursor="Hand" Click="AddbtnClick" Grid.Column="1">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
+                    <TextBlock Text="Add" FontFamily="Roboto" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
 
-           
+
+
 
 
 
@@ -80,14 +107,8 @@
 
             <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="cashierDataGrid" Style="{DynamicResource DataGridStyle1}">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Header="C" CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
-                        <DataGridCheckBoxColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <CheckBox Style="{StaticResource CheckBoxStyle1}"/>
-                            </DataTemplate>
-                        </DataGridCheckBoxColumn.HeaderTemplate>
-                    </DataGridCheckBoxColumn>
-                    <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="50" Binding="{Binding CashierID}"/>
+                   
+                    <DataGridTextColumn Header="CashierID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding CashierID}"/>
                     <DataGridTemplateColumn Header="Cashier" CanUserResize="False" IsReadOnly="True" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -105,6 +126,7 @@
                     <DataGridTextColumn Header="Firstname" CanUserResize="False" Binding="{Binding FirstName}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Lastname" CanUserResize="False" Binding="{Binding LastName}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Email" CanUserResize="False" Binding="{Binding Email}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="CreatedAt" CanUserResize="False" Binding="{Binding CreatedAt}" IsReadOnly="True" Width="*"/>
 
                     <DataGridTemplateColumn Header="Action" CanUserResize="False" IsReadOnly="True" Width="auto">
                         <DataGridTemplateColumn.CellTemplate>

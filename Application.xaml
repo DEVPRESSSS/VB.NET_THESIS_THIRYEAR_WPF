@@ -60,8 +60,30 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
                         <Border Background="{TemplateBinding Background}" 
-                        BorderBrush="#D9D9D9" 
+                        BorderBrush="#727272" 
                         BorderThickness="1"
+                        CornerRadius="6">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style x:Key="PasswordBoxes" TargetType="PasswordBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="#727272" 
+                        BorderThickness="1" 
                         CornerRadius="6">
                             <ScrollViewer x:Name="PART_ContentHost"/>
                         </Border>
@@ -83,7 +105,7 @@
                         <Grid>
                             <Border x:Name="ComboBoxBorder" 
                             Background="{TemplateBinding Background}" 
-                            BorderBrush="#D9D9D9" 
+                            BorderBrush="#727272" 
                             BorderThickness="1" 
                             CornerRadius="6">
                                 <Grid>
@@ -212,14 +234,15 @@
                     Opacity="0.5"
                     Color="LightGray"/>
 
-
         <!--Add icon button-->
-
         <Style x:Key="addButton" TargetType="Button">
             <Setter Property="Background" Value="#118AB2"/>
             <Setter Property="Foreground" Value="#ffff"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="Height" Value="40"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="120"/>
+
+            <Setter Property="Padding" Value="10,0"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="Margin" Value="15 3"/>
             <Setter Property="FontSize" Value="13"/>
@@ -227,13 +250,12 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" 
-                  CornerRadius="4" 
-                  BorderBrush="Transparent" 
-                  BorderThickness="1">
+                        CornerRadius="10" 
+                        BorderBrush="Transparent" 
+                        BorderThickness="1">
                             <ContentPresenter VerticalAlignment="Center" 
-                                HorizontalAlignment="Center"
- 
-                                ContentSource="Content"/>
+                                      HorizontalAlignment="Center"
+                                      ContentSource="Content"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>

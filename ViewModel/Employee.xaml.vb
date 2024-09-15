@@ -24,7 +24,8 @@ Public Class Employee
          selectedCashier.Username,
          selectedCashier.FirstName,
          selectedCashier.LastName,
-         selectedCashier.Email
+         selectedCashier.Email,
+         Me
      )
 
         passToEdit.Show()
@@ -40,7 +41,7 @@ Public Class Employee
         AddEmployee.Show()
     End Sub
 
-    Private Sub FetchCashierData()
+    Public Sub FetchCashierData()
         Dim converter As New BrushConverter()
         Dim myArray As String() = {"#1098AD", "#1E88E5", "#FF8F00", "#FF5252", "#6741D9", "#0CA678"}
 
@@ -118,6 +119,14 @@ Public Class Employee
                 End Try
             End Using
         End If
+
+    End Sub
+
+    Private Sub Search_TextChanged(sender As Object, e As TextChangedEventArgs)
+
+    End Sub
+
+    Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
 
     End Sub
 End Class

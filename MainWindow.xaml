@@ -217,19 +217,7 @@
 
 
                     <!--Logo picture -->
-                    <Border Width="40" Height="40" Background="White"  CornerRadius="20" Margin="32,0,0,0" HorizontalAlignment="Left">
-
-                        <!--The ellipse that shapes the image to circle-->
-                        <Ellipse Grid.Column="0">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="D:\VB_THESIS_WPS\Images\logo.png"/>
-                            </Ellipse.Fill>
-                        </Ellipse>
-
-
-
-                    </Border>
-
+               
 
                     <!--Button minimize -->
                     <Button x:Name="btnMinimize"

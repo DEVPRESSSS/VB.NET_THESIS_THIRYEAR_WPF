@@ -158,14 +158,12 @@ Public Class EditProduct
         Dim prices As Decimal
         Dim catID As Integer
 
-        'Validations for price
 
         If Not Decimal.TryParse(Price.Text, prices) Then
             MessageBox.Show("Please enter a valid decimal value for the price.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning)
             Return
         End If
 
-        'Validations for textboxes like productName
 
         If String.IsNullOrWhiteSpace(pname) OrElse String.IsNullOrWhiteSpace(descrip) _
                OrElse String.IsNullOrWhiteSpace(brands) OrElse String.IsNullOrWhiteSpace(colors) _
@@ -174,7 +172,6 @@ Public Class EditProduct
             Return
         End If
 
-        'validation for combobox
         If ComboCat.SelectedItem Is Nothing Then
             MessageBox.Show("Please select a category.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning)
             Return
@@ -272,4 +269,7 @@ Public Class EditProduct
         ComboCat.Items.Clear()
     End Sub
 
+    Private Sub ComboCat_MouseDoubleClick_1(sender As Object, e As MouseButtonEventArgs)
+
+    End Sub
 End Class

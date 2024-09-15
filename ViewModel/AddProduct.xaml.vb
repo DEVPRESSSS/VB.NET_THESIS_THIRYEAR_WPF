@@ -160,12 +160,10 @@ Public Class AddProduct
     End Sub
 
     Private Sub Price_PreviewKeyDown(sender As Object, e As KeyEventArgs)
-        ' Allow control keys like Backspace, Delete, Left, Right arrows, etc.
         If e.Key = Key.Back OrElse e.Key = Key.Delete OrElse e.Key = Key.Left OrElse e.Key = Key.Right Then
             Return
         End If
 
-        ' Only allow number keys (0-9) and a decimal point
         If Not ((e.Key >= Key.D0 And e.Key <= Key.D9) OrElse
                 (e.Key >= Key.NumPad0 And e.Key <= Key.NumPad9) OrElse
                 (e.Key = Key.Decimal OrElse e.Key = Key.OemPeriod)) Then
