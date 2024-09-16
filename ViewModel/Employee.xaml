@@ -57,7 +57,7 @@
                 Width="146"/>
 
 
-            <Button Style="{StaticResource addButton}" Margin="0,5,145,5" Cursor="Hand" Click="Button_Click" Grid.Column="1" 
+            <Button Style="{StaticResource addButton}" Margin="0,5,145,5" Cursor="Hand" Click="Search_Click" Grid.Column="1" 
              Width="94"
              >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">

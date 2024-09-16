@@ -40,10 +40,12 @@ Public Class Employee
         Dim AddEmployee As New AddEmployee()
         AddEmployee.Show()
     End Sub
-
+    Dim converter As New BrushConverter()
+    Dim myArray As String() = {"#1098AD", "#1E88E5", "#FF8F00", "#FF5252", "#6741D9", "#0CA678"}
+    Dim fletter As String
+    Dim brush As Brush
     Public Sub FetchCashierData()
-        Dim converter As New BrushConverter()
-        Dim myArray As String() = {"#1098AD", "#1E88E5", "#FF8F00", "#FF5252", "#6741D9", "#0CA678"}
+
 
         Dim cashiers As New ObservableCollection(Of Cashier)()
 
@@ -62,10 +64,10 @@ Public Class Employee
 
                 Dim colorString As String = myArray(i Mod myArray.Length)
 
-                Dim brush As Brush = CType(converter.ConvertFromString(colorString), Brush)
+                brush = CType(converter.ConvertFromString(colorString), Brush)
 
                 Dim fname As String = row("FirstName").ToString()
-                Dim fletter As String = If(fname.Length > 0, fname.Substring(0, 1), String.Empty)
+                fletter = If(fname.Length > 0, fname.Substring(0, 1), String.Empty)
 
                 cashiers.Add(New Cashier With {
                     .Character = fletter,
@@ -126,7 +128,51 @@ Public Class Employee
 
     End Sub
 
-    Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
+    Private Sub Search_Click(sender As Object, e As RoutedEventArgs)
+        FilterProductTable()
+    End Sub
 
+
+    Private Sub FilterProductTable()
+        Dim input As String = Search.Text.Trim()
+        Dim products As New List(Of Cashier)()
+        Dim q As String = "SELECT * FROM Cashier WHERE " &
+                      "(UserName LIKE '%' + @UserName + '%' OR @UserName = '') " &
+                      "OR (FirstName LIKE '%' + @FirstName + '%' OR @FirstName = '') " &
+                      "OR (LastName LIKE '%' + @LastName + '%' OR @LastName = '') " &
+                      "OR (Email LIKE '%' + @Email + '%' OR @Email = '') " &
+                      "OR (CreatedAt LIKE '%' + @CreatedAt + '%' OR @CreatedAt = '') " &
+                      "OR (CashierID = @CashierID OR @CashierID = '') "
+
+        Using connection As New SqlConnection(con.connectionString)
+            connection.Open()
+
+            Using cmd As New SqlCommand(q, connection)
+                cmd.Parameters.AddWithValue("@UserName", If(String.IsNullOrEmpty(input), "", input))
+                cmd.Parameters.AddWithValue("@FirstName", If(String.IsNullOrEmpty(input), "", input))
+                cmd.Parameters.AddWithValue("@LastName", If(String.IsNullOrEmpty(input), "", input))
+                cmd.Parameters.AddWithValue("@CreatedAt", If(String.IsNullOrEmpty(input), "", input))
+                cmd.Parameters.AddWithValue("@CashierID", If(IsNumeric(input), input, DBNull.Value))
+
+
+                Using reader As SqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        Dim filter As New Cashier() With {
+                        .CashierID = Convert.ToInt32(reader("CashierID")),
+                        .Username = reader("UserName").ToString(),
+                        .FirstName = reader("FirstName").ToString(),
+                        .LastName = reader("LastName").ToString(),
+                        .Character = fletter,
+                        .BgColor = Brush,
+                        .CreatedAt = reader("CreatedAt").ToString()
+                    }
+
+                        products.Add(filter)
+                    End While
+                End Using
+            End Using
+        End Using
+
+        cashierDataGrid.ItemsSource = products
     End Sub
 End Class
