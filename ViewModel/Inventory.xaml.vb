@@ -1,6 +1,7 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Data
 Imports System.Data.SqlClient
+Imports Microsoft.TeamFoundation.Common
 
 Public Class Inventory
     Dim con As New ConnectionString
@@ -108,6 +109,12 @@ Public Class Inventory
 
     Private Sub FilterProductTable()
         Dim input As String = Search.Text.Trim()
+
+        If input.IsNullOrEmpty() Then
+
+            MessageBox.Show("Error", "Please provide a value", MessageBoxButton.OK, MessageBoxImage.Error)
+            Return
+        End If
         Dim products As New List(Of Product)()
 
         Dim q As String = "SELECT p.*, c.CategoryName FROM PRODUCT p " &
@@ -158,7 +165,6 @@ Public Class Inventory
             End Using
         End Using
 
-        ' Bind the filtered results to the DataGridView (or WPF DataGrid)
         productDataGrid.ItemsSource = products
     End Sub
 

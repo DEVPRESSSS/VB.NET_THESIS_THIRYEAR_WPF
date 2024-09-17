@@ -28,7 +28,7 @@
 
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="160"/>
-                <RowDefinition Height="320"/>
+                <RowDefinition />
                 <RowDefinition />
 
 
@@ -55,25 +55,37 @@
             <Border Grid.Row="2"
                 Background="White"
             
-                Effect="{StaticResource dropShadow}"  Width="1096" Height="315">
-                <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="productDataGrid" Style="{DynamicResource DataGridStyle1}">
+                Effect="{StaticResource dropShadow}" Margin="0,0,0,76" Grid.RowSpan="2" >
+                <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="productDataGrid" Style="{DynamicResource DataGridStyle1}" Loaded="productDataGrid_Loaded">
                     <DataGrid.Columns>
 
-                        <DataGridTextColumn Header="Id" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding ProductID}"/>
-                        <DataGridTextColumn Header="Name" Binding="{Binding ProductName}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="Brand" Binding="{Binding Brand}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="ProductID" IsReadOnly="True" CanUserResize="False" Width="100" Binding="{Binding ProductID}"/>
+                        <DataGridTextColumn Header="ProductName" Binding="{Binding ProductName}" IsReadOnly="True" Width="150"/>
                         <DataGridTextColumn Header="Size" Binding="{Binding Size}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="Color" Binding="{Binding Color}" IsReadOnly="True" Width="*"/>
                         <DataGridTextColumn Header="Price" Binding="{Binding Price}" IsReadOnly="True" Width="*"/>
-                        <DataGridTemplateColumn Header="Picture" IsReadOnly="True" Width="auto">
+                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="Subtotal" Binding="{Binding SubTotal}" IsReadOnly="True" Width="*"/>
+                        <DataGridTemplateColumn Header="Picture" IsReadOnly="True" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Button Style="{StaticResource gridEditButton}" Cursor="Hand">
                                             <Icon:PackIconMaterial Kind="Eye" Style="{StaticResource gridButtonIcon}"/>
                                         </Button>
+                                      
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="DeleteItem" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource gridRemoveButton}" Cursor="Hand" Click="Remove_Click"> 
+                                            <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+                                        </Button>
+
 
                                     </StackPanel>
                                 </DataTemplate>
@@ -262,8 +274,8 @@
                Width="146"/>
 
             <!--Search Button icon -->
-            <Button Style="{StaticResource addButton}" Margin="0,28,27,102" Cursor="Hand"  Grid.Row="1"
-                    Width="94"
+            <Button x:Name="SearchBtn"  Style="{StaticResource addButton}" Margin="0,28,27,102" Cursor="Hand"  Grid.Row="1"
+                    Width="94" Click="SearchBtn_Click"
                     >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Icon:PackIconMaterial Kind="Magnify" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
@@ -355,16 +367,16 @@
 
 
             <!--Add item-->
-            <Button Style="{StaticResource addButton}" Margin="0,105,27,25" Cursor="Hand"  Grid.Row="1"
-                Width="110"
+            <Button x:Name="AddItem" Style="{StaticResource addButton}" Margin="0,105,27,25" Cursor="Hand"  Grid.Row="1"
+                Width="110" Click="AddItem_Click"
                     >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
                     <TextBlock Text="Add Item" FontFamily="Roboto" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource addButton}" Margin="0,105,162,25" Cursor="Hand"  Grid.Row="1"
-                Width="110"
+            <Button  Style="{StaticResource addButton}" Margin="0,105,162,25" Cursor="Hand"  Grid.Row="1"
+                Width="110" 
                     >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Icon:PackIconMaterial Kind="Scanner" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
@@ -373,14 +385,16 @@
             </Button>
 
             <!--ProductID-->
-            <TextBlock HorizontalAlignment="Left"
+            <TextBlock 
+                HorizontalAlignment="Left"
                 Margin="425,10,0,0" 
                 Grid.Row="1" 
                 TextWrapping="Wrap"
                 Text="ProductID"
                 VerticalAlignment="Top"/>
 
-            <Label Content="0"
+            <Label x:Name="ID"
+               Content="0" 
                Grid.Row="1"
                Height="25"
                Width="60"
@@ -392,9 +406,11 @@
 
 
             <!-- Total Value-->
-            <Label Content="0"
+            <Label
+                x:Name="Total_label"
+                Content="0"
                 Grid.Row="3"
-                Width="60"
+                Width="102"
                 Margin="80,0,0,25"
                 FontWeight="DemiBold"
                 FontSize="16"
@@ -415,9 +431,10 @@
                 VerticalAlignment="Bottom"/>
 
             <!--Change -->
-            <Label Content="0"
+            <Label x:Name ="Changes"
+                   Content="0"
                 Grid.Row="3"
-                Width="60"
+                Width="132"
                 Margin="255,0,0,25"
                 FontWeight="DemiBold"
                 FontSize="16"
@@ -449,7 +466,8 @@
 
 
             <!--BUTTONS-->
-            <Button Content="Confirm" Style="{StaticResource ClearButton}" Margin="0,0,27,16" Grid.Row="3" Cursor="Hand" Width="245" Height="40" VerticalAlignment="Bottom"/>
+            <Button Content="Confirm" Style="{StaticResource ClearButton}" Margin="0,0,27,16" Grid.Row="3" Cursor="Hand" Width="245" Height="40" VerticalAlignment="Bottom"
+                    Click="Button_Click"/>
 
         </Grid>
 
