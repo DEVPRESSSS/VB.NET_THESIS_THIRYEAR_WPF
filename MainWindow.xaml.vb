@@ -39,7 +39,10 @@
 
         If response = MessageBoxResult.Yes Then
 
-            Application.Current.Shutdown()
+            Dim login As New LoginView()
+
+            login.Show()
+            Me.Close()
 
         End If
 

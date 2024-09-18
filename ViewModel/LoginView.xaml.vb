@@ -43,28 +43,48 @@ Public Class LoginView
             Return
         End If
 
-        ' Fetch the stored password hash and salt for the given username
-        Dim query As String = "SELECT PasswordHash, Salt FROM Cashier WHERE Username = @Username"
+        Dim adminQuery As String = "SELECT PasswordHash, Salt FROM Admin WHERE Username = @Username"
+        Dim cashierQuery As String = "SELECT PasswordHash, Salt FROM Cashier WHERE Username = @Username"
 
         Using connection As New SqlConnection(connections.connectionString)
-            Using command As New SqlCommand(query, connection)
-                command.Parameters.AddWithValue("@Username", usernames)
+            connection.Open()
 
-                connection.Open()
+            Using adminCommand As New SqlCommand(adminQuery, connection)
+                adminCommand.Parameters.AddWithValue("@Username", usernames)
 
-                Using reader As SqlDataReader = command.ExecuteReader()
-                    If reader.Read() Then
-                        Dim storedPasswordHash As Byte() = CType(reader("PasswordHash"), Byte())
-                        Dim storedSalt As Byte() = CType(reader("Salt"), Byte())
+                Using adminReader As SqlDataReader = adminCommand.ExecuteReader()
+                    If adminReader.Read() Then
+                        Dim storedPasswordHash As Byte() = CType(adminReader("PasswordHash"), Byte())
+                        Dim storedSalt As Byte() = CType(adminReader("Salt"), Byte())
 
-                        ' Hash the input password with the stored salt
                         Dim hashedPassword As Byte() = HashPassword(passwords, storedSalt)
 
-                        ' Compare the hashes
                         If storedPasswordHash.SequenceEqual(hashedPassword) Then
-                            ' Password is correct, proceed to the main window
-                            Dim dash As New MainWindow()
-                            dash.Show()
+                            Dim adminDash As New MainWindow()
+                            adminDash.Show()
+                            Me.Close()
+                            Return
+                        Else
+                            MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Warning)
+                            Return
+                        End If
+                    End If
+                End Using
+            End Using
+
+            Using cashierCommand As New SqlCommand(cashierQuery, connection)
+                cashierCommand.Parameters.AddWithValue("@Username", usernames)
+
+                Using cashierReader As SqlDataReader = cashierCommand.ExecuteReader()
+                    If cashierReader.Read() Then
+                        Dim storedPasswordHash As Byte() = CType(cashierReader("PasswordHash"), Byte())
+                        Dim storedSalt As Byte() = CType(cashierReader("Salt"), Byte())
+
+                        Dim hashedPassword As Byte() = HashPassword(passwords, storedSalt)
+
+                        If storedPasswordHash.SequenceEqual(hashedPassword) Then
+                            Dim main As New POS()
+                            main.Show()
                             Me.Close()
                         Else
                             MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Warning)
@@ -74,6 +94,7 @@ Public Class LoginView
                     End If
                 End Using
             End Using
+
         End Using
 
     End Sub

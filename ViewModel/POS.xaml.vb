@@ -118,7 +118,7 @@ Public Class POS
             disable()
             Clear()
         Else
-            MessageBox.Show("Please put a quanity first before adding it to the selected items list.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Warning)
+            MessageBox.Show("Please put a quantity first before adding it to the selected items list.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error)
 
             Return
         End If

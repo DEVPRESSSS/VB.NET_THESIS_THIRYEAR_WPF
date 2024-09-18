@@ -208,13 +208,13 @@
                      Margin="0,148,0,0" 
                      Grid.Row="1" 
                      VerticalAlignment="Top"
-                     Width="146"
+                     Width="179"
                      Style="{StaticResource TextBoxes}"
-                     MaxLength="20" 
+                     MaxLength="30" 
                      TextChanged="Email_TextChanged"/>
 
             <TextBlock HorizontalAlignment="Left" 
-                       Margin="327,127,0,0" 
+                       Margin="310,127,0,0" 
                        Grid.Row="1" 
                        TextWrapping="Wrap"
                        Text="Email" 
