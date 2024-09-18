@@ -1,6 +1,4 @@
 ﻿Imports System.Data.SqlClient
-Imports System.Net
-Imports System.Runtime.CompilerServices
 Imports System.Security.Cryptography
 Imports System.Text
 
@@ -83,9 +81,10 @@ Public Class LoginView
                         Dim hashedPassword As Byte() = HashPassword(passwords, storedSalt)
 
                         If storedPasswordHash.SequenceEqual(hashedPassword) Then
-                            Dim main As New POS()
+
+
+                            Dim main As New MainWindow()
                             main.Show()
-                            Me.Close()
                         Else
                             MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error)
                         End If

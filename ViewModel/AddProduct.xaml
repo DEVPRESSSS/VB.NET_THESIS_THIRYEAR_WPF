@@ -65,7 +65,7 @@
 
                 </Grid.ColumnDefinitions>
 
-                
+
                 <!--Product add-->
                 <TextBlock Text="Add Product"
                             Foreground="white"
@@ -197,14 +197,14 @@
             <ComboBox  x:Name="ComboCat" 
                        Style="{StaticResource ComboBoxStyle}"
                        HorizontalAlignment="Left" 
-                       Margin="346,119,0,0" 
+                       Margin="341,48,0,0" 
                        Grid.Row="1"
                        VerticalAlignment="Top" 
                        Width="146" Height="23"/>
 
 
             <TextBlock HorizontalAlignment="Left" 
-                       Margin="346,99,0,0" 
+                       Margin="341,28,0,0" 
                        Grid.Row="1" 
                        TextWrapping="Wrap" 
                        Text="Category"
@@ -292,7 +292,25 @@
                      VerticalAlignment="Top" 
                      Width="146"
                       PreviewKeyDown="Color_PreviewKeyDown" TextChanged="Color_TextChanged" MaxLength="20"/>
+          
             <TextBlock HorizontalAlignment="Left" Margin="555,96,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Color" VerticalAlignment="Top"/>
+           
+            
+            
+            <TextBox x:Name="Quantity" 
+                Style="{StaticResource TextBoxes}" 
+                HorizontalAlignment="Left" 
+                Margin="341,117,0,0"
+                Grid.Row="1" 
+                TextWrapping="Wrap"
+                VerticalAlignment="Top" 
+                Width="146"
+                MaxLength="20"/>
+            <TextBlock HorizontalAlignment="Left"
+                Margin="341,96,0,0" Grid.Row="1" 
+                TextWrapping="Wrap" 
+                Text="Quantity" 
+                VerticalAlignment="Top"/>
 
 
 

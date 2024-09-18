@@ -176,10 +176,10 @@
 
                 </Grid>
 
-                <StackPanel Width="300"
-                            Grid.Row="2"
+                <StackPanel Width="350"
+                            Grid.Row="1"
                             Orientation="Vertical"
-                            Margin="0, 40,0,0">
+                            Margin="222,10,222,0">
 
                     <Image Source="D:\VB_THESIS_WPS\Images\logo.PNG"
                            Width="120" Height="120"/>
@@ -248,10 +248,6 @@
                         PreviewKeyDown="Password_PreviewKeyDown">
 
                     </PasswordBox>
-
-
-
-                    <!--Forgot Password-->
                     <TextBlock Foreground="#383838"
                        FontSize="10"
                        FontWeight="Regular"
@@ -260,11 +256,8 @@
                        Text="Forgot Password?"
                        FontStyle="Italic"
                        TextDecorations="Underline"
-                       Margin="0,0,0,0"
                        Cursor="Hand"
                        MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
-
-                    
                     <Button x:Name="LoginBtn" Width="170"
                             BorderThickness="0"
                             Content="Login"
@@ -272,7 +265,7 @@
                             FontSize="12"
                             FontWeight="Medium"
                             Cursor="Hand"
-                            Click="LoginBtn_Click" Height="42">
+                            Click="LoginBtn_Click" Height="34">
 
 
 
@@ -291,7 +284,7 @@
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Width="160" Height="28"
                                           CornerRadius="5"
-                                          Margin="0px 2px 0px 2px"
+                                          Margin="0px 2px 0px 0px"
                                           Background="{TemplateBinding Background}">
                                     <ContentPresenter VerticalAlignment="Center"
                                           HorizontalAlignment="Center"/>
@@ -304,6 +297,10 @@
 
 
                     </Button>
+
+
+
+                    <!--Forgot Password-->
 
                     <!--Login Button-->
 

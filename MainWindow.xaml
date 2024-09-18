@@ -108,9 +108,19 @@
                                  Cursor="Hand" Width="160" Click="Button_Click_1">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial Kind="ShoeSneaker" Style="{StaticResource menuButtonIcon}"/>
-                                    <TextBlock Text="Inventory" FontFamily="Roboto"/>
+                                    <TextBlock Text="Products" FontFamily="Roboto"/>
                                 </StackPanel>
                             </Button>
+
+
+                            <Button x:Name="Inventory" Style="{StaticResource menuButton}"  Foreground="White" Margin="5"
+                                Cursor="Hand" Width="160" Click="Inventory_Click">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Icon:PackIconMaterial Kind="Warehouse" Style="{StaticResource menuButtonIcon}"/>
+                                                <TextBlock Text="Inventory" FontFamily="Roboto"/>
+                                            </StackPanel>
+                            </Button>
+
 
 
                             <!--Sales-->

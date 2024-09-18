@@ -106,14 +106,14 @@ Public Class AddProduct
 
     Public Function InsertCashier(pname As String, descrip As String, catIndex As Integer, brands As String, Sizes As String, Colors As String, prices As Decimal)
 
-
+        Dim productId As Integer
 
         Dim query As String = "INSERT INTO [dbo].[Product] ([ProductName], [Description], [CategoryID], [Brand], [Size], [Color], [Price]) " &
+                          "OUTPUT INSERTED.ProductID " &
                           "VALUES (@ProductName, @Description, @CategoryID, @Brand, @Size, @Color, @Price)"
 
         Using connection As New SqlConnection(con.connectionString)
             Using command As New SqlCommand(query, connection)
-                ' Use SqlParameter with specific types and sizes
                 command.Parameters.Add(New SqlParameter("@ProductName", SqlDbType.NVarChar, 150)).Value = pname
                 command.Parameters.Add(New SqlParameter("@Description", SqlDbType.NVarChar, 500)).Value = descrip
                 command.Parameters.Add(New SqlParameter("@CategoryID", SqlDbType.Int, 8)).Value = catIndex
@@ -124,19 +124,39 @@ Public Class AddProduct
                 command.Parameters("@Price").Precision = 18
                 command.Parameters("@Price").Scale = 2
 
-
-
-
                 connection.Open()
-                command.ExecuteNonQuery()
+                productId = Convert.ToInt32(command.ExecuteScalar())
                 MessageBox.Show("Product record inserted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
-                inv.FetchProductData()
-                Me.Hide()
             End Using
         End Using
 
+        InsertToInventory(productId)
+
+        inv.FetchProductData()
+        Me.Hide()
 
     End Function
+
+    Private Sub InsertToInventory(productId As Integer)
+
+        Dim qty As Integer = Convert.ToInt32(Quantity.Text)
+
+        Dim q As String = "INSERT INTO Inventory (ProductID, Quantity, OriginalStock, LastUpdated) VALUES (@ProductID, @Quantity, @OriginalStock, @LastUpdated)"
+
+        Using connection As New SqlConnection(con.connectionString)
+
+            connection.Open()
+            Using command As New SqlCommand(q, connection)
+                command.Parameters.Add(New SqlParameter("@ProductID", SqlDbType.Int)).Value = productId
+                command.Parameters.Add(New SqlParameter("@Quantity", SqlDbType.Int)).Value = qty
+                command.Parameters.Add(New SqlParameter("@OriginalStock", SqlDbType.Int)).Value = qty
+                command.Parameters.Add(New SqlParameter("@LastUpdated", SqlDbType.DateTime)).Value = DateTime.Now
+                command.ExecuteNonQuery()
+            End Using
+        End Using
+
+    End Sub
+
     Private Sub Clear_Click(sender As Object, e As RoutedEventArgs)
 
     End Sub

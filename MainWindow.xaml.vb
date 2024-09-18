@@ -96,4 +96,9 @@
         MainContentArea.Content = New Employee()
 
     End Sub
+
+    Private Sub Inventory_Click(sender As Object, e As RoutedEventArgs)
+
+        MainContentArea.Content = New MyInventory()
+    End Sub
 End Class

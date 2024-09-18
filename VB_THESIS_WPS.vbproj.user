@@ -16,6 +16,9 @@
     <Compile Update="ViewModel\Analysis.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ViewModel\ChangePassword.xaml.vb">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ViewModel\Dashboard.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -38,6 +41,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="ViewModel\LoginView.xaml.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ViewModel\MyInventory.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="ViewModel\POS.xaml.vb">
@@ -63,6 +69,9 @@
     <Page Update="ViewModel\Analysis.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="ViewModel\ChangePassword.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="ViewModel\Dashboard.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -85,6 +94,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ViewModel\LoginView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModel\MyInventory.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ViewModel\POS.xaml">

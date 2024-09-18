@@ -107,6 +107,10 @@ Public Class ForgotPassword
 
         If enteredOtp = storedOtp Then
             MessageBox.Show("OTP verified successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+            Dim emails As String = Email.Text
+            Dim change As New ChangePassword(emails)
+            change.Show()
+            Me.Close()
             Clear()
 
         Else
