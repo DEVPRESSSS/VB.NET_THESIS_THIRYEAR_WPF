@@ -136,3 +136,5 @@ D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\runtimes\win-x64\native\WebView2Loader
 D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\runtimes\win-x86\native\WebView2Loader.dll
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\EditProduct.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\EditProduct.baml
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\ForgotPassword.g.vb
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\ForgotPassword.baml

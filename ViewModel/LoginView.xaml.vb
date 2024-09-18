@@ -39,7 +39,7 @@ Public Class LoginView
         Dim passwords As String = Password.Password
 
         If String.IsNullOrWhiteSpace(usernames) OrElse String.IsNullOrWhiteSpace(passwords) Then
-            MessageBox.Show("Username and password are required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning)
+            MessageBox.Show("Username and password are required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error)
             Return
         End If
 
@@ -87,10 +87,10 @@ Public Class LoginView
                             main.Show()
                             Me.Close()
                         Else
-                            MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Warning)
+                            MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error)
                         End If
                     Else
-                        MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Warning)
+                        MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error)
                     End If
                 End Using
             End Using
@@ -121,5 +121,11 @@ Public Class LoginView
             ' Suppress the key press
             e.Handled = True
         End If
+    End Sub
+
+    Private Sub TextBlock_MouseLeftButtonDown(sender As Object, e As MouseButtonEventArgs)
+        Dim forgotPasswordForm As New ForgotPassword()
+        forgotPasswordForm.Show()
+        Me.Close()
     End Sub
 End Class
