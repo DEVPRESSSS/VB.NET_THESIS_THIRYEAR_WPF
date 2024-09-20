@@ -142,3 +142,10 @@ D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\VB_THESIS_WPS.genruntimeconfig.cache
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ref\VB_THESIS_WPS.dll
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\MyInventory.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\MyInventory.baml
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\BouncyCastle.Cryptography.dll
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\iTextSharp.LGPLv2.Core.dll
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\SkiaSharp.dll
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\runtimes\osx\native\libSkiaSharp.dylib
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\runtimes\win-arm64\native\libSkiaSharp.dll
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\runtimes\win-x64\native\libSkiaSharp.dll
+D:\VB_THESIS_WPS\bin\Debug\net8.0-windows\runtimes\win-x86\native\libSkiaSharp.dll

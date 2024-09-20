@@ -215,7 +215,8 @@
                              Margin="0,5,0,10"
                              VerticalAlignment="Center"
                              MaxLength="20"
-                             PreviewKeyDown="Username_PreviewKeyDown">
+                             PreviewKeyDown="Username_PreviewKeyDown"
+                             PreviewTextInput="Username_PreviewTextInput">
 
 
 

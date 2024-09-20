@@ -271,6 +271,8 @@
                VerticalAlignment="Top"
                MaxLength="20" 
                HorizontalAlignment="Right" 
+               PreviewTextInput="Search_PreviewTextInput"
+               PreviewKeyDown="Search_PreviewKeyDown"
                Width="146"/>
 
             <!--Search Button icon -->
@@ -323,7 +325,9 @@
                      Grid.Row="1"
                      VerticalAlignment="Top" 
                      Width="146" 
-                     MaxLength="20"/>
+                     PreviewKeyDown="Quantity_PreviewKeyDown"
+                     PreviewTextInput="Quantity_PreviewTextInput"
+                     MaxLength="3"/>
 
 
             <!--Size-->
@@ -459,9 +463,10 @@
                  Margin="425,0,0,26" Grid.Row="3"
                  TextWrapping="Wrap" 
                  VerticalAlignment="Bottom"
-                 MaxLength="20" 
+                 MaxLength="6" 
                  HorizontalAlignment="Left" 
-                 Width="146"/>
+                 Width="146"
+                 PreviewKeyDown="Bill_PreviewKeyDown"/>
 
 
 

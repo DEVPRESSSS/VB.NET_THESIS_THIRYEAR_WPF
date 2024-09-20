@@ -60,10 +60,12 @@ Public Class LoginView
                         If storedPasswordHash.SequenceEqual(hashedPassword) Then
                             Dim adminDash As New MainWindow()
                             adminDash.Show()
+                            Username.Text = ""
+                            Password.Password = ""
                             Me.Close()
                             Return
                         Else
-                            MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Warning)
+                            MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error)
                             Return
                         End If
                     End If
@@ -83,8 +85,10 @@ Public Class LoginView
                         If storedPasswordHash.SequenceEqual(hashedPassword) Then
 
 
-                            Dim main As New MainWindow()
+                            Dim main As New POS()
                             main.Show()
+                            Username.Text = ""
+                            Password.Password = ""
                         Else
                             MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error)
                         End If
@@ -111,20 +115,29 @@ Public Class LoginView
     End Sub
 
     Private Sub Password_PreviewKeyDown(sender As Object, e As KeyEventArgs)
-
+        If e.Key = Key.Space Then
+            e.Handled = True
+        End If
     End Sub
 
     Private Sub Username_PreviewKeyDown(sender As Object, e As KeyEventArgs)
-        If e.Key >= Key.D0 AndAlso e.Key <= Key.D9 OrElse
-      e.Key >= Key.NumPad0 AndAlso e.Key <= Key.NumPad9 Then
-            ' Suppress the key press
+        If (e.Key >= Key.D0 AndAlso e.Key <= Key.D9) OrElse
+       (e.Key >= Key.NumPad0 AndAlso e.Key <= Key.NumPad9) OrElse
+       e.Key = Key.Space Then
             e.Handled = True
         End If
+
     End Sub
 
     Private Sub TextBlock_MouseLeftButtonDown(sender As Object, e As MouseButtonEventArgs)
         Dim forgotPasswordForm As New ForgotPassword()
         forgotPasswordForm.Show()
         Me.Close()
+    End Sub
+
+    Private Sub Username_PreviewTextInput(sender As Object, e As TextCompositionEventArgs)
+        If Char.IsWhiteSpace(CChar(e.Text)) Then
+            e.Handled = True
+        End If
     End Sub
 End Class

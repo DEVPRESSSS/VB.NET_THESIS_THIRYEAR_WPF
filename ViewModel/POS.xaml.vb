@@ -1,6 +1,7 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Data
 Imports System.Data.SqlClient
+Imports Microsoft.IdentityModel.Tokens
 Imports Microsoft.TeamFoundation.Build.WebApi
 Imports Microsoft.TeamFoundation.Common
 
@@ -23,6 +24,9 @@ Public Class POS
         Response = MessageBox.Show("Confirmation", "Are you sure you want to exit?", MessageBoxButton.YesNo, MessageBoxImage.Question)
 
         If Response = MsgBoxResult.Yes Then
+
+            Dim login As New LoginView()
+            login.Show()
             Me.Close()
 
         End If
@@ -46,6 +50,13 @@ Public Class POS
 
     Private Sub FilterProductTable()
         Dim input As String = Search.Text.Trim()
+
+        If String.IsNullOrEmpty(input) Then
+
+            MessageBox.Show("Please input a value", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+            Return
+
+        End If
         Dim Selected As New ObservableCollection(Of SelectedItem)()
         Dim q As String = "SELECT p.*, c.CategoryName FROM PRODUCT p " &
                       "INNER JOIN Category c ON p.CategoryID = c.CategoryID " &
@@ -194,5 +205,35 @@ Public Class POS
         End If
         Bill.IsReadOnly = False
 
+    End Sub
+
+    Private Sub Quantity_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        If e.Key = Key.Space Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Quantity_PreviewTextInput(sender As Object, e As TextCompositionEventArgs)
+        If Not Char.IsDigit(CChar(e.Text)) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Search_PreviewTextInput(sender As Object, e As TextCompositionEventArgs)
+        If Char.IsWhiteSpace(CChar(e.Text)) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Search_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        If e.Key = Key.Space Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Bill_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        If e.Key = Key.Space Then
+            e.Handled = True
+        End If
     End Sub
 End Class

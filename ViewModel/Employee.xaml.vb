@@ -1,6 +1,9 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Data
 Imports System.Data.SqlClient
+Imports System.IO
+Imports iTextSharp.text
+Imports iTextSharp.text.pdf
 
 Public Class Employee
 
@@ -126,6 +129,14 @@ Public Class Employee
 
     Private Sub Search_TextChanged(sender As Object, e As TextChangedEventArgs)
 
+        If Search.Text.Length > 0 Then
+            FilterProductTable()
+
+        Else
+            FetchCashierData()
+
+        End If
+
     End Sub
 
     Private Sub Search_Click(sender As Object, e As RoutedEventArgs)
@@ -134,6 +145,7 @@ Public Class Employee
 
 
     Private Sub FilterProductTable()
+
         Dim input As String = Search.Text.Trim()
         Dim products As New List(Of Cashier)()
         Dim q As String = "SELECT * FROM Cashier WHERE " &
@@ -141,7 +153,6 @@ Public Class Employee
                       "OR (FirstName LIKE '%' + @FirstName + '%' OR @FirstName = '') " &
                       "OR (LastName LIKE '%' + @LastName + '%' OR @LastName = '') " &
                       "OR (Email LIKE '%' + @Email + '%' OR @Email = '') " &
-                      "OR (CreatedAt LIKE '%' + @CreatedAt + '%' OR @CreatedAt = '') " &
                       "OR (CashierID = @CashierID OR @CashierID = '') "
 
         Using connection As New SqlConnection(con.connectionString)
@@ -150,24 +161,32 @@ Public Class Employee
             Using cmd As New SqlCommand(q, connection)
                 cmd.Parameters.AddWithValue("@UserName", If(String.IsNullOrEmpty(input), "", input))
                 cmd.Parameters.AddWithValue("@FirstName", If(String.IsNullOrEmpty(input), "", input))
+                cmd.Parameters.AddWithValue("@Email", If(String.IsNullOrEmpty(input), "", input))
                 cmd.Parameters.AddWithValue("@LastName", If(String.IsNullOrEmpty(input), "", input))
-                cmd.Parameters.AddWithValue("@CreatedAt", If(String.IsNullOrEmpty(input), "", input))
                 cmd.Parameters.AddWithValue("@CashierID", If(IsNumeric(input), input, DBNull.Value))
 
-
                 Using reader As SqlDataReader = cmd.ExecuteReader()
+                    Dim i As Integer = 0
                     While reader.Read()
+                        Dim colorString As String = myArray(i Mod myArray.Length)
+                        brush = CType(converter.ConvertFromString(colorString), Brush)
+
+                        Dim fname As String = reader("FirstName").ToString()
+                        fletter = If(fname.Length > 0, fname.Substring(0, 1), String.Empty)
+
                         Dim filter As New Cashier() With {
-                        .CashierID = Convert.ToInt32(reader("CashierID")),
-                        .Username = reader("UserName").ToString(),
-                        .FirstName = reader("FirstName").ToString(),
-                        .LastName = reader("LastName").ToString(),
-                        .Character = fletter,
-                        .BgColor = Brush,
-                        .CreatedAt = reader("CreatedAt").ToString()
-                    }
+                            .CashierID = Convert.ToInt32(reader("CashierID")),
+                            .Username = reader("UserName").ToString(),
+                            .FirstName = reader("FirstName").ToString(),
+                            .Email = reader("Email").ToString(),
+                            .LastName = reader("LastName").ToString(),
+                            .Character = fletter,
+                            .BgColor = brush,
+                            .CreatedAt = reader("CreatedAt").ToString()
+                        }
 
                         products.Add(filter)
+                        i += 1
                     End While
                 End Using
             End Using
@@ -175,4 +194,11 @@ Public Class Employee
 
         cashierDataGrid.ItemsSource = products
     End Sub
+
+
+    Private Sub Button_Click_1(sender As Object, e As RoutedEventArgs)
+
+    End Sub
+
+
 End Class

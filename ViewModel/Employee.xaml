@@ -32,7 +32,7 @@
 
 
         </Border>
-   
+
 
         <!--Grid column for first row 0-->
         <Grid>
@@ -40,7 +40,6 @@
             <Grid.ColumnDefinitions>
 
                 <ColumnDefinition />
-                <ColumnDefinition/>
 
 
             </Grid.ColumnDefinitions>
@@ -48,16 +47,14 @@
 
             <TextBox x:Name="Search" 
                 Style="{StaticResource TextBoxes}"
-                Margin="0,0,244,0" Grid.Column="1"
+                Margin="0,0,218,0" Grid.Column="1"
                 TextWrapping="Wrap" 
                 VerticalAlignment="Center"
                 MaxLength="20" 
-                HorizontalAlignment="Right" 
-                TextChanged="Search_TextChanged"
-                Width="146"/>
+                TextChanged="Search_TextChanged" HorizontalAlignment="Right" Width="146"/>
 
 
-            <Button Style="{StaticResource addButton}" Margin="0,5,145,5" Cursor="Hand" Click="Search_Click" Grid.Column="1" 
+            <Button Style="{StaticResource addButton}" Margin="0,5,111,5" Cursor="Hand" Click="Search_Click" Grid.Column="1" 
              Width="94"
              >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -75,16 +72,16 @@
 
             <!--Add new productbutton-->
             <Button Style="{StaticResource addButton}" Foreground="#ffff" Margin="0,5,5,5"
-                                   Cursor="Hand" Height="30" Click="AddbtnClick" Grid.Column="1" Width="80">
+                                   Cursor="Hand" Height="30" Click="AddbtnClick" Grid.Column="1" Width="88">
                 <StackPanel Orientation="Horizontal">
                     <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}"/>
                     <TextBlock Text="Add"  FontFamily="Roboto"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource addButton}" Margin="5" Cursor="Hand" Click="AddbtnClick" Grid.Column="1">
+            <Button Style="{StaticResource addButton}" Margin="0,5,381,5" Cursor="Hand" Width="93" Click="Button_Click_1">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
-                    <TextBlock Text="Add" FontFamily="Roboto" VerticalAlignment="Center"/>
+                    <Icon:PackIconMaterial Kind="Printer" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
+                    <TextBlock Text="Print" FontFamily="Roboto" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
@@ -107,7 +104,7 @@
 
             <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="cashierDataGrid" Style="{DynamicResource DataGridStyle1}">
                 <DataGrid.Columns>
-                   
+
                     <DataGridTextColumn Header="CashierID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding CashierID}"/>
                     <DataGridTemplateColumn Header="Cashier" CanUserResize="False" IsReadOnly="True" Width="*">
                         <DataGridTemplateColumn.CellTemplate>

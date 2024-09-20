@@ -14,7 +14,7 @@ Public Class ForgotPassword
         Dim emailInput As String = Email.Text
 
         If String.IsNullOrWhiteSpace(emailInput) Then
-            MessageBox.Show("Please enter an email address.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning)
+            MessageBox.Show("Please enter an email address.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error)
             Return
         End If
 
@@ -123,6 +123,36 @@ Public Class ForgotPassword
 
         Email.Text = ""
         Code.Text = ""
+    End Sub
+
+    Private Sub Email_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        Dim currentText As String = CType(sender, TextBox).Text
+        If e.Key = Key.Space Then
+            e.Handled = True
+        End If
+        ' Check if the key pressed is a dot (".") or "@" key
+        If e.Key = Key.OemPeriod Then ' Dot (.)
+            ' Allow only one dot (".")
+            If currentText.Contains(".") Then
+                e.Handled = True ' Block additional dot
+            End If
+        ElseIf e.Key = Key.D2 AndAlso Keyboard.Modifiers = ModifierKeys.Shift Then ' "@" symbol (Shift + 2)
+            ' Allow only one "@"
+            If currentText.Contains("@") Then
+                e.Handled = True ' Block additional "@"
+            End If
+        ElseIf Char.IsWhiteSpace(CChar(e.Key.ToString())) OrElse
+               (e.Key >= Key.D0 AndAlso e.Key <= Key.D9) OrElse
+               (e.Key >= Key.NumPad0 AndAlso e.Key <= Key.NumPad9) Then
+            ' Block whitespace and numbers
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Code_PreviewTextInput(sender As Object, e As TextCompositionEventArgs)
+        If Not Char.IsDigit(CChar(e.Text)) OrElse Char.IsWhiteSpace(CChar(e.Text)) Then
+            e.Handled = True
+        End If
     End Sub
 End Class
 

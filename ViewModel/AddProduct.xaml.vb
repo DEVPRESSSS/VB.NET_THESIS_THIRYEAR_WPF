@@ -108,34 +108,47 @@ Public Class AddProduct
 
         Dim productId As Integer
 
-        Dim query As String = "INSERT INTO [dbo].[Product] ([ProductName], [Description], [CategoryID], [Brand], [Size], [Color], [Price]) " &
-                          "OUTPUT INSERTED.ProductID " &
-                          "VALUES (@ProductName, @Description, @CategoryID, @Brand, @Size, @Color, @Price)"
+        Dim checkQuery As String = "SELECT COUNT(*) FROM [dbo].[Product] WHERE ProductName = @ProductName"
+
+        Dim insertQuery As String = "INSERT INTO [dbo].[Product] ([ProductName], [Description], [CategoryID], [Brand], [Size], [Color], [Price]) " &
+                                "OUTPUT INSERTED.ProductID " &
+                                "VALUES (@ProductName, @Description, @CategoryID, @Brand, @Size, @Color, @Price)"
 
         Using connection As New SqlConnection(con.connectionString)
-            Using command As New SqlCommand(query, connection)
-                command.Parameters.Add(New SqlParameter("@ProductName", SqlDbType.NVarChar, 150)).Value = pname
-                command.Parameters.Add(New SqlParameter("@Description", SqlDbType.NVarChar, 500)).Value = descrip
-                command.Parameters.Add(New SqlParameter("@CategoryID", SqlDbType.Int, 8)).Value = catIndex
-                command.Parameters.Add(New SqlParameter("@Brand", SqlDbType.NVarChar, 100)).Value = brands
-                command.Parameters.Add(New SqlParameter("@Size", SqlDbType.NVarChar, 50)).Value = Sizes
-                command.Parameters.Add(New SqlParameter("@Color", SqlDbType.NVarChar, 50)).Value = Colors
-                command.Parameters.Add(New SqlParameter("@Price", SqlDbType.Decimal)).Value = prices
-                command.Parameters("@Price").Precision = 18
-                command.Parameters("@Price").Scale = 2
+            connection.Open()
 
-                connection.Open()
-                productId = Convert.ToInt32(command.ExecuteScalar())
+            Using checkCommand As New SqlCommand(checkQuery, connection)
+                checkCommand.Parameters.Add(New SqlParameter("@ProductName", SqlDbType.NVarChar, 150)).Value = pname
+                Dim count As Integer = Convert.ToInt32(checkCommand.ExecuteScalar())
+
+                If count > 0 Then
+                    MessageBox.Show("A product with the same name already exists. Please use a different product name.", "Duplicate Entry", MessageBoxButton.OK, MessageBoxImage.Error)
+                    Return pname
+                End If
+            End Using
+
+            Using insertCommand As New SqlCommand(insertQuery, connection)
+                insertCommand.Parameters.Add(New SqlParameter("@ProductName", SqlDbType.NVarChar, 150)).Value = pname
+                insertCommand.Parameters.Add(New SqlParameter("@Description", SqlDbType.NVarChar, 500)).Value = descrip
+                insertCommand.Parameters.Add(New SqlParameter("@CategoryID", SqlDbType.Int, 8)).Value = catIndex
+                insertCommand.Parameters.Add(New SqlParameter("@Brand", SqlDbType.NVarChar, 100)).Value = brands
+                insertCommand.Parameters.Add(New SqlParameter("@Size", SqlDbType.NVarChar, 50)).Value = Sizes
+                insertCommand.Parameters.Add(New SqlParameter("@Color", SqlDbType.NVarChar, 50)).Value = Colors
+                insertCommand.Parameters.Add(New SqlParameter("@Price", SqlDbType.Decimal)).Value = prices
+                insertCommand.Parameters("@Price").Precision = 18
+                insertCommand.Parameters("@Price").Scale = 2
+
+                productId = Convert.ToInt32(insertCommand.ExecuteScalar())
                 MessageBox.Show("Product record inserted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
             End Using
         End Using
 
         InsertToInventory(productId)
-
         inv.FetchProductData()
         Me.Hide()
 
     End Function
+
 
     Private Sub InsertToInventory(productId As Integer)
 

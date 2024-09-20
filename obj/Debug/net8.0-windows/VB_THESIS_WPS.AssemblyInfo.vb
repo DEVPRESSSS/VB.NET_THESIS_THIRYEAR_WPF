@@ -16,7 +16,7 @@ Imports System.Reflection
 <Assembly: System.Reflection.AssemblyCompanyAttribute("VB_THESIS_WPS"),  _
  Assembly: System.Reflection.AssemblyConfigurationAttribute("Debug"),  _
  Assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8144d978f76f7219d04dfe06be5e36ba66a7e4a8"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc18ebe9ba586e94b004831180c945d52e0df526"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("VB_THESIS_WPS"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("VB_THESIS_WPS"),  _
  Assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0"),  _
