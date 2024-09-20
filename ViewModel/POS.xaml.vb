@@ -52,14 +52,14 @@ Public Class POS
         Dim input As String = Search.Text.Trim()
 
         If String.IsNullOrEmpty(input) Then
-
             MessageBox.Show("Please input a value", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
             Return
-
         End If
-        Dim Selected As New ObservableCollection(Of SelectedItem)()
-        Dim q As String = "SELECT p.*, c.CategoryName FROM PRODUCT p " &
+
+        Dim q As String = "SELECT p.ProductID, p.ProductName, p.Size, p.Price, i.Quantity, c.CategoryName " &
+                      "FROM PRODUCT p " &
                       "INNER JOIN Category c ON p.CategoryID = c.CategoryID " &
+                      "INNER JOIN Inventory i ON p.ProductID = i.ProductID " &
                       "WHERE (p.ProductName LIKE '%' + @ProductName + '%' OR @ProductName = '') " &
                       "OR (p.ProductID = @ProductID OR @ProductID = '')"
 
@@ -77,14 +77,14 @@ Public Class POS
                             ProductName.Text = reader("ProductName").ToString()
                             Size.Text = reader("Size").ToString()
                             Price.Text = reader("Price").ToString()
+
+                            CurrentStock.Text = reader("Quantity").ToString()
                         End While
                     Else
-
-                        MessageBox.Show("Productname or ProductID not exist", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+                        MessageBox.Show("Product Name or Product ID does not exist", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
                         Clear()
                         Return
                     End If
-
                 End Using
             End Using
         End Using
@@ -98,6 +98,7 @@ Public Class POS
         Price.Text = ""
         Quantity.Text = ""
         Search.Text = ""
+        CurrentStock.Text = ""
     End Sub
 
 
@@ -110,29 +111,40 @@ Public Class POS
             MessageBox.Show("Please fill in all fields before adding.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error)
             Return
         End If
-        If Integer.TryParse(Quantity.Text, qty) Then
 
+        If Quantity.Text > CurrentStock.Text Then
 
-            Dim newItem As New SelectedItem() With {
-                    .ProductID = Convert.ToInt32(ID.Content),
-                    .ProductName = ProductName.Text,
-                    .Size = Size.Text,
-                    .Price = Convert.ToDecimal(Price.Text),
-                    .Quantity = Convert.ToInt32(qty),
-                    .SubTotal = Convert.ToDecimal(qty * Price.Text)
-                }
-
-            selectedLists.Add(newItem)
-
-            productDataGrid.ItemsSource = selectedLists
-            SumSubtotalColumn()
-            disable()
-            Clear()
-        Else
-            MessageBox.Show("Please put a quantity first before adding it to the selected items list.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error)
-
+            MessageBox.Show("Quantity is greater than the current stock", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error)
             Return
+
+
+        Else
+            If Integer.TryParse(Quantity.Text, qty) Then
+
+
+                Dim newItem As New SelectedItem() With {
+                        .ProductID = Convert.ToInt32(ID.Content),
+                        .ProductName = ProductName.Text,
+                        .Size = Size.Text,
+                        .Price = Convert.ToDecimal(Price.Text),
+                        .Quantity = Convert.ToInt32(qty),
+                        .SubTotal = Convert.ToDecimal(qty * Price.Text)
+                    }
+
+                selectedLists.Add(newItem)
+
+                productDataGrid.ItemsSource = selectedLists
+                SumSubtotalColumn()
+                disable()
+                Clear()
+            Else
+                MessageBox.Show("Please put a quantity first before adding it to the selected items list", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error)
+
+                Return
+            End If
+
         End If
+
     End Sub
 
     Private Sub productDataGrid_Loaded(sender As Object, e As RoutedEventArgs)
@@ -169,15 +181,15 @@ Public Class POS
     End Sub
 
     Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
-
         Dim bills As Decimal
-
-
+        Dim productID As String
+        Dim qty As Integer
+        Dim currentStock As Integer
+        Dim q As String = "SELECT Quantity FROM Inventory WHERE ProductID= @ProductID"
+        Dim updateQuery As String = "UPDATE Inventory SET Quantity  = @Quantity WHERE ProductID = @ProductID"
 
         If Decimal.TryParse(Bill.Text, bills) Then
-
             If bills < Total_label.Content Then
-
                 MessageBox.Show("Bill is not enough", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error)
                 Return
             End If
@@ -185,16 +197,41 @@ Public Class POS
             bills -= Total_label.Content
             Changes.Content = bills
 
+            For Each item As SelectedItem In selectedLists
+                productID = item.ProductID
+                qty = item.Quantity
 
+                Using connection As New SqlConnection(con.connectionString)
+                    connection.Open()
+
+                    Using cmd As New SqlCommand(q, connection)
+                        cmd.Parameters.AddWithValue("@ProductID", productID)
+                        currentStock = CInt(cmd.ExecuteScalar())
+                    End Using
+
+                    If currentStock >= qty Then
+                        Dim newStock As Integer = currentStock - qty
+
+                        Using updateCmd As New SqlCommand(updateQuery, connection)
+                            updateCmd.Parameters.AddWithValue("@Quantity", newStock)
+                            updateCmd.Parameters.AddWithValue("@ProductID", productID)
+                            updateCmd.ExecuteNonQuery()
+                            MessageBox.Show($"Order placed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+
+
+                        End Using
+                    Else
+                        MessageBox.Show($"Not enough stock for product {productID}. Available: {currentStock}, Needed: {qty}", "Stock Error", MessageBoxButton.OK, MessageBoxImage.Warning)
+                    End If
+                End Using
+            Next
             selectedLists.Clear()
 
-
         Else
-
-            MessageBox.Show("Oops the selected list of item is empty!!", "Purchase Error", MessageBoxButton.OK, MessageBoxImage.Error)
+            MessageBox.Show("Oops the selected list of items or bill is empty!!", "Purchase Error", MessageBoxButton.OK, MessageBoxImage.Error)
             Return
+            End
         End If
-
     End Sub
 
     Private Sub disable()

@@ -473,6 +473,26 @@
             <!--BUTTONS-->
             <Button Content="Confirm" Style="{StaticResource ClearButton}" Margin="0,0,27,16" Grid.Row="3" Cursor="Hand" Width="245" Height="40" VerticalAlignment="Bottom"
                     Click="Button_Click"/>
+            
+            
+            <!-- Current Stock -->
+            <TextBox x:Name="CurrentStock" 
+                Style="{StaticResource TextBoxes}" 
+                HorizontalAlignment="Left"
+                Margin="405,105,0,0"
+                Grid.Row="1" 
+                Text="0"
+                IsReadOnly="True"
+                TextWrapping="Wrap" 
+                VerticalAlignment="Top" 
+                Width="146" 
+                MaxLength="20"/>
+            <TextBlock HorizontalAlignment="Left"
+                Margin="405,86,0,0" 
+                Grid.Row="1" 
+                TextWrapping="Wrap"
+                Text="CurrentStock"
+                VerticalAlignment="Top"/>
 
         </Grid>
 

@@ -15,8 +15,8 @@ Public Class ChangePassword
     Dim cons As New ConnectionString
 
     Private Sub Change_Click(sender As Object, e As RoutedEventArgs)
-        Dim pass1 As String = NewPassword.Text
-        Dim pass2 As String = ConfirmPassword.Text
+        Dim pass1 As String = NewPassword.Password
+        Dim pass2 As String = ConfirmPassword.Password
 
         If String.IsNullOrWhiteSpace(pass1) OrElse String.IsNullOrWhiteSpace(pass2) Then
             MessageBox.Show("All fields are required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning)
@@ -73,7 +73,6 @@ Public Class ChangePassword
         End Using
     End Function
 
-    ' Function to update the password in either Admin or Cashier table
     Public Sub UpdatePasswordInTable(tableName As String, newPassword As String)
         Dim saltBytes As Byte() = GenerateSalt(16)
         Dim passwordHash As Byte() = HashPassword(newPassword, saltBytes)
@@ -92,7 +91,9 @@ Public Class ChangePassword
 
                     If rowsAffected > 0 Then
                         MessageBox.Show("Password updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
-
+                        Dim login As New LoginView()
+                        login.Show()
+                        Me.Close()
                     Else
                         MessageBox.Show("Failed to update the password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
                     End If
@@ -126,5 +127,46 @@ Public Class ChangePassword
 
     Private Sub btnClose_Click(sender As Object, e As RoutedEventArgs)
 
+        Dim result As MsgBoxResult = MessageBox.Show("Are you sure you want to go back to forgot pass?")
+
+        If result = MessageBoxResult.Yes Then
+
+            Dim forgot As New ForgotPassword()
+            forgot.Show()
+            Me.Close()
+        End If
+    End Sub
+
+    Private Sub NewPassword_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        If e.Key = Key.Space Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub ConfirmPassword_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        If e.Key = Key.Space Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub CheckBox_Checked(sender As Object, e As RoutedEventArgs)
+
+        If revealmode.IsChecked = True Then
+            ConfirmPasswordTextBox.Text = ConfirmPassword.Password
+            ConfirmPassword.Visibility = Visibility.Collapsed
+            ConfirmPasswordTextBox.Visibility = Visibility.Visible
+            NewPasswordTextBox.Text = NewPassword.Password
+            NewPassword.Visibility = Visibility.Collapsed
+            NewPasswordTextBox.Visibility = Visibility.Visible
+        End If
+    End Sub
+
+    Private Sub CheckBox_Unchecked(sender As Object, e As RoutedEventArgs)
+        ConfirmPassword.Visibility = Visibility.Visible
+        ConfirmPasswordTextBox.Visibility = Visibility.Collapsed
+        ConfirmPassword.Password = ConfirmPasswordTextBox.Text
+        NewPassword.Visibility = Visibility.Visible
+        NewPasswordTextBox.Visibility = Visibility.Collapsed
+        NewPassword.Password = NewPasswordTextBox.Text
     End Sub
 End Class

@@ -176,100 +176,105 @@
 
                 </Grid>
 
-                <StackPanel Width="350"
-                            Grid.Row="1"
-                            Orientation="Vertical"
-                            Margin="222,10,222,0">
+                <StackPanel Width="180"
+                    Grid.Row="1"
+                    Orientation="Vertical"
+                    Margin="222,82,222,61">
 
                     <Image Source="D:\VB_THESIS_WPS\Images\logo.PNG"
-                           Width="120" Height="120"/>
-
-
+           Width="120" Height="120"/>
 
                     <TextBlock Foreground="#383838"
-                               FontSize="16" FontWeight="Medium" TextAlignment="Center" Margin="0, 5,0,5"><Run Text="L"/><Run Language="en-ph" Text="ogin here"/></TextBlock>
-
-
-                    <!--This design if for username textbox-->
-
-                    <TextBlock Foreground="#383838"
-                               FontSize="12" FontWeight="Medium"
-                               TextAlignment="Left"
-                               Width="170"
-                               Text="Username:"
-                                Margin="0,25,0,0"
-                               />
-
+               FontSize="12" FontWeight="Medium"
+               TextAlignment="Left"
+               Width="170"
+               Text="Username:"/>
 
                     <TextBox x:Name="Username" Style="{StaticResource TextBoxes}"
-                             Foreground="Black"
-                             FontFamily="Roboto"
-                             FontWeight="Medium"
-                             FontSize="12"
-                             BorderBrush="DarkGray"
-                             Background="Transparent"
+             Foreground="Black"
+             FontFamily="Roboto"
+             FontWeight="Medium"
+             FontSize="12"
+             BorderBrush="DarkGray"
+             Background="Transparent"
+             Width="170"
+             Height="20"
+             TextAlignment="Left"
+             Margin="0,5,0,10"
+             VerticalAlignment="Center"
+             MaxLength="20"
+             PreviewKeyDown="Username_PreviewKeyDown"
+             PreviewTextInput="Username_PreviewTextInput"/>
 
-                             Width="170"
-                             Height="20"
-                             TextAlignment="Left"
-                             Margin="0,5,0,10"
-                             VerticalAlignment="Center"
-                             MaxLength="20"
-                             PreviewKeyDown="Username_PreviewKeyDown"
-                             PreviewTextInput="Username_PreviewTextInput">
+                   <TextBlock Foreground="#383838"
+                       FontSize="12" FontWeight="Medium"
+                       TextAlignment="Left"
+                       Width="170"
+                       Text="Password:"
+                       Margin="0,5,0,0"/>
+
+                    <PasswordBox x:Name="Password" 
+                     Style="{StaticResource PasswordBoxes}"
+                     Foreground="Black"
+                     FontFamily="Roboto"
+                     FontSize="12"
+                     Background="Transparent"
+                     BorderBrush="DarkGray"
+                     Width="170"
+                     Height="20"
+                     Margin="0,5,0,10"
+                     VerticalAlignment="Center"
+                     MaxLength="20"
+                     PreviewKeyDown="Password_PreviewKeyDown"/>
+
+                    <TextBox x:Name="PasswordTextBox"
+                     HorizontalAlignment="Left"
+                     Margin="5,5,0,10"
+                     Height="20"
+                     VerticalAlignment="Center"
+                     Width="170"
+                     Style="{StaticResource TextBoxes}"
+                     MaxLength="20"
+                     Visibility="Collapsed"/>
+
+                
 
 
 
 
-                    </TextBox>
 
-
-                    <!--This design if for password textbox-->
+                    <CheckBox x:Name="revealmode"
+                        Content="Show password" 
+                          Width="90"
+                          FontSize="10"
+                           Margin="70,0,0,0" Height="15"
+                              Checked="CheckBox_Checked"
+                              FontStyle="Italic"
+                              Unchecked="CheckBox_Unchecked"
+                              VerticalContentAlignment="Center"/>       
 
                     <TextBlock Foreground="#383838"
-                         FontSize="12" FontWeight="Medium"
-                         TextAlignment="Left"
-                         Width="170"
-                         Text="Password:"
-                          Margin="0,5,0,0"
-                         />
+                           FontSize="10"
+                           FontWeight="Regular"
+                           TextAlignment="Center"
+                           Width="170"
+                           Text="Forgot Password?"
+                           FontStyle="Italic"
+                           TextDecorations="Underline"
+                           Cursor="Hand"
+                               Margin="0,5,0,0"
+                           MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
 
-
-                    <PasswordBox x:Name="Password" Style="{StaticResource PasswordBoxes}"
-                       Foreground="Black"
-                       FontFamily="Roboto"
-                       FontSize="12"
-                       Background="Transparent"
-                       BorderBrush="DarkGray"
-                       Width="170"
-                       Height="20"
-                       Margin="0,5,0,10"
-                       VerticalAlignment="Center"
-                       MaxLength="20"
-                        PreviewKeyDown="Password_PreviewKeyDown">
-
-                    </PasswordBox>
-                    <TextBlock Foreground="#383838"
-                       FontSize="10"
-                       FontWeight="Regular"
-                       TextAlignment="Center"
-                       Width="170"
-                       Text="Forgot Password?"
-                       FontStyle="Italic"
-                       TextDecorations="Underline"
-                       Cursor="Hand"
-                       MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
                     <Button x:Name="LoginBtn" Width="170"
-                            BorderThickness="0"
-                            Content="Login"
-                            Foreground="White"
-                            FontSize="12"
-                            FontWeight="Medium"
-                            Cursor="Hand"
-                            Click="LoginBtn_Click" Height="34">
-
-
-
+                        BorderThickness="0"
+                        Content="Login"
+                        Foreground="White"
+                        FontSize="12"
+                        FontWeight="Medium"
+                        Cursor="Hand"
+                              Margin="0,5,0,0"
+                        Click="LoginBtn_Click"
+                        Height="34">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="#118AB2"/>
@@ -284,27 +289,17 @@
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Width="160" Height="28"
-                                          CornerRadius="5"
-                                          Margin="0px 2px 0px 0px"
-                                          Background="{TemplateBinding Background}">
+                        CornerRadius="5"
+                        Margin="0px 2px 0px 0px"
+                        Background="{TemplateBinding Background}">
                                     <ContentPresenter VerticalAlignment="Center"
-                                          HorizontalAlignment="Center"/>
-
+                                      HorizontalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
-
-
-
-
                     </Button>
 
-
-
-                    <!--Forgot Password-->
-
-                    <!--Login Button-->
-
+                    <!-- Place the CheckBox here -->
                 </StackPanel>
 
 

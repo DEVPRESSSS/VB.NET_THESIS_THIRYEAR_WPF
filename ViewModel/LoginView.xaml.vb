@@ -140,4 +140,20 @@ Public Class LoginView
             e.Handled = True
         End If
     End Sub
+
+    Private Sub CheckBox_Checked(sender As Object, e As RoutedEventArgs)
+        If revealmode.IsChecked = True Then
+            PasswordTextBox.Text = Password.Password
+            PasswordTextBox.Visibility = Visibility.Visible
+            Password.Visibility = Visibility.Collapsed
+
+        End If
+    End Sub
+
+    Private Sub CheckBox_Unchecked(sender As Object, e As RoutedEventArgs)
+        Password.Password = PasswordTextBox.Text
+        Password.Visibility = Visibility.Visible
+        PasswordTextBox.Visibility = Visibility.Collapsed
+
+    End Sub
 End Class

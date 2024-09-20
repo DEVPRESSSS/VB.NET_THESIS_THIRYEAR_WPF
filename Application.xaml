@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:VB_THESIS_WPS"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
-            StartupUri="ViewModel/POS.xaml">
+            StartupUri="ViewModel/LoginView.xaml">
 
     <!---->
     <Application.Resources>
