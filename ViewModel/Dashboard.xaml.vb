@@ -8,6 +8,7 @@ Public Class Dashboard
         InitializeComponent()
         ProductCount()
         CashierCount()
+        InventoryCount()
     End Sub
 
 
@@ -49,6 +50,20 @@ Public Class Dashboard
 
                 Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
                 CashierCounts.Text = count
+            End Using
+
+        End Using
+
+    End Sub
+
+    Private Sub InventoryCount()
+        Dim query As String = "SELECT COUNT(*) FROM Inventory WHERE Quantity= 0"
+        Using connection As New SqlConnection(cons.connectionString)
+            connection.Open()
+            Using cmd As New SqlCommand(query, connection)
+
+                Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+                ZeroCounts.Text = count
             End Using
 
         End Using

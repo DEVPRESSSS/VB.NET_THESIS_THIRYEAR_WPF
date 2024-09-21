@@ -1,6 +1,7 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Data
 Imports System.Data.SqlClient
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
 Imports Microsoft.IdentityModel.Tokens
 Imports Microsoft.TeamFoundation.Build.WebApi
 Imports Microsoft.TeamFoundation.Common
@@ -8,14 +9,35 @@ Imports Microsoft.TeamFoundation.Common
 Public Class POS
     Dim con As New ConnectionString
     Private selectedLists As ObservableCollection(Of SelectedItem)
-
-    Public Sub New()
+    Private _cashier As String
+    Dim cashierID As String = String.Empty
+    Public Sub New(cashier As String)
         InitializeComponent()
         disable()
         selectedLists = New ObservableCollection(Of SelectedItem)()
+
+        _cashier = cashier
     End Sub
 
 
+    Private Sub retrieve()
+
+        Dim query As String = "SELECT CashierID FROM Cashier WHERE Username = @Username"
+
+        Using connection As New SqlConnection(con.connectionString)
+            connection.Open()
+            Using cmd As New SqlCommand(query, connection)
+                cmd.Parameters.AddWithValue("@Username", _cashier)
+
+                Dim result = cmd.ExecuteScalar()
+                If result IsNot Nothing Then
+                    cashierID = result.ToString()
+                Else
+                    MessageBox.Show("Username not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning)
+                End If
+            End Using
+        End Using
+    End Sub
 
 
     Private Sub btnClose_Click(sender As Object, e As RoutedEventArgs)
@@ -57,11 +79,11 @@ Public Class POS
         End If
 
         Dim q As String = "SELECT p.ProductID, p.ProductName, p.Size, p.Price, i.Quantity, c.CategoryName " &
-                      "FROM PRODUCT p " &
-                      "INNER JOIN Category c ON p.CategoryID = c.CategoryID " &
-                      "INNER JOIN Inventory i ON p.ProductID = i.ProductID " &
-                      "WHERE (p.ProductName LIKE '%' + @ProductName + '%' OR @ProductName = '') " &
-                      "OR (p.ProductID = @ProductID OR @ProductID = '')"
+                  "FROM PRODUCT p " &
+                  "INNER JOIN Category c ON p.CategoryID = c.CategoryID " &
+                  "INNER JOIN Inventory i ON p.ProductID = i.ProductID " &
+                  "WHERE p.ProductName = @ProductName OR p.ProductID = @ProductID"
+
 
         Using connection As New SqlConnection(con.connectionString)
             connection.Open()
@@ -183,6 +205,7 @@ Public Class POS
     Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
         Dim bills As Decimal
         Dim productID As String
+        Dim gtotal As Decimal
         Dim qty As Integer
         Dim currentStock As Integer
         Dim q As String = "SELECT Quantity FROM Inventory WHERE ProductID= @ProductID"
@@ -198,6 +221,7 @@ Public Class POS
             Changes.Content = bills
 
             For Each item As SelectedItem In selectedLists
+                gtotal += item.SubTotal
                 productID = item.ProductID
                 qty = item.Quantity
 
@@ -216,10 +240,26 @@ Public Class POS
                             updateCmd.Parameters.AddWithValue("@Quantity", newStock)
                             updateCmd.Parameters.AddWithValue("@ProductID", productID)
                             updateCmd.ExecuteNonQuery()
-                            MessageBox.Show($"Order placed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
 
 
                         End Using
+                        MessageBox.Show($"Order placed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+
+                        Dim query As String = "SELECT CashierID FROM Cashier WHERE Username = @Username"
+
+                        Using cmd As New SqlCommand(query, connection)
+                            cmd.Parameters.AddWithValue("@Username", _cashier)
+
+                            Dim result = cmd.ExecuteScalar()
+                            If result IsNot Nothing Then
+                                cashierID = result.ToString()
+                                InsertSale(cashierID, gtotal)
+                            Else
+                                MessageBox.Show("Username not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning)
+                            End If
+                        End Using
+
+
                     Else
                         MessageBox.Show($"Not enough stock for product {productID}. Available: {currentStock}, Needed: {qty}", "Stock Error", MessageBoxButton.OK, MessageBoxImage.Warning)
                     End If
@@ -233,6 +273,27 @@ Public Class POS
             End
         End If
     End Sub
+
+
+
+
+    Private Function InsertSale(cashierID As String, totalAmount As Decimal) As Boolean
+        Dim insertSaleQuery As String = "INSERT INTO Sales (CashierID, SaleDate, TotalAmount) VALUES (@CashierID, @SaleDate, @TotalAmount)"
+
+        Using connection As New SqlConnection(con.connectionString)
+            connection.Open()
+            Using cmd As New SqlCommand(insertSaleQuery, connection)
+                cmd.Parameters.AddWithValue("@CashierID", cashierID)
+                cmd.Parameters.AddWithValue("@SaleDate", DateTime.Now)
+                cmd.Parameters.AddWithValue("@TotalAmount", totalAmount)
+
+                cmd.ExecuteNonQuery()
+
+
+
+            End Using
+        End Using
+    End Function
 
     Private Sub disable()
         If String.IsNullOrEmpty(Total_label.Content?.ToString()) Or Total_label.Content = 0 Then

@@ -104,11 +104,11 @@
             <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="salesDataGrid" Style="{DynamicResource DataGridStyle1}">
                 <DataGrid.Columns>
 
-                    <DataGridTextColumn Header="SaleID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding CashierID}"/>
-                    <DataGridTextColumn Header="CashierID" CanUserResize="False"  Binding="{Binding Username}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="SaleID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding SaleID}"/>
+                    <DataGridTextColumn Header="CashierID" CanUserResize="False"  Binding="{Binding CashierID}" IsReadOnly="True" Width="*"/>
 
-                    <DataGridTextColumn Header="SaleDate" CanUserResize="False" Binding="{Binding FirstName}" IsReadOnly="True" Width="*"/>
-                    <DataGridTextColumn Header="TotalAmount" CanUserResize="False" Binding="{Binding LastName}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="SaleDate" CanUserResize="False" Binding="{Binding SaleDate}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="TotalAmount" CanUserResize="False" Binding="{Binding TotalAmount}" IsReadOnly="True" Width="*"/>
 
                     <DataGridTemplateColumn Header="Action" CanUserResize="False" IsReadOnly="True" Width="auto">
                         <DataGridTemplateColumn.CellTemplate>

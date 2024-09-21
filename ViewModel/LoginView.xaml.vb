@@ -85,8 +85,9 @@ Public Class LoginView
                         If storedPasswordHash.SequenceEqual(hashedPassword) Then
 
 
-                            Dim main As New POS()
+                            Dim main As New POS(usernames)
                             main.Show()
+                            Me.Close()
                             Username.Text = ""
                             Password.Password = ""
                         Else
