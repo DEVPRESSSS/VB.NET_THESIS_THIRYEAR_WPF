@@ -64,9 +64,6 @@
             </Button>
 
             <!--Title of the current Page-->
-            <TextBlock Text="Cashier List" Grid.Column="0" 
-                   TextAlignment="left" VerticalAlignment="Center"
-                   FontSize="16" Padding="6" FontWeight="Medium"/>
 
 
 

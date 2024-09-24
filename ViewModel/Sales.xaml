@@ -36,7 +36,6 @@
 
             <Grid.ColumnDefinitions>
 
-                <ColumnDefinition />
                 <ColumnDefinition/>
 
 
@@ -45,16 +44,16 @@
 
             <TextBox x:Name="Search" 
                 Style="{StaticResource TextBoxes}"
-                Margin="0,0,244,0" Grid.Column="1"
+                Margin="0,0,109,0" 
                 TextWrapping="Wrap" 
                 VerticalAlignment="Center"
-                MaxLength="20" 
-                HorizontalAlignment="Right" 
-                Width="146"/>
+                MaxLength="20" HorizontalAlignment="Right" Width="146" TextChanged="Search_TextChanged"/>
 
 
-            <Button Style="{StaticResource addButton}" Margin="0,5,145,5" Cursor="Hand"  Grid.Column="1" 
-             Width="94"
+            <!--Print sale report -->
+
+            <Button x:Name="SearchSale" Style="{StaticResource addButton}" Margin="0,5,10,5" Cursor="Hand"  
+             Width="94" Click="SearchSale_Click"
              >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Icon:PackIconMaterial Kind="Magnify" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
@@ -65,27 +64,45 @@
             <!--Title of the current Page-->
             <TextBlock Text="Sales Report" Grid.Column="0" 
                    TextAlignment="left" VerticalAlignment="Center"
-                   FontSize="16" Padding="6" FontWeight="Medium"/>
+                   FontSize="16" Padding="6" FontWeight="Medium" Margin="0,0,271,0"/>
 
 
 
-            <!--Add new productbutton-->
-            <Button Style="{StaticResource addButton}" Foreground="#ffff" Margin="0,5,5,5"
-                                   Cursor="Hand" Height="30" Grid.Column="1" Width="80">
-                <StackPanel Orientation="Horizontal">
-                    <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}"/>
-                    <TextBlock Text="Add"  FontFamily="Roboto"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource addButton}" Margin="5" Cursor="Hand"  Grid.Column="1">
+            <!--Print -->
+            <Button  x:Name ="print" Style="{StaticResource addButton}" Margin="0,5,260,5" Cursor="Hand"   Click="print_Click"
+                Width="94"
+             >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
-                    <TextBlock Text="Add" FontFamily="Roboto" VerticalAlignment="Center"/>
+                    <Icon:PackIconMaterial Kind="Printer" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
+                    <TextBlock Text="Print" FontFamily="Roboto" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
 
 
+
+
+            <!--Datetime picker -->
+            <DatePicker Name="datePickerFilter" 
+                    SelectedDateChanged="datePickerFilter_SelectedDateChanged"
+                    Margin="0,0,458,0" 
+                    Height="26"
+                    Width="130"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"/>
+
+
+            <!--Filter button -->
+            <Button Style="{StaticResource addButton}" 
+                    Margin="0,5,359,5" Cursor="Hand" 
+                    Click="Button_Click"
+                Width="94"
+             >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Icon:PackIconMaterial Kind="Filter" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
+                    <TextBlock Text="Sort" FontFamily="Roboto" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
 
 
 
@@ -109,21 +126,21 @@
 
                     <DataGridTextColumn Header="SaleDate" CanUserResize="False" Binding="{Binding SaleDate}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="TotalAmount" CanUserResize="False" Binding="{Binding TotalAmount}" IsReadOnly="True" Width="*"/>
-
                     <DataGridTemplateColumn Header="Action" CanUserResize="False" IsReadOnly="True" Width="auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Style="{StaticResource gridEditButton}">
-                                        <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
-                                    </Button>
-                                    <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}">
-                                        <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+                                    <Button Style="{StaticResource gridInvoiceButton}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Icon:PackIconMaterial Kind="InvoiceImport" Style="{StaticResource gridInvoiceIcon}"/>
+                                            <TextBlock Text="Generate Invoice" VerticalAlignment="Center" />
+                                        </StackPanel>
                                     </Button>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -133,5 +150,5 @@
 
     </Grid>
 
-    
+
 </UserControl>

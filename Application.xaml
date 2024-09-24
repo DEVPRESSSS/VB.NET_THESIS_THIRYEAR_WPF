@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:VB_THESIS_WPS"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
-            StartupUri="ViewModel/LoginView.xaml">
+            StartupUri="MainWindow.xaml">
 
     <!---->
     <Application.Resources>
@@ -38,6 +38,9 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+   
+
 
 
         <Style x:Key="menuButtonIcon" TargetType="Icon:PackIconMaterial">
@@ -279,6 +282,8 @@
         </Style>
 
 
+        
+        <!--grid edit button-->
         <Style x:Key="gridEditButton" TargetType="Button">
             <Setter Property="Background" Value="#512DA8" />
             <Setter Property="BorderBrush" Value="#4A148C" />
@@ -301,6 +306,7 @@
             </Style.Triggers>
         </Style>
 
+        <!--grid remove button-->
 
         <Style x:Key="gridRemoveButton" TargetType="Button" BasedOn="{StaticResource gridEditButton}">
             <Setter Property="Background" Value="#D32F2F" />
@@ -319,6 +325,44 @@
             <Setter Property="Height" Value="12" />
         </Style>
 
+
+
+        <!-- Invoice button style -->
+        <Style x:Key="gridInvoiceButton" TargetType="Button">
+            <Setter Property="Background" Value="#118AB2" />
+           <Setter Property="Foreground" Value="#ffffff" />
+            <!-- Add a default foreground color -->
+
+            <Setter Property="Padding" Value="5,2" />
+            <!-- Add some padding for better spacing -->
+
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" Padding="5" BorderThickness="1" CornerRadius="5">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#116AB2" />
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="Foreground" Value="#ffffff" />
+
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="gridInvoiceIcon" TargetType="Icon:PackIconMaterial">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Width" Value="12" />
+            <Setter Property="Height" Value="12" />
+            <Setter Property="Margin" Value="0,0,5,0" />
+            <!-- Add margin to the right for spacing -->
+        </Style>
 
 
 
