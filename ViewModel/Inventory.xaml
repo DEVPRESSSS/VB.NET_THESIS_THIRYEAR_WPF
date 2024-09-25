@@ -39,7 +39,6 @@
 
             <Grid.ColumnDefinitions>
 
-                <ColumnDefinition />
 
                 <ColumnDefinition/>
 
@@ -49,14 +48,14 @@
 
 
             <!--Title of the current Page-->
-            <TextBlock Text="Product List" Grid.Column="0" 
-                       TextAlignment="left" VerticalAlignment="Center"
-                       FontSize="16" Padding="6" FontWeight="Medium"/>
 
+            <TextBlock Text="Product List" Grid.Column="0" 
+                TextAlignment="left" VerticalAlignment="Center"
+                FontSize="16" Padding="6" FontWeight="Medium"/>
 
 
             <!--Add new product button-->
-            <Button Style="{StaticResource addButton}" Margin="5" Cursor="Hand" Click="AddNewProduct_Click" Grid.Column="1">
+            <Button Style="{StaticResource addButton}" Margin="0,5,4,5" Cursor="Hand" Click="AddNewProduct_Click" Grid.Column="0" Width="88">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
                     <TextBlock Text="Add" FontFamily="Roboto" VerticalAlignment="Center"/>
@@ -69,16 +68,14 @@
 
             <TextBox x:Name="Search" 
                Style="{StaticResource TextBoxes}"
-               Margin="0,0,244,0" Grid.Column="1"
+               Margin="0,0,198,0" Grid.Column="0"
                TextWrapping="Wrap" 
                VerticalAlignment="Center"
                MaxLength="20" 
-               HorizontalAlignment="Right" 
-               TextChanged="Search_TextChanged"
-               Width="146"/>
+               TextChanged="Search_TextChanged" HorizontalAlignment="Right" Width="146"/>
 
             <!--Search Button icon -->
-            <Button Style="{StaticResource addButton}" Margin="0,5,145,5" Cursor="Hand" Click="Search_Click" Grid.Column="1" 
+            <Button Style="{StaticResource addButton}" Margin="0,5,97,5" Cursor="Hand" Click="Search_Click" Grid.Column="0" 
                     Width="94"
                     >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -87,6 +84,15 @@
                 </StackPanel>
             </Button>
 
+            <!-- Print button-->
+            <Button x:Name="Print" Style="{StaticResource addButton}" Margin="0,5,353,5" Cursor="Hand" 
+              Width="94" Click="Print_Click"
+              >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Icon:PackIconMaterial Kind="Printer" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
+                    <TextBlock Text="Print" FontFamily="Roboto" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
 
 
 
@@ -120,14 +126,14 @@
                                     <Button Style="{StaticResource gridEditButton}" Click="EditBtn">
                                         <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                     </Button>
-                                   <!--
+                                    <!--
                                     
                                     <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" Click="Remove_Click">
                                         <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                     </Button>
                                     
                                     
-                                    --> 
+                                    -->
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

@@ -220,10 +220,10 @@ Public Class EditProduct
                 Dim rowsAffected As Integer = command.ExecuteNonQuery()
                 If rowsAffected > 0 Then
                     MessageBox.Show("Product record updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+                    UpdateInventoryQuantity(editID)
                     Clear()
                     RefreshForm()
                     Me.Close()
-
 
                 Else
                     MessageBox.Show("No record found to update.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning)
@@ -231,6 +231,27 @@ Public Class EditProduct
 
             End Using
         End Using
+    End Sub
+    Private Sub UpdateInventoryQuantity(productId As Integer)
+
+        Dim qty As Integer = Convert.ToInt32(Quantity.Text)
+
+        Dim q As String = "UPDATE Inventory SET Quantity = @Quantity, LastUpdated = @LastUpdated WHERE ProductID = @ProductID"
+
+        Using connection As New SqlConnection(cons.connectionString)
+
+            connection.Open()
+            Using command As New SqlCommand(q, connection)
+                ' Adding parameters
+                command.Parameters.Add(New SqlParameter("@ProductID", SqlDbType.Int)).Value = productId
+                command.Parameters.Add(New SqlParameter("@Quantity", SqlDbType.Int)).Value = qty
+                command.Parameters.Add(New SqlParameter("@LastUpdated", SqlDbType.DateTime)).Value = DateTime.Now
+
+                ' Execute the update query
+                command.ExecuteNonQuery()
+            End Using
+        End Using
+
     End Sub
 
     Public Function FetchCategoryByName(catName As String) As Category

@@ -86,4 +86,60 @@ Public Class MyInventory
         End If
     End Sub
 
+    Private Sub datePickerFilter_SelectedDateChanged(sender As Object, e As SelectionChangedEventArgs)
+        Dim filterDate As DateTime = datePickerFilter.SelectedDate
+
+        Dim collectionView As CollectionView = CType(CollectionViewSource.GetDefaultView(productDataGrid.ItemsSource), CollectionView)
+        collectionView.Filter = New Predicate(Of Object)(Function(item) FilterByDate(item, filterDate))
+
+    End Sub
+
+    Private Sub Sort_Click(sender As Object, e As RoutedEventArgs)
+        SearchSales()
+    End Sub
+
+    Private Function FilterByDate(item As Object, selected As DateTime?) As Boolean
+
+
+        Dim row As ProductInventory = CType(item, ProductInventory)
+
+        If selected.HasValue Then
+            Return row.LastUpdated.Date = selected.Value.Date
+
+
+        End If
+
+        Return True
+    End Function
+    Private Function FilterSales(item As Object, input As String) As Boolean
+        Dim row As ProductInventory = CType(item, ProductInventory)
+
+        If row.InventoryID.ToString().Contains(input) OrElse
+             row.ProductID.ToString().Contains(input) OrElse
+             row.CurrentStock.ToString().Contains(input) OrElse
+             row.OriginalStock.ToString().Contains(input) OrElse
+             row.LastUpdated.ToString().Contains(input) Then
+
+            Return True
+
+        Else
+
+
+            SearchSales()
+            Return False
+
+        End If
+
+    End Function
+    Private Sub SearchSales()
+        Dim input As String = Search.Text.Trim().ToLower()
+
+        Dim collectionView As CollectionView = CType(CollectionViewSource.GetDefaultView(productDataGrid.ItemsSource), CollectionView)
+        collectionView.Filter = New Predicate(Of Object)(Function(item) FilterSales(item, input))
+    End Sub
+
+    Private Sub Button_Click_1(sender As Object, e As RoutedEventArgs)
+        SearchSales()
+
+    End Sub
 End Class

@@ -35,7 +35,6 @@
 
             <Grid.ColumnDefinitions>
 
-                <ColumnDefinition />
 
                 <ColumnDefinition/>
 
@@ -52,7 +51,7 @@
 
 
             <!--Add new product button-->
-            <Button Style="{StaticResource addButton}" Margin="5" Cursor="Hand"  Grid.Column="1">
+            <Button Style="{StaticResource addButton}" Margin="0,5,5,5" Cursor="Hand"  Grid.Column="0" Width="88">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
                     <TextBlock Text="Add" FontFamily="Roboto" VerticalAlignment="Center"/>
@@ -65,16 +64,14 @@
 
             <TextBox x:Name="Search" 
             Style="{StaticResource TextBoxes}"
-            Margin="0,0,244,0" Grid.Column="1"
+            Margin="0,0,197,0" Grid.Column="0"
             TextWrapping="Wrap" 
             VerticalAlignment="Center"
-            MaxLength="20" 
-            HorizontalAlignment="Right" 
-            Width="146"/>
+            MaxLength="20" HorizontalAlignment="Right" Width="146"/>
 
             <!--Search Button icon -->
-            <Button Style="{StaticResource addButton}" Margin="0,5,145,5" Cursor="Hand" Grid.Column="1" 
-                 Width="94"
+            <Button Style="{StaticResource addButton}" Margin="0,5,98,5" Cursor="Hand" Grid.Column="0" 
+                 Width="94" Click="Button_Click_1"
                  >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Icon:PackIconMaterial Kind="Magnify" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
@@ -84,7 +81,24 @@
 
 
 
+            <!--Datetime picker -->
+            <DatePicker Name="datePickerFilter" 
+                SelectedDateChanged="datePickerFilter_SelectedDateChanged"
+                Margin="0,0,447,0" 
+                Height="26"
+                VerticalAlignment="Center" HorizontalAlignment="Right" Width="130"/>
 
+
+            <!--Filter button -->
+            <Button x:Name="Sort"    Style="{StaticResource addButton}" 
+                Margin="0,5,348,5" Cursor="Hand" Click="Sort_Click"
+            Width="94" 
+         >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Icon:PackIconMaterial Kind="Filter" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
+                    <TextBlock Text="Sort" FontFamily="Roboto" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
 
 
 
@@ -109,9 +123,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Style="{StaticResource gridEditButton}" >
-                                        <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
-                                    </Button>
+                                    
                                     <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" Click="Button_Click">
                                         <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                     </Button>

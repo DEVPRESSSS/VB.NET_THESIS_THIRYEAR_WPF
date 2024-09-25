@@ -84,7 +84,6 @@ Public Class Sales
         End If
 
         Return True
-
     End Function
     Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
 
@@ -132,6 +131,15 @@ Public Class Sales
                 document.Add(addressParagraph)
 
                 document.Add(New Paragraph().SetHeight(20))
+
+                'Printed date paragraph
+                Dim printedDate As String = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+                Dim concatDate As String = $"Date: {printedDate}"
+                Dim printedDateParagraph As New Paragraph(concatDate)
+                printedDateParagraph.SetTextAlignment(TextAlignment.LEFT)
+                printedDateParagraph.SetFontSize(12)
+                document.Add(printedDateParagraph)
+                document.Add(New Paragraph().SetHeight(10))
 
                 ' Create a table with the number of columns in the DataGrid
                 Dim table As New Table(dataGrid.Columns.Count - 1)

@@ -71,7 +71,7 @@ Public Class AddEmployee
                     clear()
                     Return True
                 Catch ex As Exception
-                    MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+                    MessageBox.Show("Username or email already exist, Please input unique value ", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
                     Return False
                 End Try
             End Using
@@ -84,14 +84,12 @@ Public Class AddEmployee
         Username.Text = ""
         Password.Password = ""
         Lastname.Text = ""
+        Firstname.Text = ""
         Email.Text = ""
     End Sub
 
     Private Sub Clear(sender As Object, e As RoutedEventArgs)
-        Username.Text = ""
-        Password.Password = ""
-        Lastname.Text = ""
-        Email.Text = ""
+        clear()
     End Sub
 
     Private Sub Username_PreviewKeyDown(sender As Object, e As KeyEventArgs)

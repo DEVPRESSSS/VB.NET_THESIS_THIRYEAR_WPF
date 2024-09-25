@@ -1,7 +1,13 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Data
 Imports System.Data.SqlClient
+Imports System.Globalization
 Imports System.IO
+Imports iText.IO.Image
+Imports iText.Kernel.Pdf
+Imports iText.Layout
+Imports iText.Layout.Element
+Imports iText.Layout.Properties
 Imports iTextSharp.text
 Imports iTextSharp.text.pdf
 
@@ -200,5 +206,86 @@ Public Class Employee
 
     End Sub
 
+    Private Sub print_Click(sender As Object, e As RoutedEventArgs)
+        Dim rand As New Random
+        Dim randomNumber As Integer = rand.Next()
+        Dim randomInRange As Integer = rand.Next(1, 1000)
 
+        Dim filePath As String = $"D:\VB_THESIS_WPS\Prints\Productlist_{randomInRange}.pdf"
+
+
+        If cashierDataGrid.ItemsSource Is Nothing OrElse cashierDataGrid.Items.Count = 0 OrElse cashierDataGrid.Columns.Count = 0 Then
+            MessageBox.Show("No data available to print.", "Print Cancelled", MessageBoxButton.OK, MessageBoxImage.Error)
+            Return
+        End If
+
+        PrintToPDF(cashierDataGrid, filePath)
+    End Sub
+    Private Sub PrintToPDF(dataGrid As DataGrid, filePath As String)
+        Using pdfWriter As New PdfWriter(filePath)
+            Using pdfDocument As New PdfDocument(pdfWriter)
+                Dim document As New Document(pdfDocument)
+
+                ' Logo data picture
+                Dim logoPath As String = "D:\VB_THESIS_WPS\Images\logo.png"
+                Dim logo As Image = New Image(ImageDataFactory.Create(logoPath))
+                logo.SetHorizontalAlignment(HorizontalAlignment.Center)
+                logo.SetWidth(150)
+                document.Add(logo)
+
+                'Address data paragraph
+                Dim address As String = "Pamela Mabulay Footwear Retail Store" & vbCrLf &
+                                        "#725 Quezon Blvd, Zone 030 Brgy. 308 Quiapo" & vbCrLf &
+                                        "Manila, Philippines"
+                Dim addressParagraph As New Paragraph(address)
+                addressParagraph.SetTextAlignment(TextAlignment.CENTER)
+                addressParagraph.SetFontSize(12)
+                document.Add(addressParagraph)
+                document.Add(New Paragraph().SetHeight(20))
+
+
+                'Printed data paragraph
+
+                Dim printedDate As String = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+                Dim concatDate As String = $"Date: {printedDate}"
+                Dim printedDateParagraph As New Paragraph(concatDate)
+                printedDateParagraph.SetTextAlignment(TextAlignment.LEFT)
+                printedDateParagraph.SetFontSize(12)
+                document.Add(printedDateParagraph)
+                document.Add(New Paragraph().SetHeight(10))
+
+
+
+
+
+                Dim table As New Table(dataGrid.Columns.Count - 2)
+                table.SetWidth(UnitValue.CreatePercentValue(100))
+
+                For Each column As DataGridColumn In dataGrid.Columns
+                    If Not TypeOf column Is DataGridTemplateColumn Then
+                        table.AddHeaderCell(New Cell().Add(New Paragraph(column.Header.ToString())))
+                    End If
+                Next
+
+
+                For Each item In dataGrid.ItemsSource
+                    Dim sale As Cashier = CType(item, Cashier)
+                    table.AddCell(New Cell().Add(New Paragraph(sale.CashierID.ToString())))
+                    table.AddCell(New Cell().Add(New Paragraph(sale.Username.ToString())))
+                    table.AddCell(New Cell().Add(New Paragraph(sale.FirstName.ToString())))
+                    table.AddCell(New Cell().Add(New Paragraph(sale.LastName.ToString())))
+                    table.AddCell(New Cell().Add(New Paragraph(sale.Email.ToString())))
+                    table.AddCell(New Cell().Add(New Paragraph(sale.CreatedAt.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))))
+                Next
+
+                document.Add(table)
+                document.Close()
+                MessageBox.Show("PDF created successfully: ", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+            End Using
+        End Using
+
+        Process.Start(New ProcessStartInfo(filePath) With {
+        .UseShellExecute = True
+    })
+    End Sub
 End Class

@@ -309,7 +309,7 @@
             <TextBlock HorizontalAlignment="Left"
                 Margin="341,96,0,0" Grid.Row="1" 
                 TextWrapping="Wrap" 
-                Text="Quantity" 
+                Text="Stock" 
                 VerticalAlignment="Top"/>
 
 

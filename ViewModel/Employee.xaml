@@ -47,14 +47,14 @@
 
             <TextBox x:Name="Search" 
                 Style="{StaticResource TextBoxes}"
-                Margin="0,0,218,0" Grid.Column="1"
+                Margin="0,0,199,0"
                 TextWrapping="Wrap" 
                 VerticalAlignment="Center"
                 MaxLength="20" 
                 TextChanged="Search_TextChanged" HorizontalAlignment="Right" Width="146"/>
 
 
-            <Button Style="{StaticResource addButton}" Margin="0,5,111,5" Cursor="Hand" Click="Search_Click" Grid.Column="1" 
+            <Button Style="{StaticResource addButton}" Margin="0,5,98,5" Cursor="Hand" Click="Search_Click" 
              Width="94"
              >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -64,7 +64,9 @@
             </Button>
 
             <!--Title of the current Page-->
-
+            <TextBlock Text="CashierList" Grid.Column="0" 
+                TextAlignment="left" VerticalAlignment="Center"
+                FontSize="16" Padding="6" FontWeight="Medium" Margin="0,0,705,0"/>
 
 
             <!--Add new productbutton-->
@@ -75,8 +77,8 @@
                     <TextBlock Text="Add"  FontFamily="Roboto"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource addButton}" Margin="0,5,381,5" Cursor="Hand" Width="93" Click="Button_Click_1">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Button x:Name="print" Style="{StaticResource addButton}" Margin="0,5,353,5" Cursor="Hand" Width="94" Click="print_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center ">
                     <Icon:PackIconMaterial Kind="Printer" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
                     <TextBlock Text="Print" FontFamily="Roboto" VerticalAlignment="Center"/>
                 </StackPanel>

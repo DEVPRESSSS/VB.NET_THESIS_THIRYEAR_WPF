@@ -9,6 +9,7 @@ Public Class Dashboard
         ProductCount()
         CashierCount()
         InventoryCount()
+        SaleCount()
     End Sub
 
 
@@ -26,6 +27,19 @@ Public Class Dashboard
 
     End Sub
 
+    Private Sub SaleCount()
+        Dim query As String = "SELECT COUNT(*) FROM Sales"
+        Using connection As New SqlConnection(cons.connectionString)
+            connection.Open()
+            Using cmd As New SqlCommand(query, connection)
+
+                Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+                Sale.Text = count
+            End Using
+
+        End Using
+
+    End Sub
 
 
     Private Sub CashierCount()
