@@ -24,9 +24,20 @@ Public Class Sales
     Private Sub FetchSale()
         Dim sales As New ObservableCollection(Of Sale)()
 
+        Dim query As String = "SELECT S.[SalesID],
+                                  S.[CashierID],
+                                  S.[SaleDate],
+                                  S.[TotalAmount],
+                                  SD.[SalesDetailID],
+                                  SD.[ProductName],
+                                  SD.[Quantity],
+                                  SD.[UnitPrice],
+                                  SD.[TotalPrice]
+                           FROM [Pamela].[dbo].[Sales] S
+                           INNER JOIN [Pamela].[dbo].[SalesDetails] SD
+                             ON S.[SalesID] = SD.[SalesID]
+                           ORDER BY S.[SalesID];"
 
-
-        Dim query As String = "SELECT * FROM Sales"
         Using connection As New SqlConnection(con.connectionString)
             Dim command As New SqlCommand(query, connection)
             Dim adapter As New SqlDataAdapter(command)
@@ -36,17 +47,35 @@ Public Class Sales
             adapter.Fill(dataTable)
 
             For Each row As DataRow In dataTable.Rows
-                sales.Add(New Sale With {
-                .SaleID = Convert.ToInt32(row("SalesID")),
-                .CashierID = Convert.ToInt32(row("CashierID").ToString()),
-                .SaleDate = row("SaleDate"),
-                .TotalAmount = Convert.ToDouble(row("TotalAmount"))
-            })
+                Dim saleID As Integer = Convert.ToInt32(row("SalesID"))
+                Dim existingSale = sales.FirstOrDefault(Function(s) s.SaleID = saleID)
+
+                If existingSale Is Nothing Then
+                    existingSale = New Sale With {
+                    .SaleID = saleID,
+                    .CashierID = Convert.ToInt32(row("CashierID")),
+                    .SaleDate = Convert.ToDateTime(row("SaleDate")),
+                    .TotalAmount = Convert.ToDouble(row("TotalAmount"))
+                }
+                    sales.Add(existingSale)
+                End If
+
+                Dim saleDetail As New SaleDetails With {
+                .SalesDetailsID = Convert.ToInt32(row("SalesDetailID")),
+                .SaleID = saleID,
+                .ProductName = row("ProductName").ToString(),
+                .Quantity = Convert.ToInt32(row("Quantity")),
+                .UnitPrice = Convert.ToDecimal(row("UnitPrice")),
+                .TotalPrice = Convert.ToDecimal(row("TotalPrice"))
+            }
+
+                existingSale.SaleDetailsList.Add(saleDetail)
             Next
 
             salesDataGrid.ItemsSource = sales
         End Using
     End Sub
+
     Private Sub SearchSales()
         Dim input As String = Search.Text.Trim().ToLower()
 
@@ -64,7 +93,6 @@ Public Class Sales
     Private Sub datePickerFilter_SelectedDateChanged(sender As Object, e As SelectionChangedEventArgs)
 
 
-        'Variable to hold the datetime entered by the user
         Dim filterDate As DateTime = datePickerFilter.SelectedDate
 
         Dim collectionView As CollectionView = CType(CollectionViewSource.GetDefaultView(salesDataGrid.ItemsSource), CollectionView)

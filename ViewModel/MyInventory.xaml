@@ -90,13 +90,13 @@
 
 
             <!--Filter button -->
-            <Button x:Name="Sort"    Style="{StaticResource addButton}" 
-                Margin="0,5,348,5" Cursor="Hand" Click="Sort_Click"
+            <Button x:Name="Print"    Style="{StaticResource addButton}" 
+                Margin="0,5,348,5" Cursor="Hand" Click="Print_Click_1"
             Width="94" 
          >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Icon:PackIconMaterial Kind="Filter" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
-                    <TextBlock Text="Sort" FontFamily="Roboto" VerticalAlignment="Center"/>
+                    <Icon:PackIconMaterial Kind="Printer" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
+                    <TextBlock Text="Print" FontFamily="Roboto" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
 

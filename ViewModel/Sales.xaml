@@ -125,6 +125,10 @@
                     <DataGridTextColumn Header="CashierID" CanUserResize="False"  Binding="{Binding CashierID}" IsReadOnly="True" Width="*"/>
 
                     <DataGridTextColumn Header="SaleDate" CanUserResize="False" Binding="{Binding SaleDate}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="ProductName" CanUserResize="False" Binding="{Binding ProductName}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Quantity" CanUserResize="False" Binding="{Binding Quantity}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="UnitPrice" CanUserResize="False" Binding="{Binding UnitPrice}" IsReadOnly="True" Width="*"/>
+
                     <DataGridTextColumn Header="TotalAmount" CanUserResize="False" Binding="{Binding TotalAmount}" IsReadOnly="True" Width="*"/>
                     <DataGridTemplateColumn Header="Action" CanUserResize="False" IsReadOnly="True" Width="auto">
                         <DataGridTemplateColumn.CellTemplate>

@@ -11,7 +11,8 @@
         Background="Transparent"
         AllowsTransparency="True"
         Title="POS" Height="600" Width="1100"
-        MinHeight="600" MinWidth="1100">
+        MinHeight="600" MinWidth="1100"
+       >
 
 
     <Border MinHeight="600" MinWidth="1100" CornerRadius="10,10,10,10" BorderBrush="#073b4C" BorderThickness="2">
@@ -27,9 +28,7 @@
             <Grid.RowDefinitions>
 
                 <RowDefinition Height="40"/>
-                <RowDefinition Height="160"/>
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition/>
 
 
             </Grid.RowDefinitions>
@@ -44,77 +43,8 @@
 
             </Border>
 
-            <Border Grid.Row="1"
-                 Background="White"
-                 Margin="0,0,0,0"
-                 Effect="{StaticResource dropShadow}">
-
-
-
-            </Border>
-            <Border Grid.Row="2"
-                Background="White"
-            
-                Effect="{StaticResource dropShadow}" Margin="0,0,0,76" Grid.RowSpan="2" >
-                <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="productDataGrid" Style="{DynamicResource DataGridStyle1}" Loaded="productDataGrid_Loaded">
-                    <DataGrid.Columns>
-
-                        <DataGridTextColumn Header="ProductID" IsReadOnly="True" CanUserResize="False" Width="100" Binding="{Binding ProductID}"/>
-                        <DataGridTextColumn Header="ProductName" Binding="{Binding ProductName}" IsReadOnly="True" Width="150"/>
-                        <DataGridTextColumn Header="Size" Binding="{Binding Size}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="Price" Binding="{Binding Price}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="Subtotal" Binding="{Binding SubTotal}" IsReadOnly="True" Width="*"/>
-                        <DataGridTemplateColumn Header="Picture" IsReadOnly="True" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Style="{StaticResource gridEditButton}" Cursor="Hand">
-                                            <Icon:PackIconMaterial Kind="Eye" Style="{StaticResource gridButtonIcon}"/>
-                                        </Button>
-                                      
-
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="DeleteItem" IsReadOnly="True" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Style="{StaticResource gridRemoveButton}" Cursor="Hand" Click="Remove_Click"> 
-                                            <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
-                                        </Button>
-
-
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-
-                    </DataGrid.Columns>
-                </DataGrid>
-
-
-
-            </Border>
-
-            <Border Grid.Row="3"
-                  Background="#073b4c"
-                  Effect="{StaticResource dropShadow}" Height="76" VerticalAlignment="Bottom"/>
-
 
             <!--TOTAL-->
-
-            <TextBlock HorizontalAlignment="Left"
-              Margin="36,0,0,28" 
-              Grid.Row="3" 
-              TextWrapping="Wrap"
-              Text="Total:"
-              FontWeight="DemiBold"
-              FontSize="16"
-              Foreground="White"
-              VerticalAlignment="Bottom"/>
 
 
 
@@ -259,9 +189,56 @@
 
 
 
-            <!--Contents of the row 1-->
 
-            <!-- Search Box -->
+
+            <Grid Grid.Row="1">
+
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="700"/>
+                    <ColumnDefinition/>
+
+                </Grid.ColumnDefinitions>
+
+
+                <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" MaxHeight="600" Height="430">
+                    <ItemsControl Name="ProductList" Width="639" Height="Auto" >
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel HorizontalAlignment="Center" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="#073b4c"  BorderThickness="1"  Margin="10" Padding="10" CornerRadius="10" Width="150" Height="200" Effect="{StaticResource dropShadow}">
+                                    <StackPanel Height="Auto">
+                                        <!-- Display the product image -->
+                                        <Image Source="D:\VB_THESIS_WPS\Images\logo.png" Width="100" Height="100" Stretch="UniformToFill"/>
+
+                                        <!-- Display the product name -->
+                                        <TextBlock Text="{Binding ProductName}" FontSize="16" FontWeight="Bold" Margin="5" TextAlignment="Center"/>
+
+                                        <!-- Display the product price -->
+                                        <TextBlock Text="{Binding Price, StringFormat=C}" FontSize="14" Foreground="Green" TextAlignment="Center"/>
+
+                                        <Button x:Name="AddItem"  Style="{StaticResource addButton}" Margin="0,2,0,0" Cursor="Hand"  Grid.Column="0" HorizontalAlignment="Center"
+                                                  Width="100">
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <Icon:PackIconMaterial Kind="Cart" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
+                                                <TextBlock Text="Add Item" FontFamily="Roboto" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+
+            </Grid>
 
 
             <TextBox x:Name="Search" 
@@ -271,228 +248,18 @@
                VerticalAlignment="Top"
                MaxLength="20" 
                HorizontalAlignment="Right" 
-               PreviewTextInput="Search_PreviewTextInput"
-               PreviewKeyDown="Search_PreviewKeyDown"
+                     TextChanged="Search_TextChanged"
                Width="146"/>
 
             <!--Search Button icon -->
-            <Button x:Name="SearchBtn"  Style="{StaticResource addButton}" Margin="0,28,27,102" Cursor="Hand"  Grid.Row="1"
-                    Width="94" Click="SearchBtn_Click"
+            <Button x:Name="SearchBtn"  Style="{StaticResource addButton}" Margin="0,28,10,498" Cursor="Hand"  Grid.Row="1"
+                    Width="94"  Click="SearchBtn_Click"
                     >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Icon:PackIconMaterial Kind="Magnify" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
                     <TextBlock Text="Search" FontFamily="Roboto" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
-
-            <!--PRODUCTNAME-->
-
-            <TextBox x:Name="ProductName" Style="{StaticResource TextBoxes}"
-                     HorizontalAlignment="Left" 
-                     Margin="36,30,0,0"
-                     Grid.Row="1"
-                     TextWrapping="Wrap" 
-                     VerticalAlignment="Top"
-                     Width="146" 
-                     IsReadOnly="True"
-                     MaxLength="20"/>
-
-
-
-            <TextBlock HorizontalAlignment="Left"
-                       Margin="36,10,0,0" 
-                       Grid.Row="1"
-                       TextWrapping="Wrap"
-                       Text="ProductName" 
-                       VerticalAlignment="Top"/>
-
-
-
-
-
-            <!--QUANTITY-->
-            <TextBlock HorizontalAlignment="Left"
-                  Margin="34,85,0,0" 
-                  Grid.Row="1" 
-                  TextWrapping="Wrap"
-                  Text="Quantity"
-                  VerticalAlignment="Top"/>
-
-            <TextBox x:Name="Quantity" 
-                     Style="{StaticResource TextBoxes}" 
-                     HorizontalAlignment="Left"
-                     Margin="36,105,0,0"
-                     Grid.Row="1"
-                     VerticalAlignment="Top" 
-                     Width="146" 
-                     PreviewKeyDown="Quantity_PreviewKeyDown"
-                     PreviewTextInput="Quantity_PreviewTextInput"
-                     MaxLength="3"/>
-
-
-            <!--Size-->
-            <TextBlock HorizontalAlignment="Left"
-                Margin="222,10,0,0" 
-                Grid.Row="1" 
-                TextWrapping="Wrap"
-                Text="Size"
-                VerticalAlignment="Top"/>
-            <TextBox x:Name="Size" 
-                Style="{StaticResource TextBoxes}" 
-                HorizontalAlignment="Left"
-                Margin="224,30,0,0"
-                Grid.Row="1" 
-                IsReadOnly="True"
-                TextWrapping="Wrap" 
-                VerticalAlignment="Top" 
-                Width="146" 
-                MaxLength="20"/>
-
-            <!--Price-->
-            <TextBlock HorizontalAlignment="Left"
-              Margin="222,85,0,0" 
-              Grid.Row="1" 
-              TextWrapping="Wrap"
-              Text="Price"
-              VerticalAlignment="Top"/>
-
-
-            <TextBox x:Name="Price" 
-              Style="{StaticResource TextBoxes}" 
-              HorizontalAlignment="Left"
-              Margin="222,105,0,0"
-              Grid.Row="1" 
-              Text="0"
-              IsReadOnly="True"
-              TextWrapping="Wrap" 
-              VerticalAlignment="Top" 
-              Width="146" 
-              MaxLength="20"/>
-
-
-            <!--Add item-->
-            <Button x:Name="AddItem" Style="{StaticResource addButton}" Margin="0,105,27,25" Cursor="Hand"  Grid.Row="1"
-                Width="110" Click="AddItem_Click"
-                    >
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
-                    <TextBlock Text="Add Item" FontFamily="Roboto" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-            <Button  Style="{StaticResource addButton}" Margin="0,105,162,25" Cursor="Hand"  Grid.Row="1"
-                Width="110" 
-                    >
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Icon:PackIconMaterial Kind="Scanner" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
-                    <TextBlock Text="Scanner" FontFamily="Roboto" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-
-            <!--ProductID-->
-            <TextBlock 
-                HorizontalAlignment="Left"
-                Margin="425,10,0,0" 
-                Grid.Row="1" 
-                TextWrapping="Wrap"
-                Text="ProductID"
-                VerticalAlignment="Top"/>
-
-            <Label x:Name="ID"
-               Content="0" 
-               Grid.Row="1"
-               Height="25"
-               Width="60"
-               Margin="421,27,615,108"
-               FontWeight="DemiBold"
-               FontSize="16"
-               HorizontalContentAlignment="Center"
-               VerticalContentAlignment="Center"/>
-
-
-            <!-- Total Value-->
-            <Label
-                x:Name="Total_label"
-                Content="0"
-                Grid.Row="3"
-                Width="102"
-                Margin="80,0,0,25"
-                FontWeight="DemiBold"
-                FontSize="16"
-                Foreground="White"
-                HorizontalContentAlignment="Left"
-                VerticalContentAlignment="Center" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-
-
-            <!-- Change-->
-            <TextBlock HorizontalAlignment="Left"
-                Margin="196,0,0,28" 
-                Grid.Row="3" 
-                TextWrapping="Wrap"
-                Text="Change:"
-                FontWeight="DemiBold"
-                FontSize="16"
-                Foreground="White"
-                VerticalAlignment="Bottom"/>
-
-            <!--Change -->
-            <Label x:Name ="Changes"
-                   Content="0"
-                Grid.Row="3"
-                Width="132"
-                Margin="255,0,0,25"
-                FontWeight="DemiBold"
-                FontSize="16"
-                Foreground="White"
-                HorizontalContentAlignment="Left"
-                VerticalContentAlignment="Center" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-
-            <!--Bill-->
-            <TextBlock HorizontalAlignment="Left"
-                Margin="392,0,0,28" 
-                Grid.Row="3" 
-                TextWrapping="Wrap"
-                Text="Bill:"
-                FontWeight="DemiBold"
-                FontSize="16"
-                Foreground="White"
-                VerticalAlignment="Bottom"/>
-
-
-            <TextBox x:Name="Bill" 
-                 Style="{StaticResource TextBoxes}"
-                 Margin="425,0,0,26" Grid.Row="3"
-                 TextWrapping="Wrap" 
-                 VerticalAlignment="Bottom"
-                 MaxLength="6" 
-                 HorizontalAlignment="Left" 
-                 Width="146"
-                 PreviewKeyDown="Bill_PreviewKeyDown"/>
-
-
-
-            <!--BUTTONS-->
-            <Button Content="Confirm" Style="{StaticResource ClearButton}" Margin="0,0,27,16" Grid.Row="3" Cursor="Hand" Width="245" Height="40" VerticalAlignment="Bottom"
-                    Click="Button_Click"/>
-            
-            
-            <!-- Current Stock -->
-            <TextBox x:Name="CurrentStock" 
-                Style="{StaticResource TextBoxes}" 
-                HorizontalAlignment="Left"
-                Margin="405,105,0,0"
-                Grid.Row="1" 
-                Text="0"
-                IsReadOnly="True"
-                TextWrapping="Wrap" 
-                VerticalAlignment="Top" 
-                Width="146" 
-                MaxLength="20"/>
-            <TextBlock HorizontalAlignment="Left"
-                Margin="405,86,0,0" 
-                Grid.Row="1" 
-                TextWrapping="Wrap"
-                Text="CurrentStock"
-                VerticalAlignment="Top"/>
 
         </Grid>
 
