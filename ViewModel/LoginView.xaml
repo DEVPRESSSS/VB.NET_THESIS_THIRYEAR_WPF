@@ -15,7 +15,8 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         MinHeight="400" MinWidth="800"
-        MouseDown="Window_MouseDown">
+        MouseDown="Window_MouseDown"
+        PreviewKeyDown="Window_PreviewKeyDown">
 
     <Border CornerRadius="10" Background="Transparent">
 
@@ -182,29 +183,29 @@
                     Margin="222,82,222,61">
 
                     <Image Source="D:\VB_THESIS_WPS\Images\logo.PNG"
-           Width="120" Height="120"/>
+                         Width="120" Height="120"/>
 
                     <TextBlock Foreground="#383838"
-               FontSize="12" FontWeight="Medium"
-               TextAlignment="Left"
-               Width="170"
-               Text="Username:"/>
+                           FontSize="12" FontWeight="Medium"
+                           TextAlignment="Left"
+                           Width="170"
+                           Text="Username:"/>
 
                     <TextBox x:Name="Username" Style="{StaticResource TextBoxes}"
-             Foreground="Black"
-             FontFamily="Roboto"
-             FontWeight="Medium"
-             FontSize="12"
-             BorderBrush="DarkGray"
-             Background="Transparent"
-             Width="170"
-             Height="20"
-             TextAlignment="Left"
-             Margin="0,5,0,10"
-             VerticalAlignment="Center"
-             MaxLength="20"
-             PreviewKeyDown="Username_PreviewKeyDown"
-             PreviewTextInput="Username_PreviewTextInput"/>
+                         Foreground="Black"
+                         FontFamily="Roboto"
+                         FontWeight="Medium"
+                         FontSize="12"
+                         BorderBrush="DarkGray"
+                         Background="Transparent"
+                         Width="170"
+                         Height="20"
+                         TextAlignment="Left"
+                         Margin="0,5,0,10"
+                         VerticalAlignment="Center"
+                         MaxLength="20"
+                         PreviewKeyDown="Username_PreviewKeyDown"
+                         PreviewTextInput="Username_PreviewTextInput"/>
 
                    <TextBlock Foreground="#383838"
                        FontSize="12" FontWeight="Medium"
@@ -225,17 +226,19 @@
                      Margin="0,5,0,10"
                      VerticalAlignment="Center"
                      MaxLength="20"
-                     PreviewKeyDown="Password_PreviewKeyDown"/>
+                     PreviewKeyDown="Password_PreviewKeyDown"
+                     PreviewTextInput="Password_PreviewTextInput"/>
 
                     <TextBox x:Name="PasswordTextBox"
-                     HorizontalAlignment="Left"
-                     Margin="5,5,0,10"
-                     Height="20"
-                     VerticalAlignment="Center"
-                     Width="170"
-                     Style="{StaticResource TextBoxes}"
-                     MaxLength="20"
-                     Visibility="Collapsed"/>
+                         HorizontalAlignment="Left"
+                         Margin="5,5,0,10"
+                         Height="20"
+                         VerticalAlignment="Center"
+                         Width="170"
+                         Style="{StaticResource TextBoxes}"
+                         MaxLength="20"
+                         Visibility="Collapsed"
+                         PreviewTextInput="PasswordTextBox_PreviewTextInput"/>
 
                 
 
@@ -272,7 +275,7 @@
                         FontSize="12"
                         FontWeight="Medium"
                         Cursor="Hand"
-                              Margin="0,5,0,0"
+                        Margin="0,5,0,0"
                         Click="LoginBtn_Click"
                         Height="34">
                         <Button.Style>

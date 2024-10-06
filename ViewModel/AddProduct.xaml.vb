@@ -36,7 +36,12 @@ Public Class AddProduct
     End Sub
 
     Private Sub Size_PreviewKeyDown(sender As Object, e As KeyEventArgs)
-
+        If e.Key = Key.Back OrElse e.Key = Key.Delete OrElse e.Key = Key.Tab OrElse e.Key = Key.Left OrElse e.Key = Key.Right Then
+            e.Handled = False ' Allow these keys
+        ElseIf Not (e.Key >= Key.D0 AndAlso e.Key <= Key.D9 OrElse e.Key >= Key.NumPad0 AndAlso e.Key <= Key.NumPad9) Then
+            ' If the key is not a number, block it
+            e.Handled = True
+        End If
     End Sub
 
     Private Sub Size_TextChanged(sender As Object, e As TextChangedEventArgs)
@@ -212,5 +217,26 @@ Public Class AddProduct
 
     Private Sub btnMinimize_Click(sender As Object, e As RoutedEventArgs)
         WindowState = WindowState.Minimized
+    End Sub
+
+    Private Sub Quantity_PreviewTextInput(sender As Object, e As TextCompositionEventArgs)
+        If Not IsNumeric(e.Text) Then
+            e.Handled = True ' Reject the input
+        End If
+    End Sub
+
+    Private Sub Quantity_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        If e.Key = Key.Back OrElse e.Key = Key.Delete OrElse e.Key = Key.Tab OrElse e.Key = Key.Left OrElse e.Key = Key.Right Then
+            e.Handled = False ' Allow these keys
+        ElseIf Not (e.Key >= Key.D0 AndAlso e.Key <= Key.D9 OrElse e.Key >= Key.NumPad0 AndAlso e.Key <= Key.NumPad9) Then
+            ' If the key is not a number, block it
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Size_PreviewTextInput(sender As Object, e As TextCompositionEventArgs)
+        If Not IsNumeric(e.Text) Then
+            e.Handled = True ' Reject the input
+        End If
     End Sub
 End Class

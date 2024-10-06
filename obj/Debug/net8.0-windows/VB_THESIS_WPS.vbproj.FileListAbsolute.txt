@@ -134,6 +134,7 @@ D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\MyInventory.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\POS.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Sales.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Settings.g.vb
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\StockIn.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\Application.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\VB_THESIS_WPS_MarkupCompile.cache
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\VB_THESIS_WPS_MarkupCompile.lref
@@ -155,6 +156,7 @@ D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\MyInventory.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\POS.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Sales.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Settings.baml
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\StockIn.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\VB_THESIS_WPS.g.resources
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\VB_THESIS_WPS.GeneratedMSBuildEditorConfig.editorconfig
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\VB_THESIS_WPS.AssemblyInfoInputs.cache

@@ -11,6 +11,9 @@ Imports iText.Layout
 Public Class MyInventory
 
     Dim con As New ConnectionString()
+
+    Dim pi As ProductInventory
+
     Public Sub New()
 
 
@@ -22,11 +25,12 @@ Public Class MyInventory
     End Sub
 
 
+
     Public Sub FetchProductData()
 
         Dim prod As New ObservableCollection(Of ProductInventory)()
 
-        Dim query As String = "SELECT * FROM Inventory"
+        Dim query As String = "SELECT P.InventoryID, P.ProductID, S.ProductName, P.Quantity, P.OriginalStock, P.LastUpdated FROM Inventory P INNER JOIN Product S ON P.ProductID = S.ProductID"
         Using connection As New SqlConnection(con.connectionString)
             Dim command As New SqlCommand(query, connection)
             Dim adapter As New SqlDataAdapter(command)
@@ -37,11 +41,12 @@ Public Class MyInventory
 
             For Each row As DataRow In dataTable.Rows
                 prod.Add(New ProductInventory With {
-                 .InventoryID = Convert.ToInt32(row("InventoryID")),
+                .InventoryID = Convert.ToInt32(row("InventoryID")),
                 .ProductID = Convert.ToInt32(row("ProductID")),
+                .ProductName = row("ProductName").ToString(),
                 .CurrentStock = Convert.ToInt32(row("Quantity")),
                 .OriginalStock = Convert.ToInt32(row("OriginalStock")),
-                .LastUpdated = row("LastUpdated")
+                .LastUpdated = Convert.ToDateTime(row("LastUpdated"))
             })
             Next
 
@@ -229,5 +234,18 @@ Public Class MyInventory
         End If
 
         PrintToPDF(productDataGrid, filePath)
+    End Sub
+
+    Private Sub editbtn_Click(sender As Object, e As RoutedEventArgs)
+        Dim edit_Button As Button = CType(sender, Button)
+
+        Dim selectedId As ProductInventory = CType(edit_Button.DataContext, ProductInventory)
+
+        Dim passToEdit As New StockIn(
+         selectedId.InventoryID,
+         Me
+     )
+
+        passToEdit.Show()
     End Sub
 End Class

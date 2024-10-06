@@ -258,9 +258,10 @@
                      TextWrapping="Wrap" 
                      VerticalAlignment="Top" 
                      Width="146" 
-                      PreviewKeyDown="Size_PreviewKeyDown"
+                      PreviewTextInput="Size_PreviewTextInput"
+                     PreviewKeyDown="Size_PreviewKeyDown"
                      TextChanged="Size_TextChanged" 
-                     MaxLength="20"/>
+                     MaxLength="2"/>
 
             <!--PRICE-->
 
@@ -305,7 +306,10 @@
                 TextWrapping="Wrap"
                 VerticalAlignment="Top" 
                 Width="146"
-                MaxLength="20"/>
+                MaxLength="4"
+                PreviewTextInput="Quantity_PreviewTextInput"
+                PreviewKeyDown="Quantity_PreviewKeyDown"
+                     />
             <TextBlock HorizontalAlignment="Left"
                 Margin="341,96,0,0" Grid.Row="1" 
                 TextWrapping="Wrap" 

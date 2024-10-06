@@ -5,7 +5,7 @@
     Public Property Size As String
     Public Property Price As Double
 
-    Public Property Quantity As Integer
+    Public Property Quantity As Integer = 1
 
     Public Property SubTotal As Decimal
 

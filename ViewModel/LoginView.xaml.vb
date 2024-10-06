@@ -31,10 +31,21 @@ Public Class LoginView
 
     Private Sub LoginBtn_Click(sender As Object, e As RoutedEventArgs)
 
+        Login()
+
+
+    End Sub
+
+
+
+    'Login logic
+
+    Private Sub Login()
 
         Dim connections As New ConnectionString()
         Dim usernames As String = Username.Text
         Dim passwords As String = Password.Password
+        PasswordTextBox.Text = passwords
 
         If String.IsNullOrWhiteSpace(usernames) OrElse String.IsNullOrWhiteSpace(passwords) Then
             MessageBox.Show("Username and password are required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error)
@@ -100,7 +111,6 @@ Public Class LoginView
             End Using
 
         End Using
-
     End Sub
     Private Function HashPassword(password As String, salt As Byte()) As Byte()
         Dim passwordBytes As Byte() = Encoding.UTF8.GetBytes(password)
@@ -156,5 +166,24 @@ Public Class LoginView
         Password.Visibility = Visibility.Visible
         PasswordTextBox.Visibility = Visibility.Collapsed
 
+    End Sub
+
+    Private Sub Password_PreviewTextInput(sender As Object, e As TextCompositionEventArgs)
+        If Char.IsWhiteSpace(CChar(e.Text)) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub PasswordTextBox_PreviewTextInput(sender As Object, e As TextCompositionEventArgs)
+        If Char.IsWhiteSpace(CChar(e.Text)) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Window_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        If e.Key = Key.Enter Then
+            LoginBtn.RaiseEvent(New RoutedEventArgs(Button.ClickEvent))
+            e.Handled = True
+        End If
     End Sub
 End Class
