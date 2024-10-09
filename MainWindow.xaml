@@ -155,16 +155,7 @@
                             </Button>
 
 
-                            <!--Settings-->
-
-                            <Button Style="{StaticResource menuButton}" Foreground="White" Margin="5"
-                                 Cursor="Hand" Width="160" Click="Button_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <Icon:PackIconMaterial Kind="SettingsHelper" Style="{StaticResource menuButtonIcon}"/>
-                                    <TextBlock Text="Settings"  FontFamily="Roboto"/>
-                                </StackPanel>
-                            </Button>
-
+                           
 
                             <!--Logout-->
 

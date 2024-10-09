@@ -211,7 +211,8 @@
                      Width="179"
                      Style="{StaticResource TextBoxes}"
                      MaxLength="30" 
-                     TextChanged="Email_TextChanged"/>
+                     TextChanged="Email_TextChanged"
+                     LostFocus="Email_LostFocus_1"/>
 
             <TextBlock HorizontalAlignment="Left" 
                        Margin="310,127,0,0" 

@@ -24,19 +24,9 @@ Public Class Sales
     Private Sub FetchSale()
         Dim sales As New ObservableCollection(Of Sale)()
 
-        Dim query As String = "SELECT S.[SalesID],
-                                  S.[CashierID],
-                                  S.[SaleDate],
-                                  S.[TotalAmount],
-                                  SD.[SalesDetailID],
-                                  SD.[ProductName],
-                                  SD.[Quantity],
-                                  SD.[UnitPrice],
-                                  SD.[TotalPrice]
-                           FROM [Pamela].[dbo].[Sales] S
-                           INNER JOIN [Pamela].[dbo].[SalesDetails] SD
-                             ON S.[SalesID] = SD.[SalesID]
-                           ORDER BY S.[SalesID];"
+        Dim query As String = "SELECT [SalesID], [CashierID], [SaleDate], [TotalAmount] 
+                           FROM [Pamela].[dbo].[Sales]
+                           ORDER BY [SalesID];"
 
         Using connection As New SqlConnection(con.connectionString)
             Dim command As New SqlCommand(query, connection)
@@ -47,29 +37,14 @@ Public Class Sales
             adapter.Fill(dataTable)
 
             For Each row As DataRow In dataTable.Rows
-                Dim saleID As Integer = Convert.ToInt32(row("SalesID"))
-                Dim existingSale = sales.FirstOrDefault(Function(s) s.SaleID = saleID)
-
-                If existingSale Is Nothing Then
-                    existingSale = New Sale With {
-                    .SaleID = saleID,
-                    .CashierID = Convert.ToInt32(row("CashierID")),
-                    .SaleDate = Convert.ToDateTime(row("SaleDate")),
-                    .TotalAmount = Convert.ToDouble(row("TotalAmount"))
-                }
-                    sales.Add(existingSale)
-                End If
-
-                Dim saleDetail As New SaleDetails With {
-                .SalesDetailsID = Convert.ToInt32(row("SalesDetailID")),
-                .SaleID = saleID,
-                .ProductName = row("ProductName").ToString(),
-                .Quantity = Convert.ToInt32(row("Quantity")),
-                .UnitPrice = Convert.ToDecimal(row("UnitPrice")),
-                .TotalPrice = Convert.ToDecimal(row("TotalPrice"))
+                Dim sale As New Sale With {
+                .SaleID = Convert.ToInt32(row("SalesID")),
+                .CashierID = Convert.ToInt32(row("CashierID")),
+                .SaleDate = Convert.ToDateTime(row("SaleDate")),
+                .TotalAmount = Convert.ToDouble(row("TotalAmount")),
+                .SaleDetailsList = New List(Of SaleDetails)() ' Initialize empty details list
             }
-
-                existingSale.SaleDetailsList.Add(saleDetail)
+                sales.Add(sale)
             Next
 
             salesDataGrid.ItemsSource = sales
@@ -191,7 +166,7 @@ Public Class Sales
 
                 document.Add(table)
                 document.Close()
-                MessageBox.Show("PDF created successfully: ", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+                MessageBox.Show("Receipt created successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
             End Using
         End Using
 

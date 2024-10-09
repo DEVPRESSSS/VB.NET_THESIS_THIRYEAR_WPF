@@ -24,6 +24,49 @@ Public Class MyInventory
 
     End Sub
 
+    Private Sub FilterInventoryTable()
+        Dim input As String = Search.Text.Trim()
+
+        If String.IsNullOrEmpty(input) Then
+            MessageBox.Show("Error", "Please provide a value", MessageBoxButton.OK, MessageBoxImage.Error)
+            Return
+        End If
+
+        Dim inventoryItems As New List(Of ProductInventory)()
+
+        Dim q As String = "SELECT [InventoryID], [ProductID], [LastUpdated], [OriginalStock] " &
+                      "FROM [Pamela].[dbo].[Inventory] " &
+                      "WHERE ([InventoryID] = @InventoryID OR @InventoryID IS NULL) " &
+                      "AND ([ProductID] = @ProductID OR @ProductID IS NULL) " &
+                      "AND ([OriginalStock] = @OriginalStock OR @OriginalStock IS NULL) " &
+                      "AND (DATEDIFF(DAY, [LastUpdated], @LastUpdated) = 0 OR @LastUpdated IS NULL)"
+
+        Using connection As New SqlConnection(con.connectionString)
+            connection.Open()
+
+            Using cmd As New SqlCommand(q, connection)
+                cmd.Parameters.AddWithValue("@InventoryID", If(IsNumeric(input), Convert.ToInt32(input), DBNull.Value))
+                cmd.Parameters.AddWithValue("@ProductID", If(IsNumeric(input), Convert.ToInt32(input), DBNull.Value))
+                cmd.Parameters.AddWithValue("@OriginalStock", If(IsNumeric(input), Convert.ToInt32(input), DBNull.Value))
+                cmd.Parameters.AddWithValue("@LastUpdated", If(DateTime.TryParse(input, Nothing), Convert.ToDateTime(input), DBNull.Value))
+
+                Using reader As SqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        Dim inventoryItem As New ProductInventory() With {
+                        .InventoryID = Convert.ToInt32(reader("InventoryID")),
+                        .ProductID = Convert.ToInt32(reader("ProductID")),
+                        .LastUpdated = Convert.ToDateTime(reader("LastUpdated")),
+                        .OriginalStock = Convert.ToInt32(reader("OriginalStock"))
+                    }
+
+                        inventoryItems.Add(inventoryItem)
+                    End While
+                End Using
+            End Using
+        End Using
+
+        productDataGrid.ItemsSource = inventoryItems
+    End Sub
 
 
     Public Sub FetchProductData()
@@ -105,9 +148,7 @@ Public Class MyInventory
 
     End Sub
 
-    Private Sub Sort_Click(sender As Object, e As RoutedEventArgs)
-        SearchSales()
-    End Sub
+
 
     Private Function FilterByDate(item As Object, selected As DateTime?) As Boolean
 
@@ -136,21 +177,15 @@ Public Class MyInventory
         Else
 
 
-            SearchSales()
             Return False
 
         End If
 
     End Function
-    Private Sub SearchSales()
-        Dim input As String = Search.Text.Trim().ToLower()
 
-        Dim collectionView As CollectionView = CType(CollectionViewSource.GetDefaultView(productDataGrid.ItemsSource), CollectionView)
-        collectionView.Filter = New Predicate(Of Object)(Function(item) FilterSales(item, input))
-    End Sub
 
     Private Sub Button_Click_1(sender As Object, e As RoutedEventArgs)
-        SearchSales()
+        FilterInventoryTable()
 
     End Sub
 

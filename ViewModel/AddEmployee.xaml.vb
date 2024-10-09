@@ -133,4 +133,18 @@ Public Class AddEmployee
             Email.BorderBrush = Brushes.LightPink
         End If
     End Sub
+
+    Private Sub Email_LostFocus(sender As Object, e As RoutedEventArgs)
+
+    End Sub
+
+    Private Sub Email_LostFocus_1(sender As Object, e As RoutedEventArgs)
+        Dim emailPattern As String = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        Dim emailInput As String = Email.Text.Trim()
+
+        If Not Regex.IsMatch(emailInput, emailPattern) AndAlso Not String.IsNullOrEmpty(emailInput) Then
+            MessageBox.Show("Invalid email address format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+
+        End If
+    End Sub
 End Class
