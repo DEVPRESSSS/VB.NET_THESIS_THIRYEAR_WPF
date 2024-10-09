@@ -12,20 +12,29 @@ Imports Microsoft.IdentityModel.Tokens
 
 
 Public Class POS
+    'Connection string
     Dim con As New ConnectionString
+
+    'Collection of products in the cart list
     Private selectedLists As ObservableCollection(Of SelectedItem)
+    'cashier value
     Private _cashier As String
+    'cashier ID
     Dim cashierID As String = String.Empty
 
     Public Sub New(cashier As String)
         InitializeComponent()
         selectedLists = New ObservableCollection(Of SelectedItem)()
+
         Dim products As List(Of Product) = GetProducts()
+
         ProductList.ItemsSource = products
         _cashier = cashier
     End Sub
 
 
+
+    'Retrieve casher username logic
     Private Sub retrieve()
 
         Dim query As String = "SELECT CashierID FROM Cashier WHERE Username = @Username"
@@ -62,6 +71,7 @@ Public Class POS
         End If
     End Sub
 
+    'Maximize code
     Private Sub btnMaximize_Click(sender As Object, e As RoutedEventArgs)
         If WindowState = WindowState.Maximized Then
             WindowState = WindowState.Normal
@@ -77,6 +87,7 @@ Public Class POS
         End If
     End Sub
 
+    'Minimize code
     Private Sub btnMinimize_Click(sender As Object, e As RoutedEventArgs)
         WindowState = WindowState.Minimized
     End Sub
@@ -130,6 +141,7 @@ Public Class POS
         Return products
     End Function
 
+    'Search any product
     Private Sub SearchBtn_Click(sender As Object, e As RoutedEventArgs)
         Dim products As List(Of Product) = GetSpecificProduct()
 
@@ -139,7 +151,7 @@ Public Class POS
 
         End If
     End Sub
-
+    'Fetch all the products
     Public Function GetProducts() As List(Of Product)
         Dim products As New List(Of Product)
 
@@ -166,6 +178,8 @@ Public Class POS
 
     End Sub
 
+
+    'Search product code
     Private Sub Search_TextChanged(sender As Object, e As TextChangedEventArgs)
 
         If Search.Text.Length = 0 Then
@@ -460,39 +474,47 @@ Public Class POS
                 header_format.SetTextAlignment(TextAlignment.CENTER)
                 document.Add(header_format)
 
+                Dim total As Decimal = 0
 
                 For Each item As SelectedItem In selectedLists
-
-
-
-
 
                     Dim items As String = $"               {item.ProductName}                               {item.Price}                                       {item.Quantity}                                {item.SubTotal}"
                     Dim items_content As New Paragraph(items)
                     items_content.SetTextAlignment(TextAlignment.CENTER)
                     document.Add(items_content)
-
-
-
-
-
-
-
-
-
-
+                    document.Add(New Paragraph("----------------------------------------------------------------------------------------------------------------------------------"))
+                    total = item.GrandTotal
 
                 Next
 
+                Dim gtotal As String = $"Grand Total                                                                                                      {total}"
+                Dim gtotal_format As New Paragraph(gtotal)
+                gtotal_format.SetTextAlignment(TextAlignment.CENTER)
+                document.Add(gtotal_format)
 
 
 
-                MessageBox.Show("PDF created successfully: ", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+                MessageBox.Show("Receipt generated  successfully: ", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
             End Using
         End Using
 
         Process.Start(New ProcessStartInfo(filePath) With {
         .UseShellExecute = True
     })
+    End Sub
+
+
+    'Log out code
+    Private Sub LogoutBtn_Click(sender As Object, e As RoutedEventArgs)
+
+        Dim confirmation As MessageBoxResult = MessageBox.Show("Are you sure you want to log out?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question)
+
+        If confirmation = MessageBoxResult.Yes Then
+            Dim logout As New LoginView()
+            logout.Show()
+            Me.Hide()
+
+        End If
+
     End Sub
 End Class
