@@ -42,7 +42,7 @@ Public Class Sales
                 .CashierID = Convert.ToInt32(row("CashierID")),
                 .SaleDate = Convert.ToDateTime(row("SaleDate")),
                 .TotalAmount = Convert.ToDouble(row("TotalAmount")),
-                .SaleDetailsList = New List(Of SaleDetails)() ' Initialize empty details list
+                .SaleDetailsList = New List(Of SaleDetails)()
             }
                 sales.Add(sale)
             Next
@@ -93,7 +93,7 @@ Public Class Sales
 
 
     End Sub
-
+    'Search Sale
     Private Sub SearchSale_Click(sender As Object, e As RoutedEventArgs)
         SearchSales()
     End Sub
@@ -102,6 +102,7 @@ Public Class Sales
         SearchSales()
     End Sub
 
+    'Print click button
     Private Sub print_Click(sender As Object, e As RoutedEventArgs)
 
         Dim rand As New Random
@@ -112,6 +113,7 @@ Public Class Sales
 
         PrintToPDF(salesDataGrid, filePath)
     End Sub
+    'Pdf printer
     Private Sub PrintToPDF(dataGrid As DataGrid, filePath As String)
         Using pdfWriter As New PdfWriter(filePath)
             Using pdfDocument As New PdfDocument(pdfWriter)

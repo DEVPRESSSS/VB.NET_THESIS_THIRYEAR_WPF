@@ -94,7 +94,7 @@ Public Class AddEmployee
 
     Private Sub Username_PreviewKeyDown(sender As Object, e As KeyEventArgs)
         If (e.Key < Key.A OrElse e.Key > Key.Z) AndAlso e.Key <> Key.Back Then
-            e.Handled = True ' Suppress non-letter keys
+            e.Handled = True
         End If
     End Sub
 

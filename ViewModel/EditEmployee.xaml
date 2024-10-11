@@ -13,7 +13,8 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         MinHeight="400" MinWidth="800"
-        MouseDown="Window_MouseDown">
+        MouseDown="Window_MouseDown"
+        Loaded="Window_Loaded">
 
 
     <Border Background="#F4F5F6" MinHeight="400" MinWidth="800" CornerRadius="10,10,10,10"   BorderBrush="#073b4c" BorderThickness="2">
@@ -55,7 +56,7 @@
 
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Add Cashier"
+                <TextBlock Text="Update Cashier"
                             Foreground="White"
                             FontSize="14"
                             FontFamily="Roboto"
@@ -164,8 +165,9 @@
                      Grid.Row="1" 
                      VerticalAlignment="Top"
                      Width="146" 
-                      Style="{StaticResource TextBoxes}"
-                     MaxLength="20"/>
+                     Style="{StaticResource TextBoxes}"
+                     MaxLength="20"
+                     PreviewKeyDown="Firstname_PreviewKeyDown"/>
             <TextBlock HorizontalAlignment="Left"
                        Margin="497,84,0,0" 
                        Grid.Row="1" 
@@ -179,8 +181,10 @@
                      Grid.Row="1" 
                      VerticalAlignment="Center" 
                      Width="146" 
-                    Style="{StaticResource TextBoxes}"
-                     MaxLength="20"/>
+                     Style="{StaticResource TextBoxes}"
+                     MaxLength="20"
+                     LostFocus="Lastname_LostFocus"
+                     PreviewKeyDown="Lastname_PreviewKeyDown"/>
             <TextBlock HorizontalAlignment="Left" 
                        Margin="497,150,0,0"
                        Grid.Row="1" 
@@ -194,8 +198,11 @@
                      Grid.Row="1" 
                      VerticalAlignment="Center"
                      Width="146"
-                    Style="{StaticResource TextBoxes}"
-                     MaxLength="20"/>
+                     Style="{StaticResource TextBoxes}"
+                     MaxLength="30"
+                     TextChanged="Email_TextChanged"
+                     LostFocus="Email_LostFocus"
+                     />
 
             <TextBlock HorizontalAlignment="Left" 
                        Margin="149,146,0,0"
@@ -208,10 +215,10 @@
             <Button x:Name="Update" 
                     Content="Update" 
                     HorizontalAlignment="Left"
-                    Margin="89,246,0,0" 
+                    Margin="149,246,0,0" 
                     Grid.Row="1" 
                     VerticalAlignment="Top" 
-                    Width="266" 
+                    Width="231" 
                      Cursor="Hand"
                     Style="{StaticResource SubmitButton}" 
                     Click="Update_Click"/>
@@ -220,10 +227,10 @@
             <Button Content="Clear" 
                     Click="Clear_Click" 
                     HorizontalAlignment="Left"
-                    Margin="437,246,0,0" 
+                    Margin="404,246,0,0" 
                     Grid.Row="1" 
                     VerticalAlignment="Top" 
-                    Width="266" 
+                    Width="239" 
                      Cursor="Hand"
                     Style="{StaticResource ClearButton}" 
                     />

@@ -57,11 +57,12 @@
 
 
             <TextBox x:Name="Search" 
-            Style="{StaticResource TextBoxes}"
-            Margin="0,0,109,0" Grid.Column="0"
-            TextWrapping="Wrap" 
-            VerticalAlignment="Center"
-            MaxLength="20" HorizontalAlignment="Right" Width="146"/>
+                    Style="{StaticResource TextBoxes}"
+                    Margin="0,0,109,0" Grid.Column="0"
+                    TextWrapping="Wrap" 
+                    VerticalAlignment="Center"
+                    MaxLength="20" HorizontalAlignment="Right" Width="146"
+                    TextChanged="Search_TextChanged"/>
 
             <!--Search Button icon -->
             <Button Style="{StaticResource addButton}" Margin="0,5,10,5" Cursor="Hand" Grid.Column="0" 
@@ -107,7 +108,6 @@
                 <DataGrid.Columns>
 
                     <DataGridTextColumn Header="InventoryID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding InventoryID}"/>
-                    <DataGridTextColumn Header="ProductID" Binding="{Binding ProductID}" IsReadOnly="True" Width="*" Visibility="Hidden"/>
 
                     <DataGridTextColumn Header="ProductName" Binding="{Binding ProductName}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Current Stock" Binding="{Binding CurrentStock}" IsReadOnly="True" Width="*"/>

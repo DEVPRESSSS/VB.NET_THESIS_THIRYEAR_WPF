@@ -34,21 +34,31 @@ Public Class MyInventory
 
         Dim inventoryItems As New List(Of ProductInventory)()
 
-        Dim q As String = "SELECT [InventoryID], [ProductID], [LastUpdated], [OriginalStock] " &
-                      "FROM [Pamela].[dbo].[Inventory] " &
-                      "WHERE ([InventoryID] = @InventoryID OR @InventoryID IS NULL) " &
-                      "AND ([ProductID] = @ProductID OR @ProductID IS NULL) " &
-                      "AND ([OriginalStock] = @OriginalStock OR @OriginalStock IS NULL) " &
-                      "AND (DATEDIFF(DAY, [LastUpdated], @LastUpdated) = 0 OR @LastUpdated IS NULL)"
+        Dim q As String = "SELECT * FROM Inventory WHERE" &
+                      " (@InventoryID = '' OR InventoryID = @InventoryID) " &
+                      " OR (@ProductID = '' OR ProductID = @ProductID) " &
+                      " OR (@OriginalStock = '' OR OriginalStock = @OriginalStock) " &
+                      " OR (@LastUpdated = '' OR CONVERT(VARCHAR, LastUpdated, 120) LIKE '%' + @LastUpdated + '%')"
 
         Using connection As New SqlConnection(con.connectionString)
             connection.Open()
 
             Using cmd As New SqlCommand(q, connection)
-                cmd.Parameters.AddWithValue("@InventoryID", If(IsNumeric(input), Convert.ToInt32(input), DBNull.Value))
-                cmd.Parameters.AddWithValue("@ProductID", If(IsNumeric(input), Convert.ToInt32(input), DBNull.Value))
-                cmd.Parameters.AddWithValue("@OriginalStock", If(IsNumeric(input), Convert.ToInt32(input), DBNull.Value))
-                cmd.Parameters.AddWithValue("@LastUpdated", If(DateTime.TryParse(input, Nothing), Convert.ToDateTime(input), DBNull.Value))
+                If IsNumeric(input) Then
+                    cmd.Parameters.AddWithValue("@InventoryID", Convert.ToInt32(input))
+                    cmd.Parameters.AddWithValue("@ProductID", Convert.ToInt32(input))
+                    cmd.Parameters.AddWithValue("@OriginalStock", Convert.ToInt32(input))
+                Else
+                    cmd.Parameters.AddWithValue("@InventoryID", DBNull.Value)
+                    cmd.Parameters.AddWithValue("@ProductID", DBNull.Value)
+                    cmd.Parameters.AddWithValue("@OriginalStock", DBNull.Value)
+                End If
+
+                If DateTime.TryParse(input, Nothing) Then
+                    cmd.Parameters.AddWithValue("@LastUpdated", input)
+                Else
+                    cmd.Parameters.AddWithValue("@LastUpdated", DBNull.Value)
+                End If
 
                 Using reader As SqlDataReader = cmd.ExecuteReader()
                     While reader.Read()
@@ -67,6 +77,7 @@ Public Class MyInventory
 
         productDataGrid.ItemsSource = inventoryItems
     End Sub
+
 
 
     Public Sub FetchProductData()
@@ -237,7 +248,7 @@ Public Class MyInventory
 
                 For Each item In dataGrid.ItemsSource
                     Dim product As ProductInventory = CType(item, ProductInventory)
-                    table.AddCell(New Cell().Add(New Paragraph(product.ProductID.ToString())))
+                    table.AddCell(New Cell().Add(New Paragraph(product.InventoryID.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.ProductID.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.CurrentStock.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.OriginalStock.ToString())))
@@ -260,7 +271,7 @@ Public Class MyInventory
         Dim randomNumber As Integer = rand.Next()
         Dim randomInRange As Integer = rand.Next(1, 1000)
 
-        Dim filePath As String = $"D:\VB_THESIS_WPS\Prints\Cashierlist_{randomInRange}.pdf"
+        Dim filePath As String = $"D:\VB_THESIS_WPS\Prints\Inventory_{randomInRange}.pdf"
 
 
         If productDataGrid.ItemsSource Is Nothing OrElse productDataGrid.Items.Count = 0 OrElse productDataGrid.Columns.Count = 0 Then
@@ -282,5 +293,16 @@ Public Class MyInventory
      )
 
         passToEdit.Show()
+    End Sub
+
+    Private Sub Search_TextChanged(sender As Object, e As TextChangedEventArgs)
+
+        If Search.Text.Length > 0 Then
+            FilterInventoryTable()
+
+        Else
+
+            FetchProductData()
+        End If
     End Sub
 End Class

@@ -107,7 +107,7 @@
                     FontSize="13"
                     Content="+"
                     Cursor="Hand"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     Click="btnMaximize_Click"
                     VerticalAlignment="Center">
                     <!--Button style like hover-->
@@ -147,7 +147,7 @@
                     Content="-"
                     Cursor="Hand"
                     Click="btnMinimize_Click"
-                    Grid.Column="4"
+                    Grid.Column="2"
                     VerticalAlignment="Center"
                      >
 
@@ -182,7 +182,7 @@
                      FontSize="12"
                      Content="x"
                      Cursor="Hand"
-                     Grid.Column="3"
+                     Grid.Column="4"
                      VerticalAlignment="Center"
                         Click="btnClose_Click">
                     <Button.Style>
@@ -229,12 +229,12 @@
                 </Grid.ColumnDefinitions>
 
 
-
-                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Margin="0,63,0,0" HorizontalAlignment="Center" Width="621" Height="483" VerticalAlignment="Top">
-                    <ItemsControl Name="ProductList" Width="Auto" Height="473" >
+                <!--This is scrollviewer of product-->
+                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Margin="0,63,0,29" HorizontalAlignment="Center" Width="621">
+                    <ItemsControl Name="ProductList" Width="Auto" >
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel HorizontalAlignment="Center"  Effect="{StaticResource dropShadow}"/>
+                                <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal" Effect="{StaticResource dropShadow}"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
 
@@ -345,6 +345,9 @@
                     TextAlignment="Left"
                     Grid.Column="1" 
                     RenderTransformOrigin="0.359,0.522" Height="23" VerticalAlignment="Bottom"/>
+                
+                
+                
 
 
             </Grid>
@@ -357,8 +360,8 @@
                    FontFamily="Roboto"
                    FontWeight="DemiBold"
                    FontSize="14"
-                   Height="Auto" Margin="78,28,934,508"
-                   Foreground="#073b4c"
+                   Height="Auto" Margin="0,28,934,508"
+                   Foreground="#073b4c" HorizontalAlignment="Right" Width="84"
                        
              />
 

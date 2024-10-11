@@ -144,7 +144,7 @@
                      VerticalAlignment="Top"
                      Width="146" 
                       Style="{StaticResource TextBoxes}"
-                    PreviewKeyDown="Username_PreviewKeyDown" 
+                     PreviewKeyDown="Username_PreviewKeyDown" 
                      TextChanged="Username_TextChanged" 
                      MaxLength="20"/>
 
@@ -224,9 +224,9 @@
             <Button x:Name="Insert" 
                     Content="Insert" 
                     HorizontalAlignment="Left"
-                    Margin="89,230,0,0" Grid.Row="1" 
+                    Margin="135,250,0,0" Grid.Row="1" 
                     VerticalAlignment="Top"
-                    Width="266" 
+                    Width="263" 
                     Cursor="Hand"
                     Style="{StaticResource SubmitButton}" 
                     Foreground="white"             
@@ -236,10 +236,10 @@
             <Button Content="Clear" 
                     Click="Clear" 
                     HorizontalAlignment="Left" 
-                    Margin="453,230,0,0" 
+                    Margin="426,250,0,0" 
                     Grid.Row="1" 
                     VerticalAlignment="Top"
-                    Width="266" 
+                    Width="246" 
                     Cursor="Hand"
                     Style="{StaticResource ClearButton}" 
                       />

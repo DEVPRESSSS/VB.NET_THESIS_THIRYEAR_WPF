@@ -124,7 +124,6 @@ D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Analysis.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\ChangePassword.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Dashboard.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\EditEmployee.g.vb
-D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\EditMember.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\EditProduct.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Employee.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\ForgotPassword.g.vb
@@ -146,7 +145,6 @@ D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Analysis.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\ChangePassword.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Dashboard.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\EditEmployee.baml
-D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\EditMember.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\EditProduct.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\Employee.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\ForgotPassword.baml
