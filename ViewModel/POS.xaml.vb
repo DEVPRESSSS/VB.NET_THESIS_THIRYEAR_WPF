@@ -289,8 +289,8 @@ Public Class POS
 
     'Insert sales into database
     Private Sub InsertSale(cashierID As String, totalAmount As Decimal)
-        Dim insertSaleQuery As String = "INSERT INTO Sales (CashierID, SaleDate, TotalAmount) VALUES (@CashierID, @SaleDate, @TotalAmount)"
-
+        Dim salesID As Integer
+        Dim insertSaleQuery As String = "INSERT INTO Sales (CashierID, SaleDate, TotalAmount) OUTPUT INSERTED.SalesID VALUES (@CashierID, @SaleDate, @TotalAmount)"
 
         Using connection As New SqlConnection(con.connectionString)
             connection.Open()
@@ -298,11 +298,41 @@ Public Class POS
                 cmd.Parameters.AddWithValue("@CashierID", cashierID)
                 cmd.Parameters.AddWithValue("@SaleDate", DateTime.Now)
                 cmd.Parameters.AddWithValue("@TotalAmount", totalAmount)
-                cmd.ExecuteNonQuery()
-            End Using
 
+                ' Retrieve the SalesID of the inserted sale
+                salesID = Convert.ToInt32(cmd.ExecuteScalar())
+                InsertSalesDetails(salesID)
+            End Using
+        End Using
+
+    End Sub
+
+
+    'INSERT INTO SALES DETAILS
+
+    Private Sub InsertSalesDetails(salesID As Integer)
+        Dim insertSaleDetailsQuery As String = "INSERT INTO SalesDetails (SalesID, ProductName, Quantity, UnitPrice) " &
+                                           "VALUES (@SalesID, @ProductName, @Quantity, @UnitPrice)"
+
+        Using connection As New SqlConnection(con.connectionString)
+            connection.Open()
+            Using cmd As New SqlCommand(insertSaleDetailsQuery, connection)
+
+                ' Iterate through the selected products and add details
+                For Each items As SelectedItem In selectedLists
+                    cmd.Parameters.Clear()
+                    cmd.Parameters.AddWithValue("@SalesID", salesID)
+                    cmd.Parameters.AddWithValue("@ProductName", items.ProductName)
+                    cmd.Parameters.AddWithValue("@Quantity", items.Quantity)
+                    cmd.Parameters.AddWithValue("@UnitPrice", items.Price)
+
+                    cmd.ExecuteNonQuery()
+                Next
+
+            End Using
         End Using
     End Sub
+
 
     'Sell button logic
     Private Sub sellbtn_Click(sender As Object, e As RoutedEventArgs)

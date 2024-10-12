@@ -83,26 +83,9 @@
 
 
             <!--Datetime picker -->
-            <DatePicker Name="datePickerFilter" 
-                    SelectedDateChanged="datePickerFilter_SelectedDateChanged"
-                    Margin="0,0,458,0" 
-                    Height="26"
-                    Width="130"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right"/>
 
 
             <!--Filter button -->
-            <Button Style="{StaticResource addButton}" 
-                    Margin="0,5,359,5" Cursor="Hand" 
-                    Click="Button_Click"
-                Width="94"
-             >
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Icon:PackIconMaterial Kind="Filter" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
-                    <TextBlock Text="Sort" FontFamily="Roboto" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button>
 
 
 
@@ -123,7 +106,10 @@
 
                     <DataGridTextColumn Header="SaleID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding SaleID}"/>
                     <DataGridTextColumn Header="CashierID" CanUserResize="False"  Binding="{Binding CashierID}" IsReadOnly="True" Width="*"/>
-
+                    <DataGridTextColumn Header="Name" CanUserResize="False" Binding="{Binding ProductName}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Price" CanUserResize="False" Binding="{Binding UnitPrice}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Qty" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding Quantity}"/>
+                    <DataGridTextColumn Header="Subtotal" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding TotalPrice}"/>
                     <DataGridTextColumn Header="SaleDate" CanUserResize="False" Binding="{Binding SaleDate}" IsReadOnly="True" Width="*"/>
 
                     <DataGridTextColumn Header="TotalAmount" CanUserResize="False" Binding="{Binding TotalAmount}" IsReadOnly="True" Width="*"/>
@@ -131,7 +117,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Style="{StaticResource gridInvoiceButton}">
+                                    <Button Style="{StaticResource gridInvoiceButton}" Click="Button_Click_1">
                                         <StackPanel Orientation="Horizontal">
                                             <Icon:PackIconMaterial Kind="InvoiceImport" Style="{StaticResource gridInvoiceIcon}"/>
                                             <TextBlock Text="Generate Invoice" VerticalAlignment="Center" />

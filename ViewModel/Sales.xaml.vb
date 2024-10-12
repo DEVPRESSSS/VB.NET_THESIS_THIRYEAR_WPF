@@ -22,11 +22,14 @@ Public Class Sales
     End Sub
 
     Private Sub FetchSale()
-        Dim sales As New ObservableCollection(Of Sale)()
+        Dim salesDetailsCollection As New ObservableCollection(Of SaleDetails)()
 
-        Dim query As String = "SELECT [SalesID], [CashierID], [SaleDate], [TotalAmount] 
-                           FROM [Pamela].[dbo].[Sales]
-                           ORDER BY [SalesID];"
+        Dim query As String = "SELECT s.[SalesID], s.[CashierID], s.[SaleDate], s.[TotalAmount], " &
+                       "sd.[SalesDetailID], sd.[ProductName], sd.[Quantity], sd.[UnitPrice], sd.[TotalPrice] " &
+                       "FROM [Pamela].[dbo].[Sales] s " &
+                       "INNER JOIN [Pamela].[dbo].[SalesDetails] sd " &
+                       "ON s.[SalesID] = sd.[SalesID] " &
+                       "ORDER BY s.[SalesID];"
 
         Using connection As New SqlConnection(con.connectionString)
             Dim command As New SqlCommand(query, connection)
@@ -37,57 +40,32 @@ Public Class Sales
             adapter.Fill(dataTable)
 
             For Each row As DataRow In dataTable.Rows
-                Dim sale As New Sale With {
+                Dim saleDetails As New SaleDetails With {
+                .SalesDetailsID = Convert.ToInt32(row("SalesDetailID")),
                 .SaleID = Convert.ToInt32(row("SalesID")),
-                .CashierID = Convert.ToInt32(row("CashierID")),
-                .SaleDate = Convert.ToDateTime(row("SaleDate")),
-                .TotalAmount = Convert.ToDouble(row("TotalAmount")),
-                .SaleDetailsList = New List(Of SaleDetails)()
+                .CashierID = Convert.ToInt32(row("CashierID")), ' Add CashierID
+                .SaleDate = Convert.ToDateTime(row("SaleDate")), ' Add SaleDate
+                .TotalAmount = Convert.ToDecimal(row("TotalAmount")), ' Add TotalAmount
+                .ProductName = row("ProductName").ToString(),
+                .Quantity = Convert.ToInt32(row("Quantity")),
+                .UnitPrice = Convert.ToDecimal(row("UnitPrice")),
+                .TotalPrice = Convert.ToDecimal(row("TotalPrice"))
             }
-                sales.Add(sale)
+
+                salesDetailsCollection.Add(saleDetails)
             Next
 
-            salesDataGrid.ItemsSource = sales
+            salesDataGrid.ItemsSource = salesDetailsCollection
         End Using
     End Sub
 
-    Private Sub SearchSales()
-        Dim input As String = Search.Text.Trim().ToLower()
-
-        Dim collectionView As CollectionView = CType(CollectionViewSource.GetDefaultView(salesDataGrid.ItemsSource), CollectionView)
-        collectionView.Filter = New Predicate(Of Object)(Function(item) FilterSales(item, input))
-    End Sub
-
-    Private Function FilterSales(item As Object, input As String) As Boolean
-        Dim row As Sale = CType(item, Sale)
-
-        Return row.SaleID.ToString().Contains(input) OrElse
-               row.CashierID.ToString().Contains(input) OrElse
-               row.TotalAmount.ToString().Contains(input)
-    End Function
-    Private Sub datePickerFilter_SelectedDateChanged(sender As Object, e As SelectionChangedEventArgs)
 
 
-        Dim filterDate As DateTime = datePickerFilter.SelectedDate
-
-        Dim collectionView As CollectionView = CType(CollectionViewSource.GetDefaultView(salesDataGrid.ItemsSource), CollectionView)
-        collectionView.Filter = New Predicate(Of Object)(Function(item) FilterByDate(item, filterDate))
-
-    End Sub
-
-    Private Function FilterByDate(item As Object, selected As DateTime?) As Boolean
 
 
-        Dim row As Sale = CType(item, Sale)
-
-        If selected.HasValue Then
-            Return row.SaleDate.Date = selected.Value.Date
 
 
-        End If
 
-        Return True
-    End Function
     Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
 
 
@@ -95,11 +73,17 @@ Public Class Sales
     End Sub
     'Search Sale
     Private Sub SearchSale_Click(sender As Object, e As RoutedEventArgs)
-        SearchSales()
+
     End Sub
 
     Private Sub Search_TextChanged(sender As Object, e As TextChangedEventArgs)
-        SearchSales()
+
+        If Search.Text.Length > 0 Then
+            SearchSales()
+        Else
+            FetchSale()
+
+        End If
     End Sub
 
     'Print click button
@@ -137,7 +121,7 @@ Public Class Sales
 
                 document.Add(New Paragraph().SetHeight(20))
 
-                'Printed date paragraph
+                ' Printed date paragraph
                 Dim printedDate As String = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
                 Dim concatDate As String = $"Date: {printedDate}"
                 Dim printedDateParagraph As New Paragraph(concatDate)
@@ -149,6 +133,7 @@ Public Class Sales
                 ' Create a table with the number of columns in the DataGrid
                 Dim table As New Table(dataGrid.Columns.Count - 1)
                 table.SetWidth(UnitValue.CreatePercentValue(100))
+
                 ' Add headers
                 For Each column As DataGridColumn In dataGrid.Columns
                     If Not TypeOf column Is DataGridTemplateColumn Then ' Check if it's not an Action column
@@ -156,14 +141,20 @@ Public Class Sales
                     End If
                 Next
 
-
                 ' Add rows
                 For Each item In dataGrid.ItemsSource
-                    Dim sale As Sale = CType(item, Sale)
-                    table.AddCell(New Cell().Add(New Paragraph(sale.SaleID.ToString())))
-                    table.AddCell(New Cell().Add(New Paragraph(sale.CashierID.ToString())))
-                    table.AddCell(New Cell().Add(New Paragraph(sale.SaleDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))))
-                    table.AddCell(New Cell().Add(New Paragraph(sale.TotalAmount.ToString("C", CultureInfo.CurrentCulture))))
+                    Dim saleDetails As SaleDetails = CType(item, SaleDetails)
+
+                    ' Add SaleDetails columns to the table
+                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.SaleID.ToString())))
+                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.CashierID.ToString())))
+                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.ProductName)))
+                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.UnitPrice.ToString("C", CultureInfo.CurrentCulture))))
+                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.Quantity.ToString())))
+                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.TotalPrice.ToString("C", CultureInfo.CurrentCulture))))
+
+                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.SaleDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))))
+                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.TotalAmount.ToString("C", CultureInfo.CurrentCulture))))
                 Next
 
                 document.Add(table)
@@ -173,9 +164,65 @@ Public Class Sales
         End Using
 
         Process.Start(New ProcessStartInfo(filePath) With {
-        .UseShellExecute = True
-    })
+          .UseShellExecute = True
+        })
     End Sub
 
+    Private Sub Button_Click_1(sender As Object, e As RoutedEventArgs)
+
+    End Sub
+
+    Private Sub SearchSales()
+
+
+        Dim searchTerm As String = Search.Text.Trim()
+        Dim salesDetailsCollection As New ObservableCollection(Of SaleDetails)()
+
+        ' Adjust the SQL query to filter based on the search term
+        Dim query As String = "SELECT s.[SalesID], s.[CashierID], s.[SaleDate], s.[TotalAmount], " &
+                      "sd.[SalesDetailID], sd.[ProductName], sd.[Quantity], sd.[UnitPrice], sd.[TotalPrice] " &
+                      "FROM [Pamela].[dbo].[Sales] s " &
+                      "INNER JOIN [Pamela].[dbo].[SalesDetails] sd " &
+                      "ON s.[SalesID] = sd.[SalesID] " &
+                      "WHERE sd.[ProductName] LIKE @searchTerm OR " &
+                      "s.[SalesID] LIKE @searchTerm OR " &
+                      "s.[CashierID] LIKE @searchTerm OR " &
+                      "s.[SaleDate] LIKE @searchTerm OR " &
+                      "s.[TotalAmount] LIKE @searchTerm OR " &
+                      "sd.[Quantity] LIKE @searchTerm OR " &
+                      "sd.[UnitPrice] LIKE @searchTerm OR " &
+                      "sd.[TotalPrice] LIKE @searchTerm " &
+                      "ORDER BY s.[SalesID];"
+
+
+        Using connection As New SqlConnection(con.connectionString)
+            Dim command As New SqlCommand(query, connection)
+            command.Parameters.AddWithValue("@searchTerm", "%" & searchTerm & "%") ' Add parameter for search
+
+            Dim adapter As New SqlDataAdapter(command)
+            Dim dataTable As New DataTable()
+
+            connection.Open()
+            adapter.Fill(dataTable)
+
+            For Each row As DataRow In dataTable.Rows
+                Dim saleDetails As New SaleDetails With {
+                .SalesDetailsID = Convert.ToInt32(row("SalesDetailID")),
+                .SaleID = Convert.ToInt32(row("SalesID")),
+                .CashierID = Convert.ToInt32(row("CashierID")),
+                .SaleDate = Convert.ToDateTime(row("SaleDate")),
+                .TotalAmount = Convert.ToDecimal(row("TotalAmount")),
+                .ProductName = row("ProductName").ToString(),
+                .Quantity = Convert.ToInt32(row("Quantity")),
+                .UnitPrice = Convert.ToDecimal(row("UnitPrice")),
+                .TotalPrice = Convert.ToDecimal(row("TotalPrice"))
+            }
+
+                salesDetailsCollection.Add(saleDetails)
+            Next
+
+            salesDataGrid.ItemsSource = salesDetailsCollection
+        End Using
+    End Sub
 
 End Class

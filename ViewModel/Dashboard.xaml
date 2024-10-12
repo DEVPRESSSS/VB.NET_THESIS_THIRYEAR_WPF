@@ -170,16 +170,11 @@ Margin="10,116,0,289" Grid.Row="1" FontSize="14"
 
 
 
-        <lvc:CartesianChart Margin="0,146,0,0" Grid.Row="1" Grid.RowSpan="3">
-            <lvc:CartesianChart.Series>
-                <lvc:ColumnSeries Title="2024"
-                         Values="30, 70, 45, 85"/>
-                <lvc:ColumnSeries Title="2023"
-                         Values="40, 60, 55, 75"/>
-            </lvc:CartesianChart.Series>
+     
+
+        <lvc:CartesianChart x:Name="test" Margin="0,146,0,0" Grid.Row="1" Grid.RowSpan="3">
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Months"
-                 Labels="Jan, Feb, Mar, Apr"/>
+                <lvc:Axis Title="Months"/>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Sales"/>
