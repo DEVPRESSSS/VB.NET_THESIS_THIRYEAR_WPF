@@ -34,11 +34,15 @@ Public Class MyInventory
 
         Dim inventoryItems As New List(Of ProductInventory)()
 
-        Dim q As String = "SELECT * FROM Inventory WHERE" &
-                      " (@InventoryID = '' OR InventoryID = @InventoryID) " &
-                      " OR (@ProductID = '' OR ProductID = @ProductID) " &
-                      " OR (@OriginalStock = '' OR OriginalStock = @OriginalStock) " &
-                      " OR (@LastUpdated = '' OR CONVERT(VARCHAR, LastUpdated, 120) LIKE '%' + @LastUpdated + '%')"
+        ' Modified query to include ProductName filter
+        Dim q As String = "SELECT P.InventoryID, P.ProductID, S.ProductName, P.Quantity, P.OriginalStock, P.LastUpdated " &
+                      "FROM Inventory P INNER JOIN Product S ON P.ProductID = S.ProductID " &
+                      "WHERE (@InventoryID = '' OR P.InventoryID = @InventoryID) " &
+                      "OR (@ProductID = '' OR P.ProductID = @ProductID) " &
+                      "OR (@Quantity = '' OR P.Quantity = @Quantity) " &
+                      "OR (@OriginalStock = '' OR P.OriginalStock = @OriginalStock) " &
+                      "OR (@LastUpdated = '' OR CONVERT(VARCHAR, P.LastUpdated, 120) LIKE '%' + @LastUpdated + '%') " &
+                      "OR (@ProductName = '' OR S.ProductName LIKE '%' + @ProductName + '%')"
 
         Using connection As New SqlConnection(con.connectionString)
             connection.Open()
@@ -48,10 +52,14 @@ Public Class MyInventory
                     cmd.Parameters.AddWithValue("@InventoryID", Convert.ToInt32(input))
                     cmd.Parameters.AddWithValue("@ProductID", Convert.ToInt32(input))
                     cmd.Parameters.AddWithValue("@OriginalStock", Convert.ToInt32(input))
+                    cmd.Parameters.AddWithValue("@Quantity", Convert.ToInt32(input))
+
                 Else
                     cmd.Parameters.AddWithValue("@InventoryID", DBNull.Value)
                     cmd.Parameters.AddWithValue("@ProductID", DBNull.Value)
                     cmd.Parameters.AddWithValue("@OriginalStock", DBNull.Value)
+                    cmd.Parameters.AddWithValue("@Quantity", DBNull.Value)
+
                 End If
 
                 If DateTime.TryParse(input, Nothing) Then
@@ -60,12 +68,21 @@ Public Class MyInventory
                     cmd.Parameters.AddWithValue("@LastUpdated", DBNull.Value)
                 End If
 
+                ' Add parameter for ProductName
+                If Not IsNumeric(input) AndAlso Not DateTime.TryParse(input, Nothing) Then
+                    cmd.Parameters.AddWithValue("@ProductName", input)
+                Else
+                    cmd.Parameters.AddWithValue("@ProductName", DBNull.Value)
+                End If
+
                 Using reader As SqlDataReader = cmd.ExecuteReader()
                     While reader.Read()
                         Dim inventoryItem As New ProductInventory() With {
                         .InventoryID = Convert.ToInt32(reader("InventoryID")),
                         .ProductID = Convert.ToInt32(reader("ProductID")),
+                        .ProductName = reader("ProductName").ToString(),
                         .LastUpdated = Convert.ToDateTime(reader("LastUpdated")),
+                        .CurrentStock = Convert.ToInt32(reader("Quantity")),
                         .OriginalStock = Convert.ToInt32(reader("OriginalStock"))
                     }
 
@@ -77,6 +94,7 @@ Public Class MyInventory
 
         productDataGrid.ItemsSource = inventoryItems
     End Sub
+
 
 
 
@@ -249,7 +267,7 @@ Public Class MyInventory
                 For Each item In dataGrid.ItemsSource
                     Dim product As ProductInventory = CType(item, ProductInventory)
                     table.AddCell(New Cell().Add(New Paragraph(product.InventoryID.ToString())))
-                    table.AddCell(New Cell().Add(New Paragraph(product.ProductID.ToString())))
+                    table.AddCell(New Cell().Add(New Paragraph(product.ProductName.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.CurrentStock.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.OriginalStock.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.LastUpdated.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))))

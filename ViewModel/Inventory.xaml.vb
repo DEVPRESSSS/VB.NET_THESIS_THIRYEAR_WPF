@@ -192,12 +192,13 @@ Public Class Inventory
                     Dim product As Product = CType(item, Product)
                     table.AddCell(New Cell().Add(New Paragraph(product.ProductID.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.ProductName.ToString())))
-                    table.AddCell(New Cell().Add(New Paragraph(product.Price.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.Description.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.CategoryName.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.Brand.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.Size.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.Color.ToString())))
+                    table.AddCell(New Cell().Add(New Paragraph(product.Price.ToString())))
+
                     table.AddCell(New Cell().Add(New Paragraph(product.CreatedAt.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))))
                 Next
 

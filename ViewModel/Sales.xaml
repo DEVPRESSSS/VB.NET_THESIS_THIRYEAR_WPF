@@ -113,20 +113,7 @@
                     <DataGridTextColumn Header="SaleDate" CanUserResize="False" Binding="{Binding SaleDate}" IsReadOnly="True" Width="*"/>
 
                     <DataGridTextColumn Header="TotalAmount" CanUserResize="False" Binding="{Binding TotalAmount}" IsReadOnly="True" Width="*"/>
-                    <DataGridTemplateColumn Header="Action" CanUserResize="False" IsReadOnly="True" Width="auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Style="{StaticResource gridInvoiceButton}" Click="Button_Click_1">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Icon:PackIconMaterial Kind="InvoiceImport" Style="{StaticResource gridInvoiceIcon}"/>
-                                            <TextBlock Text="Generate Invoice" VerticalAlignment="Center" />
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                  
 
                 </DataGrid.Columns>
             </DataGrid>

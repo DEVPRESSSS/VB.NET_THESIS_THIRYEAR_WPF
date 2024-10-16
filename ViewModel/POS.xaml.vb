@@ -64,9 +64,10 @@ Public Class POS
 
         If Response = MsgBoxResult.Yes Then
 
-            Dim login As New LoginView()
-            login.Show()
-            Me.Close()
+
+
+
+            Application.Current.Shutdown()
 
         End If
     End Sub
@@ -124,10 +125,10 @@ Public Class POS
 
                             Dim product As New Product() With {
                             .ProductName = reader("ProductName").ToString(),
-                            .Price = Convert.ToDecimal(reader("Price").ToString())
+                            .Price = Convert.ToDecimal(reader("Price").ToString()),
+                            .Size = reader("Size").ToString()
                             }
                             products.Add(product)
-
 
 
                         End While
@@ -148,6 +149,9 @@ Public Class POS
         If products.Any() Then
             ProductList.ItemsSource = products
 
+        Else
+            MessageBox.Show("No products found.")
+
 
         End If
     End Sub
@@ -157,7 +161,7 @@ Public Class POS
 
         Using connection As New SqlConnection(con.connectionString)
             connection.Open()
-            Dim query As String = "SELECT ProductID, ProductName, Price FROM Product"
+            Dim query As String = "SELECT ProductID, ProductName, Size, Price FROM Product"
             Dim command As New SqlCommand(query, connection)
             Dim reader As SqlDataReader = command.ExecuteReader()
 
@@ -165,7 +169,8 @@ Public Class POS
                 Dim product As New Product() With {
                     .ProductID = reader("ProductID"),
                     .ProductName = reader("ProductName").ToString(),
-                    .Price = Decimal.Parse(reader("Price").ToString())
+                    .Price = Decimal.Parse(reader("Price").ToString()),
+                    .Size = Decimal.Parse(reader("Size").ToString())
                 }
                 products.Add(product)
             End While
@@ -184,6 +189,7 @@ Public Class POS
 
         If Search.Text.Length = 0 Then
             Dim products As List(Of Product) = GetProducts()
+
             ProductList.ItemsSource = products
 
 
@@ -197,6 +203,8 @@ Public Class POS
         Dim selectedProduct As Product = CType(button.DataContext, Product)
 
         Dim existingItem As SelectedItem = selectedLists.FirstOrDefault(Function(item) item.ProductID = selectedProduct.ProductID)
+
+
 
         If existingItem IsNot Nothing Then
 
@@ -216,6 +224,7 @@ Public Class POS
         End If
 
         existingItem.SubTotal = existingItem.Quantity * existingItem.Price
+        items.ItemsSource = Nothing
         items.ItemsSource = selectedLists
         SumSubtotalColumn()
 
@@ -263,6 +272,7 @@ Public Class POS
 
             items.ItemsSource = Nothing
             items.ItemsSource = selectedLists
+            SumSubtotalColumn()
 
         End If
     End Sub
@@ -410,7 +420,6 @@ Public Class POS
                         End If
                     Next
 
-                    ' VALIDATION: Check if the bill amount entered by the user is less than the total amount
                     If billAmount < totalAmount Then
                         MessageBox.Show($"The bill amount ({billAmount:C}) is less than the total purchase amount ({totalAmount:C}).", "Payment Error", MessageBoxButton.OK, MessageBoxImage.Error)
                         transaction.Rollback()
@@ -427,8 +436,9 @@ Public Class POS
                     MessageBox.Show($"Order placed successfully. Total: {totalAmount:C}", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
                     PrintReceipt()
                     selectedLists.Clear()
+
                     Bill.Text = ""
-                    ChangeCount.Content = ""
+
                     Subtotalcount.Content = ""
 
                 Catch ex As Exception
@@ -477,7 +487,7 @@ Public Class POS
                 ' Add Company Address
                 Dim address As String = "Pamela Mabulay Footwear Retail Store" & vbCrLf &
                                         "#725 Quezon Blvd, Zone 030 Brgy. 308 Quiapo" & vbCrLf &
-                                        "Manila, Philippines"
+                                        "Manila, Philippines" & vbCrLf & "09947294323" & vbCrLf & "pamelamabulayfootwear@gmail.com"
                 Dim addressParagraph As New Paragraph(address)
                 addressParagraph.SetTextAlignment(TextAlignment.CENTER)
                 addressParagraph.SetFontSize(12)
@@ -485,7 +495,7 @@ Public Class POS
                 document.Add(New Paragraph().SetHeight(20))
 
                 'Printed date paragraph
-                Dim printedDate As String = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+                Dim printedDate As String = DateTime.Now.ToString("yyyy-MM-dd   hh:mm tt", CultureInfo.InvariantCulture)
                 Dim concatDate As String = $"Date: {printedDate}"
                 Dim printedDateParagraph As New Paragraph(concatDate)
                 printedDateParagraph.SetTextAlignment(TextAlignment.LEFT)
@@ -494,12 +504,12 @@ Public Class POS
                 document.Add(New Paragraph().SetHeight(10))
 
 
-                Dim title As String = "==============================RECEIPT====================================="
+                Dim title As String = "================================RECEIPT=================================="
                 Dim formatTitle As New Paragraph(title)
                 formatTitle.SetTextAlignment(TextAlignment.CENTER)
                 document.Add(formatTitle)
 
-                Dim header As String = "Productname                           Price                               Quantity                           Subtotal"
+                Dim header As String = "Productname                                Price                                   Quantity                                Subtotal"
                 Dim header_format As New Paragraph(header)
                 header_format.SetTextAlignment(TextAlignment.CENTER)
                 document.Add(header_format)
@@ -508,7 +518,7 @@ Public Class POS
 
                 For Each item As SelectedItem In selectedLists
 
-                    Dim items As String = $"               {item.ProductName}                               {item.Price}                                       {item.Quantity}                                {item.SubTotal}"
+                    Dim items As String = $"                              {item.ProductName}                       {item.Price}                     {item.Quantity}                                {item.SubTotal}"
                     Dim items_content As New Paragraph(items)
                     items_content.SetTextAlignment(TextAlignment.CENTER)
                     document.Add(items_content)
@@ -517,9 +527,10 @@ Public Class POS
 
                 Next
 
-                Dim gtotal As String = $"Grand Total                                                                                                      {total}"
+                Dim gtotal As String = $"Change                        {ChangeCount.Content}                                                 Grand total                       {total}"
                 Dim gtotal_format As New Paragraph(gtotal)
                 gtotal_format.SetTextAlignment(TextAlignment.CENTER)
+                gtotal_format.SetBold()
                 document.Add(gtotal_format)
 
 
@@ -543,6 +554,20 @@ Public Class POS
             Dim logout As New LoginView()
             logout.Show()
             Me.Hide()
+
+        End If
+
+    End Sub
+
+    Private Sub Bill_TextChanged(sender As Object, e As TextChangedEventArgs)
+
+        If Bill.Text.Length > 0 Then
+
+            Dim change As Decimal = 0D
+            change = Bill.Text - Subtotalcount.Content
+            ChangeCount.Content = $"{change}"
+        Else
+            ChangeCount.Content = $"0"
 
         End If
 
