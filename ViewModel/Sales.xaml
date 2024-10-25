@@ -110,7 +110,7 @@
                     <DataGridTextColumn Header="Price" CanUserResize="False" Binding="{Binding UnitPrice}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Qty" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding Quantity}"/>
                     <DataGridTextColumn Header="Subtotal" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding TotalPrice}"/>
-                    <DataGridTextColumn Header="SaleDate" CanUserResize="False" Binding="{Binding SaleDate}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Date" CanUserResize="False" Binding="{Binding SaleDate}" IsReadOnly="True" Width="*"/>
 
                     <DataGridTextColumn Header="TotalAmount" CanUserResize="False" Binding="{Binding TotalAmount}" IsReadOnly="True" Width="*"/>
                   

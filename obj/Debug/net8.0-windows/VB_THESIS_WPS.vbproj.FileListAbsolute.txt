@@ -167,3 +167,7 @@ D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\refint\VB_THESIS_WPS.dll
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\VB_THESIS_WPS.pdb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\VB_THESIS_WPS.genruntimeconfig.cache
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ref\VB_THESIS_WPS.dll
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\InsertImage.g.vb
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\ProductImage.g.vb
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\InsertImage.baml
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\ProductImage.baml

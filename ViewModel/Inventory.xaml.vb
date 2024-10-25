@@ -16,7 +16,6 @@ Public Class Inventory
 
         openAddProduct.Show()
     End Sub
-
     Public Sub New()
         InitializeComponent()
         FetchProductData()
@@ -242,4 +241,37 @@ Public Class Inventory
 
         PrintToPDF(productDataGrid, filePath)
     End Sub
+
+
+
+    Private Sub Images_Click(sender As Object, e As RoutedEventArgs)
+
+        Dim parentWindow As Window = Window.GetWindow(Me)
+
+        If TypeOf parentWindow Is MainWindow Then
+            Dim mainWindow As MainWindow = CType(parentWindow, MainWindow)
+            mainWindow.MainContentArea.Content = New ProductImage()
+        End If
+    End Sub
+
+    Private Sub datePickerFilter_SelectedDateChanged(sender As Object, e As SelectionChangedEventArgs)
+        Dim filterDate As DateTime = datePickerFilter.SelectedDate
+
+        Dim collectionView As CollectionView = CType(CollectionViewSource.GetDefaultView(productDataGrid.ItemsSource), CollectionView)
+        collectionView.Filter = New Predicate(Of Object)(Function(item) FilterByDate(item, filterDate))
+    End Sub
+
+    Private Function FilterByDate(item As Object, selected As DateTime?) As Boolean
+
+
+        Dim row As Product = CType(item, Product)
+
+        If selected.HasValue Then
+            Return row.CreatedAt.Date = selected.Value.Date
+
+
+        End If
+
+        Return True
+    End Function
 End Class

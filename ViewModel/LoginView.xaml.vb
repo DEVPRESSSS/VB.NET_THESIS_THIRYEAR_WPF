@@ -47,7 +47,7 @@ Public Class LoginView
         Dim passwords As String = Password.Password
         PasswordTextBox.Text = passwords
 
-        If String.IsNullOrWhiteSpace(usernames) OrElse String.IsNullOrWhiteSpace(passwords) Then
+        If String.IsNullOrWhiteSpace(usernames) OrElse String.IsNullOrWhiteSpace(passwords) OrElse String.IsNullOrWhiteSpace(PasswordTextBox.Text) Then
             MessageBox.Show("Username and password are required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error)
             Return
         End If
@@ -103,9 +103,11 @@ Public Class LoginView
                             Password.Password = ""
                         Else
                             MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error)
+                            Clear()
                         End If
                     Else
                         MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error)
+                        Clear()
                     End If
                 End Using
             End Using
@@ -139,6 +141,19 @@ Public Class LoginView
         End If
 
     End Sub
+
+
+    Private Sub Clear()
+
+        Username.Text = ""
+        Password.Password = ""
+
+    End Sub
+
+
+
+
+
 
     Private Sub TextBlock_MouseLeftButtonDown(sender As Object, e As MouseButtonEventArgs)
         Dim forgotPasswordForm As New ForgotPassword()

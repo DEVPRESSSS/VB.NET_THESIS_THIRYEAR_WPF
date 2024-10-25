@@ -107,7 +107,7 @@
             <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="productDataGrid" Style="{DynamicResource DataGridStyle1}">
                 <DataGrid.Columns>
 
-                    <DataGridTextColumn Header="InventoryID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding InventoryID}"/>
+                    <DataGridTextColumn Header="ProductID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding ProductID}"/>
 
                     <DataGridTextColumn Header="ProductName" Binding="{Binding ProductName}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Current Stock" Binding="{Binding CurrentStock}" IsReadOnly="True" Width="*"/>

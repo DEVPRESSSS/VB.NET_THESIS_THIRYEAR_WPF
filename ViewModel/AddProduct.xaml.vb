@@ -1,5 +1,6 @@
 ﻿Imports System.Data
 Imports System.Data.SqlClient
+Imports System.Transactions
 
 Public Class AddProduct
 
@@ -37,9 +38,8 @@ Public Class AddProduct
 
     Private Sub Size_PreviewKeyDown(sender As Object, e As KeyEventArgs)
         If e.Key = Key.Back OrElse e.Key = Key.Delete OrElse e.Key = Key.Tab OrElse e.Key = Key.Left OrElse e.Key = Key.Right Then
-            e.Handled = False ' Allow these keys
+            e.Handled = False
         ElseIf Not (e.Key >= Key.D0 AndAlso e.Key <= Key.D9 OrElse e.Key >= Key.NumPad0 AndAlso e.Key <= Key.NumPad9) Then
-            ' If the key is not a number, block it
             e.Handled = True
         End If
     End Sub
@@ -122,55 +122,69 @@ Public Class AddProduct
         Using connection As New SqlConnection(con.connectionString)
             connection.Open()
 
-            Using checkCommand As New SqlCommand(checkQuery, connection)
-                checkCommand.Parameters.Add(New SqlParameter("@ProductName", SqlDbType.NVarChar, 150)).Value = pname
-                Dim count As Integer = Convert.ToInt32(checkCommand.ExecuteScalar())
+            Using transaction As SqlTransaction = connection.BeginTransaction()
+                Try
+                    ' Check for existing product
+                    Using checkCommand As New SqlCommand(checkQuery, connection, transaction)
+                        checkCommand.Parameters.Add(New SqlParameter("@ProductName", SqlDbType.NVarChar, 150)).Value = pname
+                        Dim count As Integer = Convert.ToInt32(checkCommand.ExecuteScalar())
 
-                If count > 0 Then
-                    MessageBox.Show("A product with the same name already exists. Please use a different product name.", "Duplicate Entry", MessageBoxButton.OK, MessageBoxImage.Error)
-                    Return pname
-                End If
-            End Using
+                        If count > 0 Then
+                            MessageBox.Show("A product with the same name already exists.", "Duplicate Entry", MessageBoxButton.OK, MessageBoxImage.Error)
+                            Return pname
+                        End If
+                    End Using
 
-            Using insertCommand As New SqlCommand(insertQuery, connection)
-                insertCommand.Parameters.Add(New SqlParameter("@ProductName", SqlDbType.NVarChar, 150)).Value = pname
-                insertCommand.Parameters.Add(New SqlParameter("@Description", SqlDbType.NVarChar, 500)).Value = descrip
-                insertCommand.Parameters.Add(New SqlParameter("@CategoryID", SqlDbType.Int, 8)).Value = catIndex
-                insertCommand.Parameters.Add(New SqlParameter("@Brand", SqlDbType.NVarChar, 100)).Value = brands
-                insertCommand.Parameters.Add(New SqlParameter("@Size", SqlDbType.NVarChar, 50)).Value = Sizes
-                insertCommand.Parameters.Add(New SqlParameter("@Color", SqlDbType.NVarChar, 50)).Value = Colors
-                insertCommand.Parameters.Add(New SqlParameter("@Price", SqlDbType.Decimal)).Value = prices
-                insertCommand.Parameters("@Price").Precision = 18
-                insertCommand.Parameters("@Price").Scale = 2
+                    ' Insert into Product table
+                    Using insertCommand As New SqlCommand(insertQuery, connection, transaction)
+                        insertCommand.Parameters.Add(New SqlParameter("@ProductName", SqlDbType.NVarChar, 150)).Value = pname
+                        insertCommand.Parameters.Add(New SqlParameter("@Description", SqlDbType.NVarChar, 500)).Value = descrip
+                        insertCommand.Parameters.Add(New SqlParameter("@CategoryID", SqlDbType.Int, 8)).Value = catIndex
+                        insertCommand.Parameters.Add(New SqlParameter("@Brand", SqlDbType.NVarChar, 100)).Value = brands
+                        insertCommand.Parameters.Add(New SqlParameter("@Size", SqlDbType.NVarChar, 50)).Value = Sizes
+                        insertCommand.Parameters.Add(New SqlParameter("@Color", SqlDbType.NVarChar, 50)).Value = Colors
+                        insertCommand.Parameters.Add(New SqlParameter("@Price", SqlDbType.Decimal)).Value = prices
+                        insertCommand.Parameters("@Price").Precision = 18
+                        insertCommand.Parameters("@Price").Scale = 2
 
-                productId = Convert.ToInt32(insertCommand.ExecuteScalar())
-                MessageBox.Show("Product record inserted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+                        productId = Convert.ToInt32(insertCommand.ExecuteScalar())
+                        MessageBox.Show("Product record inserted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+                    End Using
+
+                    ' Insert into Inventory table
+                    InsertToInventory(productId, connection, transaction)
+
+                    ' Commit the transaction
+                    transaction.Commit()
+
+                Catch ex As Exception
+                    ' Rollback if any error occurs
+                    transaction.Rollback()
+                    MessageBox.Show("Transaction failed: " & ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+                End Try
             End Using
         End Using
 
-        InsertToInventory(productId)
+
         inv.FetchProductData()
         Me.Hide()
 
     End Function
 
 
-    Private Sub InsertToInventory(productId As Integer)
+    Private Sub InsertToInventory(productId As Integer, connection As SqlConnection, transaction As SqlTransaction)
 
         Dim qty As Integer = Convert.ToInt32(Quantity.Text)
 
-        Dim q As String = "INSERT INTO Inventory (ProductID, Quantity, OriginalStock, LastUpdated) VALUES (@ProductID, @Quantity, @OriginalStock, @LastUpdated)"
+        Dim q As String = "INSERT INTO Inventory (ProductID, Quantity, OriginalStock, LastUpdated) " &
+                          "VALUES (@ProductID, @Quantity, @OriginalStock, @LastUpdated)"
 
-        Using connection As New SqlConnection(con.connectionString)
-
-            connection.Open()
-            Using command As New SqlCommand(q, connection)
-                command.Parameters.Add(New SqlParameter("@ProductID", SqlDbType.Int)).Value = productId
-                command.Parameters.Add(New SqlParameter("@Quantity", SqlDbType.Int)).Value = qty
-                command.Parameters.Add(New SqlParameter("@OriginalStock", SqlDbType.Int)).Value = qty
-                command.Parameters.Add(New SqlParameter("@LastUpdated", SqlDbType.DateTime)).Value = DateTime.Now
-                command.ExecuteNonQuery()
-            End Using
+        Using command As New SqlCommand(q, connection, transaction)
+            command.Parameters.Add(New SqlParameter("@ProductID", SqlDbType.Int)).Value = productId
+            command.Parameters.Add(New SqlParameter("@Quantity", SqlDbType.Int)).Value = qty
+            command.Parameters.Add(New SqlParameter("@OriginalStock", SqlDbType.Int)).Value = qty
+            command.Parameters.Add(New SqlParameter("@LastUpdated", SqlDbType.DateTime)).Value = DateTime.Now
+            command.ExecuteNonQuery()
         End Using
 
     End Sub

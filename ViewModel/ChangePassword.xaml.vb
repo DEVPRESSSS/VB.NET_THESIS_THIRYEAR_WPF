@@ -25,6 +25,8 @@ Public Class ChangePassword
 
         If pass1 <> pass2 Then
             MessageBox.Show("Passwords don't match", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+            NewPassword.Password = ""
+            ConfirmPassword.Password = ""
             Return
         End If
 

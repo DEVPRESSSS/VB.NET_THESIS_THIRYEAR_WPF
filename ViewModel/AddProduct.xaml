@@ -184,6 +184,8 @@
                      Width="146"
                      PreviewKeyDown="Description_PreviewKeyDown"
                      TextChanged="Description_TextChanged" 
+                     
+                     
                      MaxLength="20"/>
             <TextBlock  HorizontalAlignment="Left"
                         Margin="109,0,0,0" Grid.Row="1" 

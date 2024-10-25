@@ -145,7 +145,17 @@ Public Class Dashboard
             Using cmd As New SqlCommand(query, connection)
 
                 Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
-                ZeroCounts.Text = count
+
+                If count = 0 Then
+                    ZeroCounts.Text = count
+
+                Else
+                    ZeroCounts.Text = count
+                    ZeroCounts.Foreground = Brushes.Red
+
+                End If
+
+
             End Using
 
         End Using

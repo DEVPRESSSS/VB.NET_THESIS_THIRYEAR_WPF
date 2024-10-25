@@ -498,40 +498,57 @@ Public Class POS
                 Dim printedDate As String = DateTime.Now.ToString("yyyy-MM-dd   hh:mm tt", CultureInfo.InvariantCulture)
                 Dim concatDate As String = $"Date: {printedDate}"
                 Dim printedDateParagraph As New Paragraph(concatDate)
-                printedDateParagraph.SetTextAlignment(TextAlignment.LEFT)
+                printedDateParagraph.SetTextAlignment(TextAlignment.RIGHT)
                 printedDateParagraph.SetFontSize(12)
                 document.Add(printedDateParagraph)
                 document.Add(New Paragraph().SetHeight(10))
 
+                'Printed Cashier
+                Dim printedCashier As String = $"Cashier Name: {_cashier}"
+                Dim paragraph_cashier As New Paragraph(printedCashier)
+                paragraph_cashier.SetTextAlignment(TextAlignment.LEFT)
+                paragraph_cashier.SetFontSize(12)
+                document.Add(paragraph_cashier)
+                document.Add(New Paragraph().SetHeight(10))
 
-                Dim title As String = "================================RECEIPT=================================="
+
+                ' Title Section
+                Dim title As String = "RECEIPT"
                 Dim formatTitle As New Paragraph(title)
                 formatTitle.SetTextAlignment(TextAlignment.CENTER)
                 document.Add(formatTitle)
 
-                Dim header As String = "Productname                                Price                                   Quantity                                Subtotal"
-                Dim header_format As New Paragraph(header)
-                header_format.SetTextAlignment(TextAlignment.CENTER)
-                document.Add(header_format)
+                ' Header Section for the table
+                Dim table As New Table(4) ' Table with 4 columns (ProductName, Price, Quantity, Subtotal)
+                table.SetWidth(UnitValue.CreatePercentValue(100))
 
+                table.AddCell(New Cell().Add(New Paragraph("Product Name").SetBold().SetTextAlignment(TextAlignment.CENTER)))
+                table.AddCell(New Cell().Add(New Paragraph("Price").SetBold().SetTextAlignment(TextAlignment.CENTER)))
+                table.AddCell(New Cell().Add(New Paragraph("Quantity").SetBold().SetTextAlignment(TextAlignment.CENTER)))
+                table.AddCell(New Cell().Add(New Paragraph("Subtotal").SetBold().SetTextAlignment(TextAlignment.CENTER)))
+
+                ' Add items dynamically
                 Dim total As Decimal = 0
 
                 For Each item As SelectedItem In selectedLists
+                    table.AddCell(New Cell().Add(New Paragraph(item.ProductName).SetTextAlignment(TextAlignment.CENTER)))
+                    table.AddCell(New Cell().Add(New Paragraph(item.Price.ToString("C2")).SetTextAlignment(TextAlignment.CENTER)))
+                    table.AddCell(New Cell().Add(New Paragraph(item.Quantity.ToString()).SetTextAlignment(TextAlignment.CENTER)))
+                    table.AddCell(New Cell().Add(New Paragraph(item.SubTotal.ToString("C2")).SetTextAlignment(TextAlignment.CENTER)))
 
-                    Dim items As String = $"                              {item.ProductName}                       {item.Price}                     {item.Quantity}                                {item.SubTotal}"
-                    Dim items_content As New Paragraph(items)
-                    items_content.SetTextAlignment(TextAlignment.CENTER)
-                    document.Add(items_content)
-                    document.Add(New Paragraph("----------------------------------------------------------------------------------------------------------------------------------"))
-                    total = item.GrandTotal
-
+                    total = item.GrandTotal ' 
                 Next
 
-                Dim gtotal As String = $"Change                        {ChangeCount.Content}                                                 Grand total                       {total}"
+                document.Add(table)
+
+
+                ' Grand total and Change section
+                Dim gtotal As String = $"Change: {ChangeCount.Content}         Grand Total: {total.ToString("C2")}"
                 Dim gtotal_format As New Paragraph(gtotal)
-                gtotal_format.SetTextAlignment(TextAlignment.CENTER)
+                gtotal_format.SetTextAlignment(TextAlignment.RIGHT)
                 gtotal_format.SetBold()
                 document.Add(gtotal_format)
+
 
 
 

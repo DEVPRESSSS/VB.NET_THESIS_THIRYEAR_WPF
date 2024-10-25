@@ -266,7 +266,7 @@ Public Class MyInventory
 
                 For Each item In dataGrid.ItemsSource
                     Dim product As ProductInventory = CType(item, ProductInventory)
-                    table.AddCell(New Cell().Add(New Paragraph(product.InventoryID.ToString())))
+                    table.AddCell(New Cell().Add(New Paragraph(product.ProductID.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.ProductName.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.CurrentStock.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.OriginalStock.ToString())))

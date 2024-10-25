@@ -85,12 +85,22 @@
             </Button>
 
             <!-- Print button-->
-            <Button x:Name="Print" Style="{StaticResource addButton}" Margin="0,5,353,5" Cursor="Hand" 
+            <Button x:Name="Print" Style="{StaticResource addButton}" Margin="0,4,448,6" Cursor="Hand" 
               Width="94" Click="Print_Click"
               >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Icon:PackIconMaterial Kind="Printer" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
                     <TextBlock Text="Print" FontFamily="Roboto" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <!--Open images-->
+            <Button x:Name="Images" Style="{StaticResource addButton}" Margin="0,4,349,6" Cursor="Hand" 
+                Width="94" Click="Images_Click"
+              >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Icon:PackIconMaterial Kind="Image" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
+                    <TextBlock Text="Images" FontFamily="Roboto" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
@@ -144,6 +154,11 @@
 
 
         </Border>
+        <DatePicker x:Name="datePickerFilter" 
+            SelectedDateChanged="datePickerFilter_SelectedDateChanged"
+            Margin="0,0,549,0" 
+            Height="26"
+            VerticalAlignment="Center" HorizontalAlignment="Right" Width="130"/>
 
     </Grid>
 

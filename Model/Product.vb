@@ -2,6 +2,11 @@
     Public Property ProductID As Integer
 
     Public Property ProductName As String
+    Public Overrides Function ToString() As String
+        Return ProductName
+    End Function
+
+
     Public Property Price As Double
     Public Property Description As String
     Public Property CategoryID As Integer

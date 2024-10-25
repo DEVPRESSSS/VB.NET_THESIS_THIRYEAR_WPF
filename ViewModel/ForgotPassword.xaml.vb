@@ -46,6 +46,8 @@ Public Class ForgotPassword
 
         Else
             MessageBox.Show("Email not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+            Email.Text = ""
+
         End If
     End Sub
 
@@ -111,6 +113,8 @@ Public Class ForgotPassword
             Dim change As New ChangePassword(emails)
             change.Show()
             Me.Close()
+            Email.Text = ""
+
             Clear()
 
         Else

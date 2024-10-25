@@ -30,4 +30,8 @@
     <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ProductImages\" />
+  </ItemGroup>
+
 </Project>

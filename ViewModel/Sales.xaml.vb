@@ -131,7 +131,7 @@ Public Class Sales
                 document.Add(New Paragraph().SetHeight(10))
 
                 ' Create a table with the number of columns in the DataGrid
-                Dim table As New Table(dataGrid.Columns.Count - 1)
+                Dim table As New Table(dataGrid.Columns.Count)
                 table.SetWidth(UnitValue.CreatePercentValue(100))
 
                 ' Add headers
@@ -152,7 +152,6 @@ Public Class Sales
                     table.AddCell(New Cell().Add(New Paragraph(saleDetails.UnitPrice.ToString("C", CultureInfo.CurrentCulture))))
                     table.AddCell(New Cell().Add(New Paragraph(saleDetails.Quantity.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(saleDetails.TotalPrice.ToString("C", CultureInfo.CurrentCulture))))
-
                     table.AddCell(New Cell().Add(New Paragraph(saleDetails.SaleDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))))
                     table.AddCell(New Cell().Add(New Paragraph(saleDetails.TotalAmount.ToString("C", CultureInfo.CurrentCulture))))
                 Next
