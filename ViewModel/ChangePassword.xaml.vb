@@ -36,6 +36,8 @@ Public Class ChangePassword
             UpdatePasswordInTable("Cashier", pass2)
         Else
             MessageBox.Show("Email not found in Admin or Cashier tables.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+            NewPassword.Password = ""
+            ConfirmPassword.Password = ""
         End If
     End Sub
 
@@ -69,6 +71,8 @@ Public Class ChangePassword
                     Return count > 0
                 Catch ex As Exception
                     MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+                    NewPassword.Password = ""
+                    ConfirmPassword.Password = ""
                     Return False
                 End Try
             End Using
@@ -98,6 +102,7 @@ Public Class ChangePassword
                         Me.Close()
                     Else
                         MessageBox.Show("Failed to update the password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+
                     End If
                 Catch ex As Exception
                     MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error)

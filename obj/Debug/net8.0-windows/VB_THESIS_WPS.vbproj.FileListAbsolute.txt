@@ -171,3 +171,5 @@ D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\InsertImage.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\ProductImage.g.vb
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\InsertImage.baml
 D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\ProductImage.baml
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\ViewDetailsProduct.g.vb
+D:\VB_THESIS_WPS\obj\Debug\net8.0-windows\ViewModel\ViewDetailsProduct.baml

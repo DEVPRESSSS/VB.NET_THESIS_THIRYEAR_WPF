@@ -71,12 +71,12 @@ Public Class LoginView
                         If storedPasswordHash.SequenceEqual(hashedPassword) Then
                             Dim adminDash As New MainWindow()
                             adminDash.Show()
-                            Username.Text = ""
-                            Password.Password = ""
+                            Clear()
                             Me.Close()
                             Return
                         Else
                             MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error)
+                            Clear()
                             Return
                         End If
                     End If
@@ -99,8 +99,7 @@ Public Class LoginView
                             Dim main As New POS(usernames)
                             main.Show()
                             Me.Close()
-                            Username.Text = ""
-                            Password.Password = ""
+                            Clear()
                         Else
                             MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error)
                             Clear()
@@ -147,6 +146,7 @@ Public Class LoginView
 
         Username.Text = ""
         Password.Password = ""
+        PasswordTextBox.Text = ""
 
     End Sub
 

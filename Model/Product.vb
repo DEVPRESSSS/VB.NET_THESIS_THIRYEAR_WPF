@@ -15,5 +15,10 @@
     Public Property Size As String
     Public Property Color As String
 
-    Public Property CreatedAt As DateTime
+    Public Property CreatedAt As String
+    Public Property Stock As Integer
+    Public Property ImageUrl As String
+
+
+
 End Class

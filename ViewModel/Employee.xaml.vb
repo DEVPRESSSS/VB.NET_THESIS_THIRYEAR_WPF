@@ -8,8 +8,7 @@ Imports iText.Kernel.Pdf
 Imports iText.Layout
 Imports iText.Layout.Element
 Imports iText.Layout.Properties
-Imports iTextSharp.text
-Imports iTextSharp.text.pdf
+
 
 Public Class Employee
 
@@ -44,10 +43,20 @@ Public Class Employee
 
 
     End Sub
+    Private insert_image_window As AddEmployee = Nothing
 
     Private Sub AddbtnClick(sender As Object, e As RoutedEventArgs)
-        Dim AddEmployee As New AddEmployee()
-        AddEmployee.Show()
+        If insert_image_window Is Nothing OrElse Not insert_image_window.IsLoaded Then
+            insert_image_window = New AddEmployee()
+            insert_image_window.Show()
+        Else
+            insert_image_window.Activate()
+        End If
+
+
+
+
+
     End Sub
     Dim converter As New BrushConverter()
     Dim myArray As String() = {"#1098AD", "#1E88E5", "#FF8F00", "#FF5252", "#6741D9", "#0CA678"}
@@ -86,7 +95,7 @@ Public Class Employee
                     .FirstName = row("FirstName").ToString(),
                     .LastName = row("LastName").ToString(),
                     .Email = row("Email").ToString(),
-                    .CreatedAt = row("CreatedAt").ToString()
+                    .CreatedAt = CDate(row("CreatedAt")).ToString("yyyy-MM-dd hh:mm")
                 })
             Next
 
@@ -155,21 +164,27 @@ Public Class Employee
         Dim input As String = Search.Text.Trim()
         Dim products As New List(Of Cashier)()
         Dim q As String = "SELECT * FROM Cashier WHERE " &
-                      "(UserName LIKE '%' + @UserName + '%' OR @UserName = '') " &
-                      "OR (FirstName LIKE '%' + @FirstName + '%' OR @FirstName = '') " &
-                      "OR (LastName LIKE '%' + @LastName + '%' OR @LastName = '') " &
-                      "OR (Email LIKE '%' + @Email + '%' OR @Email = '') " &
-                      "OR (CashierID = @CashierID OR @CashierID = '') "
+                  "(UserName LIKE '%' + @UserName + '%' OR @UserName = '') " &
+                  "OR (FirstName LIKE '%' + @FirstName + '%' OR @FirstName = '') " &
+                  "OR (LastName LIKE '%' + @LastName + '%' OR @LastName = '') " &
+                  "OR (Email LIKE '%' + @Email + '%' OR @Email = '') " &
+                  "OR (ISNUMERIC(@CashierID) = 1 AND CashierID = @CashierID) " &
+                  "OR (CONVERT(DATE, CreatedAt) = @CreatedAt)"
+
 
         Using connection As New SqlConnection(con.connectionString)
             connection.Open()
 
             Using cmd As New SqlCommand(q, connection)
-                cmd.Parameters.AddWithValue("@UserName", If(String.IsNullOrEmpty(input), "", input))
-                cmd.Parameters.AddWithValue("@FirstName", If(String.IsNullOrEmpty(input), "", input))
-                cmd.Parameters.AddWithValue("@Email", If(String.IsNullOrEmpty(input), "", input))
-                cmd.Parameters.AddWithValue("@LastName", If(String.IsNullOrEmpty(input), "", input))
-                cmd.Parameters.AddWithValue("@CashierID", If(IsNumeric(input), input, DBNull.Value))
+                cmd.Parameters.Add("@UserName", SqlDbType.NVarChar).Value = input
+                cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar).Value = input
+                cmd.Parameters.Add("@LastName", SqlDbType.NVarChar).Value = input
+                cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = input
+                cmd.Parameters.Add("@CashierID", SqlDbType.Int).Value = If(IsNumeric(input), CInt(input), DBNull.Value)
+
+                Dim parsedDate As DateTime
+                cmd.Parameters.Add("@CreatedAt", SqlDbType.Date).Value = If(DateTime.TryParse(input, parsedDate), parsedDate, DBNull.Value)
+
 
                 Using reader As SqlDataReader = cmd.ExecuteReader()
                     Dim i As Integer = 0
@@ -188,7 +203,7 @@ Public Class Employee
                             .LastName = reader("LastName").ToString(),
                             .Character = fletter,
                             .BgColor = brush,
-                            .CreatedAt = reader("CreatedAt").ToString()
+                            .CreatedAt = CDate(reader("CreatedAt")).ToString("yyyy-MM-dd hh:mm")
                         }
 
                         products.Add(filter)
@@ -275,7 +290,7 @@ Public Class Employee
                     table.AddCell(New Cell().Add(New Paragraph(sale.FirstName.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(sale.LastName.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(sale.Email.ToString())))
-                    table.AddCell(New Cell().Add(New Paragraph(sale.CreatedAt.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))))
+                    table.AddCell(New Cell().Add(New Paragraph(String.Format(CultureInfo.InvariantCulture, "{0:yyyy-MM-dd}", sale.CreatedAt))))
                 Next
 
                 document.Add(table)

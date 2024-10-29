@@ -84,6 +84,22 @@
                 </StackPanel>
             </Button>
 
+            <!--Datetime picker-->
+            
+            <!-- 
+            <DatePicker x:Name="datePickerFilter" 
+                Margin="0,0,549,0" 
+                Height="26"
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Right"
+                Width="130"
+                SelectedDateChanged="datePickerFilter_SelectedDateChanged"      />   -->
+            
+            
+            
+            
+                    
+
             <!-- Print button-->
             <Button x:Name="Print" Style="{StaticResource addButton}" Margin="0,4,448,6" Cursor="Hand" 
               Width="94" Click="Print_Click"
@@ -127,14 +143,17 @@
                     <DataGridTextColumn Header="Size" Binding="{Binding Size}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Color" Binding="{Binding Color}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Price" Binding="{Binding Price}" IsReadOnly="True" Width="*"/>
-                    <DataGridTextColumn Header="CreatedAt" Binding="{Binding CreatedAt}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="CreatedAt" Binding="{Binding CreatedAt}"  IsReadOnly="True" Width="150"/>
 
                     <DataGridTemplateColumn Header="Action" IsReadOnly="True" Width="auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Style="{StaticResource gridEditButton}" Click="EditBtn">
-                                        <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
+                                    <Button Margin="5 0 0 0" Style="{StaticResource gridEditButton}" Click="Button_Click" Background="Green" Cursor="Hand">
+                                        <Icon:PackIconMaterial Kind="Eye" Style="{StaticResource gridButtonIcon}"/>
+                                    </Button>
+                                    <Button Style="{StaticResource gridEditButton}" Click="EditBtn" Cursor="Hand">
+                                        <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}" />
                                     </Button>
                                     <!--
                                     
@@ -154,11 +173,6 @@
 
 
         </Border>
-        <DatePicker x:Name="datePickerFilter" 
-            SelectedDateChanged="datePickerFilter_SelectedDateChanged"
-            Margin="0,0,549,0" 
-            Height="26"
-            VerticalAlignment="Center" HorizontalAlignment="Right" Width="130"/>
 
     </Grid>
 

@@ -77,14 +77,19 @@
 
 
             <!--Datetime picker -->
-            <DatePicker Name="datePickerFilter" 
-                SelectedDateChanged="datePickerFilter_SelectedDateChanged"
-                Margin="0,0,359,0" 
-                Height="26"
-                VerticalAlignment="Center" HorizontalAlignment="Right" Width="130"/>
 
-
+            
+            <!--
+              <DatePicker x:Name="datePickerFilter" 
+           Margin="311,0,0,0" 
+           Height="26"
+           VerticalAlignment="Center" 
+           HorizontalAlignment="Left"
+           Width="130"
+           SelectedDateChanged="datePickerFilter_SelectedDateChanged"/>-->
+          
             <!--Filter button -->
+
             <Button x:Name="Print"    Style="{StaticResource addButton}" 
                 Margin="0,5,260,5" Cursor="Hand" Click="Print_Click_1"
             Width="94" 

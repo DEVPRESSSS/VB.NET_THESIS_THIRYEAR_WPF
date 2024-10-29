@@ -4,10 +4,13 @@ Imports Microsoft.Win32
 
 Public Class InsertImage
 
-    Public Sub New()
+    Dim imageform As ProductImage
+    Public Sub New(image As ProductImage)
 
         InitializeComponent()
         FetchCategory()
+
+        imageform = image
 
     End Sub
     Dim con As New ConnectionString
@@ -65,7 +68,9 @@ Public Class InsertImage
         End Using
 
         MessageBox.Show("Image inserted and saved successfully!", MessageBoxImage.Information, MessageBoxButton.OK)
-        Me.Hide()
+        imageform.FetchImages()
+        Me.Close()
+
     End Sub
     Public Sub FetchCategory()
         Dim query As String = "SELECT ProductID, ProductName FROM Product"

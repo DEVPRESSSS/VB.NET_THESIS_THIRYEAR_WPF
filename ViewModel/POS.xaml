@@ -71,8 +71,8 @@
                             FontSize="14"
                             FontFamily="Roboto"
                             Grid.Column="0"
-                            VerticalAlignment="Center"
-                            Margin="20,0,871,0"
+                            VerticalAlignment="Top"
+                            Margin="24,10,717,0"
                       Width="100"
                             
                             FontWeight="Medium"/>
@@ -240,19 +240,20 @@
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border  BorderBrush="#073b4c"  BorderThickness="1"  Margin="10" Padding="10" CornerRadius="10" Width="150" Height="220" Effect="{StaticResource dropShadow}">
+                                <Border  BorderBrush="#073b4c"  BorderThickness="1"  Margin="10" Padding="10" CornerRadius="10" Width="150" Height="230" Effect="{StaticResource dropShadow}">
                                     <StackPanel Height="Auto">
                                         <TextBlock x:Name="ProductID" Text="{Binding ProductID}" FontSize="6" FontWeight="Bold" Margin="0" TextAlignment="Center" Visibility="Hidden"/>
+                                        <TextBlock x:Name="Stock" Text="{Binding Stock, StringFormat='Stock: {0}'}" Foreground="Green" FontSize="8" FontWeight="Bold" Margin="0" TextAlignment="Center"/>
 
                                         <!-- Display the product image -->
-                                        <Image Source="D:\VB_THESIS_WPS\Images\logo.png" Width="80" Height="80" Stretch="UniformToFill"/>
+                                        <Image Source="{Binding ImageUrl}" Width="80" Height="80" Stretch="Fill"/>
 
                                         <!-- Display the product name -->
                                         <TextBlock x:Name="ProductName" Text="{Binding ProductName}" FontSize="16" FontWeight="Bold" Margin="5" TextAlignment="Center"/>
-                                        <TextBlock x:Name="Size" Text="{Binding Size}" FontSize="16" FontWeight="Bold" Margin="5" TextAlignment="Center"/>
+                                        <TextBlock x:Name="Size" Text="{Binding Size, StringFormat='Size: {0} inch'}" FontSize="14" FontWeight="Bold" Margin="5" TextAlignment="Center"/>
 
                                         <!-- Display the product price -->
-                                        <TextBlock x:Name="pricelabel"  Text="{Binding Price, StringFormat=C}" FontSize="14" Foreground="Green" TextAlignment="Center"/>
+                                        <TextBlock x:Name="pricelabel" Text="{Binding Price, StringFormat='₱{0:N2}'}" FontSize="14" Foreground="Green" TextAlignment="Center"/>
 
                                         <Button x:Name="AddItem"  Style="{StaticResource addButton}" Margin="0,2,0,0" Cursor="Hand"  Grid.Column="0" HorizontalAlignment="Center" Click="AddItem_Click"
                                                   Width="100">
@@ -407,10 +408,11 @@
                 Style="{StaticResource TextBoxes}"
                 Margin="0,0,10,102" Grid.Row="1"
                 TextWrapping="Wrap"
-                MaxLength="10" 
+                MaxLength="6" 
                 HorizontalAlignment="Right" 
                 TextChanged="Bill_TextChanged"
-                Width="94" Height="25" VerticalAlignment="Bottom"/>
+                Width="94" Height="25" VerticalAlignment="Bottom"
+                PreviewKeyDown="Bill_PreviewKeyDown"/>
 
         </Grid>
 

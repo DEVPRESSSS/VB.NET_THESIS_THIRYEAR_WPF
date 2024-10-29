@@ -186,7 +186,7 @@
                      TextChanged="Description_TextChanged" 
                      
                      
-                     MaxLength="20"/>
+                     MaxLength="20" Height="70"/>
             <TextBlock  HorizontalAlignment="Left"
                         Margin="109,0,0,0" Grid.Row="1" 
                         TextWrapping="Wrap"
@@ -277,7 +277,7 @@
                      Width="146"
                      PreviewKeyDown="Price_PreviewKeyDown"
                      TextChanged="Price_TextChanged" 
-                     MaxLength="20"/>
+                     MaxLength="6"/>
             <TextBlock HorizontalAlignment="Left"
                        Margin="555,169,0,0" Grid.Row="1" 
                        TextWrapping="Wrap" 

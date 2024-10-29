@@ -61,6 +61,9 @@
     <Compile Update="ViewModel\StockIn.xaml.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ViewModel\ViewDetailsProduct.xaml.vb">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MainWindow.xaml">
@@ -118,6 +121,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ViewModel\StockIn.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModel\ViewDetailsProduct.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

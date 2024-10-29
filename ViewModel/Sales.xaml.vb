@@ -43,9 +43,9 @@ Public Class Sales
                 Dim saleDetails As New SaleDetails With {
                 .SalesDetailsID = Convert.ToInt32(row("SalesDetailID")),
                 .SaleID = Convert.ToInt32(row("SalesID")),
-                .CashierID = Convert.ToInt32(row("CashierID")), ' Add CashierID
-                .SaleDate = Convert.ToDateTime(row("SaleDate")), ' Add SaleDate
-                .TotalAmount = Convert.ToDecimal(row("TotalAmount")), ' Add TotalAmount
+                .CashierID = Convert.ToInt32(row("CashierID")),
+                .SaleDate = If(IsDBNull(row("SaleDate")), String.Empty, Convert.ToDateTime(row("SaleDate")).ToString("yyyy-MM-dd HH:mm")),
+                .TotalAmount = Convert.ToDecimal(row("TotalAmount")),
                 .ProductName = row("ProductName").ToString(),
                 .Quantity = Convert.ToInt32(row("Quantity")),
                 .UnitPrice = Convert.ToDecimal(row("UnitPrice")),
@@ -152,7 +152,7 @@ Public Class Sales
                     table.AddCell(New Cell().Add(New Paragraph(saleDetails.UnitPrice.ToString("C", CultureInfo.CurrentCulture))))
                     table.AddCell(New Cell().Add(New Paragraph(saleDetails.Quantity.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(saleDetails.TotalPrice.ToString("C", CultureInfo.CurrentCulture))))
-                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.SaleDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))))
+                    table.AddCell(New Cell().Add(New Paragraph(String.Format(CultureInfo.InvariantCulture, "{0:yyyy-MM-dd}", saleDetails.SaleDate))))
                     table.AddCell(New Cell().Add(New Paragraph(saleDetails.TotalAmount.ToString("C", CultureInfo.CurrentCulture))))
                 Next
 
@@ -196,7 +196,10 @@ Public Class Sales
 
         Using connection As New SqlConnection(con.connectionString)
             Dim command As New SqlCommand(query, connection)
-            command.Parameters.AddWithValue("@searchTerm", "%" & searchTerm & "%") ' Add parameter for search
+            command.Parameters.AddWithValue("@searchTerm", "%" & searchTerm & "%")
+
+            ' Dim parsedDate As DateTime
+            '  command.Parameters.Add("@SaleDate", SqlDbType.Date).Value = If(DateTime.TryParse(searchTerm, parsedDate), parsedDate, DBNull.Value)
 
             Dim adapter As New SqlDataAdapter(command)
             Dim dataTable As New DataTable()
@@ -209,7 +212,7 @@ Public Class Sales
                 .SalesDetailsID = Convert.ToInt32(row("SalesDetailID")),
                 .SaleID = Convert.ToInt32(row("SalesID")),
                 .CashierID = Convert.ToInt32(row("CashierID")),
-                .SaleDate = Convert.ToDateTime(row("SaleDate")),
+                 .SaleDate = If(IsDBNull(row("SaleDate")), String.Empty, Convert.ToDateTime(row("SaleDate")).ToString("yyyy-MM-dd HH:mm")),
                 .TotalAmount = Convert.ToDecimal(row("TotalAmount")),
                 .ProductName = row("ProductName").ToString(),
                 .Quantity = Convert.ToInt32(row("Quantity")),
@@ -219,6 +222,8 @@ Public Class Sales
 
                 salesDetailsCollection.Add(saleDetails)
             Next
+
+
 
             salesDataGrid.ItemsSource = salesDetailsCollection
         End Using

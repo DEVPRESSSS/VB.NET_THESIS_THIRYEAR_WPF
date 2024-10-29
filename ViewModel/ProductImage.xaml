@@ -51,11 +51,12 @@
                 TextWrapping="Wrap" 
                 VerticalAlignment="Center"
                 MaxLength="20" 
-                 HorizontalAlignment="Right" Width="146"/>
+                 HorizontalAlignment="Right" Width="146"
+                 TextChanged="Search_TextChanged"/>
 
 
             <Button Style="{StaticResource addButton}" Margin="0,5,98,5" Cursor="Hand"
-             Width="94"
+             Width="94" Click="Button_Click_3"
              >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Icon:PackIconMaterial Kind="Magnify" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
@@ -75,12 +76,6 @@
                 <StackPanel Orientation="Horizontal">
                     <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource addButtonIcon}"/>
                     <TextBlock Text="Add"  FontFamily="Roboto"/>
-                </StackPanel>
-            </Button>
-            <Button x:Name="print" Style="{StaticResource addButton}" Margin="0,5,353,5" Cursor="Hand" Width="94">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center ">
-                    <Icon:PackIconMaterial Kind="Printer" Style="{StaticResource addButtonIcon}" Margin="0,0,10,0"/>
-                    <TextBlock Text="Print" FontFamily="Roboto" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
@@ -104,20 +99,18 @@
             <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="IMAGEDataGrid" Style="{DynamicResource DataGridStyle1}">
                 <DataGrid.Columns>
 
-                    <DataGridTextColumn Header="ImageID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding ImageID}"/>
-                    <DataGridTextColumn Header="ProductID" CanUserResize="False" Binding="{Binding ProductID}" IsReadOnly="True" Width="100"/>
+                    <DataGridTextColumn Header="ProductID" CanUserResize="False" Binding="{Binding ProductID}" IsReadOnly="True" Width="*"/>
 
                     <!-- Display Image in DataGrid -->
-                    <DataGridTemplateColumn Header="Image" Width="Auto" CanUserResize="False">
+                    <DataGridTemplateColumn Header="Image" Width="*" CanUserResize="False">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding ImageUrl}" Width="50" Height="50"/>
+                                <Image Source="{Binding ImageUrl}" Width="60" Height="60"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTextColumn Header="ImageUrl" CanUserResize="False" Binding="{Binding ImageUrl}" IsReadOnly="True" Width="*"/>
-                    <DataGridTextColumn Header="CreatedAt" CanUserResize="False" Binding="{Binding CreatedAt}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="CreatedAt" Binding="{Binding CreatedAt, StringFormat=\{0:yyyy-MM-dd\}}"  IsReadOnly="True" />
 
                     <DataGridTemplateColumn Header="Action" CanUserResize="False" IsReadOnly="True" Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>

@@ -34,57 +34,32 @@ Public Class MyInventory
 
         Dim inventoryItems As New List(Of ProductInventory)()
 
-        ' Modified query to include ProductName filter
         Dim q As String = "SELECT P.InventoryID, P.ProductID, S.ProductName, P.Quantity, P.OriginalStock, P.LastUpdated " &
                       "FROM Inventory P INNER JOIN Product S ON P.ProductID = S.ProductID " &
-                      "WHERE (@InventoryID = '' OR P.InventoryID = @InventoryID) " &
-                      "OR (@ProductID = '' OR P.ProductID = @ProductID) " &
-                      "OR (@Quantity = '' OR P.Quantity = @Quantity) " &
-                      "OR (@OriginalStock = '' OR P.OriginalStock = @OriginalStock) " &
-                      "OR (@LastUpdated = '' OR CONVERT(VARCHAR, P.LastUpdated, 120) LIKE '%' + @LastUpdated + '%') " &
-                      "OR (@ProductName = '' OR S.ProductName LIKE '%' + @ProductName + '%')"
+                      "WHERE (@Search IS NULL OR " &
+                      "CAST(P.InventoryID AS NVARCHAR) LIKE '%' + @Search + '%' OR " &
+                      "CAST(P.ProductID AS NVARCHAR) LIKE '%' + @Search + '%' OR " &
+                      "CAST(P.Quantity AS NVARCHAR) LIKE '%' + @Search + '%' OR " &
+                      "CAST(P.OriginalStock AS NVARCHAR) LIKE '%' + @Search + '%' OR " &
+                      "CONVERT(NVARCHAR, P.LastUpdated, 120) LIKE '%' + @Search + '%' OR " &
+                      "S.ProductName LIKE '%' + @Search + '%')"
 
         Using connection As New SqlConnection(con.connectionString)
             connection.Open()
 
             Using cmd As New SqlCommand(q, connection)
-                If IsNumeric(input) Then
-                    cmd.Parameters.AddWithValue("@InventoryID", Convert.ToInt32(input))
-                    cmd.Parameters.AddWithValue("@ProductID", Convert.ToInt32(input))
-                    cmd.Parameters.AddWithValue("@OriginalStock", Convert.ToInt32(input))
-                    cmd.Parameters.AddWithValue("@Quantity", Convert.ToInt32(input))
-
-                Else
-                    cmd.Parameters.AddWithValue("@InventoryID", DBNull.Value)
-                    cmd.Parameters.AddWithValue("@ProductID", DBNull.Value)
-                    cmd.Parameters.AddWithValue("@OriginalStock", DBNull.Value)
-                    cmd.Parameters.AddWithValue("@Quantity", DBNull.Value)
-
-                End If
-
-                If DateTime.TryParse(input, Nothing) Then
-                    cmd.Parameters.AddWithValue("@LastUpdated", input)
-                Else
-                    cmd.Parameters.AddWithValue("@LastUpdated", DBNull.Value)
-                End If
-
-                ' Add parameter for ProductName
-                If Not IsNumeric(input) AndAlso Not DateTime.TryParse(input, Nothing) Then
-                    cmd.Parameters.AddWithValue("@ProductName", input)
-                Else
-                    cmd.Parameters.AddWithValue("@ProductName", DBNull.Value)
-                End If
+                cmd.Parameters.AddWithValue("@Search", If(String.IsNullOrEmpty(input), DBNull.Value, input))
 
                 Using reader As SqlDataReader = cmd.ExecuteReader()
                     While reader.Read()
                         Dim inventoryItem As New ProductInventory() With {
-                        .InventoryID = Convert.ToInt32(reader("InventoryID")),
-                        .ProductID = Convert.ToInt32(reader("ProductID")),
-                        .ProductName = reader("ProductName").ToString(),
-                        .LastUpdated = Convert.ToDateTime(reader("LastUpdated")),
-                        .CurrentStock = Convert.ToInt32(reader("Quantity")),
-                        .OriginalStock = Convert.ToInt32(reader("OriginalStock"))
-                    }
+                    .InventoryID = Convert.ToInt32(reader("InventoryID")),
+                    .ProductID = Convert.ToInt32(reader("ProductID")),
+                    .ProductName = reader("ProductName").ToString(),
+                    .LastUpdated = Convert.ToDateTime(reader("LastUpdated")).ToString("yyyy-MM-dd hh:mm"),
+                    .CurrentStock = Convert.ToInt32(reader("Quantity")),
+                    .OriginalStock = Convert.ToInt32(reader("OriginalStock"))
+                }
 
                         inventoryItems.Add(inventoryItem)
                     End While
@@ -94,8 +69,6 @@ Public Class MyInventory
 
         productDataGrid.ItemsSource = inventoryItems
     End Sub
-
-
 
 
     Public Sub FetchProductData()
@@ -118,7 +91,7 @@ Public Class MyInventory
                 .ProductName = row("ProductName").ToString(),
                 .CurrentStock = Convert.ToInt32(row("Quantity")),
                 .OriginalStock = Convert.ToInt32(row("OriginalStock")),
-                .LastUpdated = Convert.ToDateTime(row("LastUpdated"))
+                .LastUpdated = CDate(row("LastUpdated")).ToString("yyyy-MM-dd hh:mm")
             })
             Next
 
@@ -169,29 +142,7 @@ Public Class MyInventory
         End If
     End Sub
 
-    Private Sub datePickerFilter_SelectedDateChanged(sender As Object, e As SelectionChangedEventArgs)
-        Dim filterDate As DateTime = datePickerFilter.SelectedDate
 
-        Dim collectionView As CollectionView = CType(CollectionViewSource.GetDefaultView(productDataGrid.ItemsSource), CollectionView)
-        collectionView.Filter = New Predicate(Of Object)(Function(item) FilterByDate(item, filterDate))
-
-    End Sub
-
-
-
-    Private Function FilterByDate(item As Object, selected As DateTime?) As Boolean
-
-
-        Dim row As ProductInventory = CType(item, ProductInventory)
-
-        If selected.HasValue Then
-            Return row.LastUpdated.Date = selected.Value.Date
-
-
-        End If
-
-        Return True
-    End Function
     Private Function FilterSales(item As Object, input As String) As Boolean
         Dim row As ProductInventory = CType(item, ProductInventory)
 
@@ -270,7 +221,7 @@ Public Class MyInventory
                     table.AddCell(New Cell().Add(New Paragraph(product.ProductName.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.CurrentStock.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.OriginalStock.ToString())))
-                    table.AddCell(New Cell().Add(New Paragraph(product.LastUpdated.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))))
+                    table.AddCell(New Cell().Add(New Paragraph(String.Format(CultureInfo.InvariantCulture, "{0:yyyy-MM-dd}", product.LastUpdated))))
                 Next
 
                 document.Add(table)
@@ -323,4 +274,48 @@ Public Class MyInventory
             FetchProductData()
         End If
     End Sub
+
+    'Private Async Sub datePickerFilter_SelectedDateChanged(sender As Object, e As SelectionChangedEventArgs)
+    'If dat'ePickerFilter.SelectedDate.HasValue Then
+    'Dim selectedDate As Date = datePickerFilter.SelectedDate.Value
+    '       Await FilterByDate(selectedDate)
+    'Else
+    '    FetchProductData()
+    'End If
+    ' End Sub
+
+    Private Async Function FilterByDate(selectedDate As Date) As Task
+        Dim inventoryItems As New List(Of ProductInventory)()
+
+        Dim query As String = "SELECT P.InventoryID, P.ProductID, S.ProductName, P.Quantity, P.OriginalStock, P.LastUpdated " &
+                          "FROM Inventory P INNER JOIN Product S ON P.ProductID = S.ProductID " &
+                          "WHERE CONVERT(DATE, P.LastUpdated) = @SelectedDate"
+
+        Using connection As New SqlConnection(con.connectionString)
+            connection.Open()
+            Using cmd As New SqlCommand(query, connection)
+                cmd.Parameters.Add("@SelectedDate", SqlDbType.Date).Value = selectedDate
+                Using reader As SqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        Dim inventoryItem As New ProductInventory() With {
+                        .InventoryID = Convert.ToInt32(reader("InventoryID")),
+                        .ProductID = Convert.ToInt32(reader("ProductID")),
+                        .ProductName = reader("ProductName").ToString(),
+                        .LastUpdated = Convert.ToDateTime(reader("LastUpdated")).ToString("yyyy-MM-dd hh:mm"),
+                        .CurrentStock = Convert.ToInt32(reader("Quantity")),
+                        .OriginalStock = Convert.ToInt32(reader("OriginalStock"))
+                    }
+                        inventoryItems.Add(inventoryItem)
+                    End While
+                End Using
+                productDataGrid.ItemsSource = inventoryItems
+            End Using
+        End Using
+
+        If inventoryItems.Count = 0 Then
+            Await Task.Delay(5000)
+            FetchProductData()
+        End If
+    End Function
+
 End Class

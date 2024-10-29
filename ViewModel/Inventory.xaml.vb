@@ -8,13 +8,20 @@ Imports iText.Layout.Properties
 Imports System.Globalization
 Imports Microsoft.TeamFoundation.Common
 Imports iText.Layout
+Imports System.Text
 
 Public Class Inventory
     Dim con As New ConnectionString
-    Private Sub AddNewProduct_Click(sender As Object, e As RoutedEventArgs)
-        Dim openAddProduct As New AddProduct(Me)
+    Private add_window As AddProduct = Nothing
 
-        openAddProduct.Show()
+    Private Sub AddNewProduct_Click(sender As Object, e As RoutedEventArgs)
+        If add_window Is Nothing OrElse Not add_window.IsLoaded Then
+            add_window = New AddProduct(Me)
+            add_window.Show()
+        Else
+            add_window.Activate()
+        End If
+
     End Sub
     Public Sub New()
         InitializeComponent()
@@ -47,7 +54,7 @@ Public Class Inventory
                 .Brand = row("Brand").ToString(),
                 .Size = row("Size").ToString(),
                 .Color = row("Color").ToString(),
-                .CreatedAt = row("CreatedAt")
+                .CreatedAt = CDate(row("CreatedAt")).ToString("yyyy-MM-dd hh:mm")
             })
             Next
 
@@ -85,39 +92,72 @@ Public Class Inventory
     Private Sub FilterProductTable()
         Dim input As String = Search.Text.Trim()
 
-        If input.IsNullOrEmpty() Then
-
-            MessageBox.Show("Error", "Please provide a value", MessageBoxButton.OK, MessageBoxImage.Error)
+        If String.IsNullOrEmpty(input) Then
+            MessageBox.Show("Please provide a value.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
             Return
         End If
-        Dim products As New List(Of Product)()
 
-        Dim q As String = "SELECT p.*, c.CategoryName FROM PRODUCT p " &
-                      "INNER JOIN Category c ON p.CategoryID = c.CategoryID " &
-                      "WHERE (p.ProductName LIKE '%' + @ProductName + '%' OR @ProductName = '') " &
-                      "OR (p.Description LIKE '%' + @Description + '%' OR @Description = '') " &
-                      "OR (p.Brand LIKE '%' + @Brand + '%' OR @Brand = '') " &
-                      "OR (p.Size LIKE '%' + @Size + '%' OR @Size = '') " &
-                      "OR (p.Color LIKE '%' + @Color + '%' OR @Color = '') " &
-                      "OR (c.CategoryName LIKE '%' + @CategoryName + '%' OR @CategoryName = '') " &
-                      "OR (p.Price = @Price OR @Price = '') " &
-                      "OR (p.CategoryID = @CategoryID OR @CategoryID = '') " &
-                      "OR (p.ProductID = @ProductID OR @ProductID = '')"
+        Dim products As New List(Of Product)()
+        Dim isNumericInput As Boolean = Decimal.TryParse(input, New Decimal())
+        Dim isIntegerInput As Boolean = Integer.TryParse(input, New Integer())
+        Dim isDateInput As Boolean = DateTime.TryParse(input, Nothing) ' Check if input can be parsed as Date
+
+        ' Prepare SQL query with conditional parameters based on input type
+        Dim query As New StringBuilder()
+        query.Append("SELECT p.*, c.CategoryName FROM PRODUCT p ")
+        query.Append("INNER JOIN Category c ON p.CategoryID = c.CategoryID ")
+        query.Append("WHERE 1=1 ") ' Always true, simplifies adding conditions
+
+        ' Conditions based on user input
+        If Not String.IsNullOrEmpty(input) Then
+            query.Append("AND (p.ProductName LIKE '%' + @ProductName + '%' ")
+            query.Append("OR p.Description LIKE '%' + @Description + '%' ")
+            query.Append("OR p.Brand LIKE '%' + @Brand + '%' ")
+            query.Append("OR p.Size LIKE '%' + @Size + '%' ")
+            query.Append("OR p.Color LIKE '%' + @Color + '%' ")
+
+            If isNumericInput Then
+                query.Append("OR p.Price = @Price ")
+            End If
+
+            If isIntegerInput Then
+                query.Append("OR p.CategoryID = @CategoryID ")
+                query.Append("OR p.ProductID = @ProductID ")
+            End If
+
+            If isDateInput Then
+                query.Append("OR CONVERT(DATE, p.CreatedAt) = @CreatedAt ")
+            End If
+
+            query.Append("OR c.CategoryName LIKE '%' + @CategoryName + '%' )")
+        End If
 
         Using connection As New SqlConnection(con.connectionString)
             connection.Open()
 
-            Using cmd As New SqlCommand(q, connection)
-                cmd.Parameters.AddWithValue("@ProductName", If(String.IsNullOrEmpty(input), "", input))
-                cmd.Parameters.AddWithValue("@Description", If(String.IsNullOrEmpty(input), "", input))
-                cmd.Parameters.AddWithValue("@Brand", If(String.IsNullOrEmpty(input), "", input))
-                cmd.Parameters.AddWithValue("@Size", If(String.IsNullOrEmpty(input), "", input))
-                cmd.Parameters.AddWithValue("@Color", If(String.IsNullOrEmpty(input), "", input))
-                cmd.Parameters.AddWithValue("@CategoryName", If(String.IsNullOrEmpty(input), "", input))
+            Using cmd As New SqlCommand(query.ToString(), connection)
+                cmd.Parameters.AddWithValue("@ProductName", input)
+                cmd.Parameters.AddWithValue("@Description", input)
+                cmd.Parameters.AddWithValue("@Brand", input)
+                cmd.Parameters.AddWithValue("@Size", input)
+                cmd.Parameters.AddWithValue("@Color", input)
+                cmd.Parameters.AddWithValue("@CategoryName", input)
 
-                cmd.Parameters.AddWithValue("@Price", If(IsNumeric(input), input, DBNull.Value))
-                cmd.Parameters.AddWithValue("@CategoryID", If(IsNumeric(input), input, DBNull.Value))
-                cmd.Parameters.AddWithValue("@ProductID", If(IsNumeric(input), input, DBNull.Value))
+                If isNumericInput Then
+                    cmd.Parameters.AddWithValue("@Price", Convert.ToDecimal(input))
+                End If
+                If isIntegerInput Then
+                    cmd.Parameters.AddWithValue("@CategoryID", Convert.ToInt32(input))
+                    cmd.Parameters.AddWithValue("@ProductID", Convert.ToInt32(input))
+                End If
+
+                If isDateInput Then
+                    Dim parsedDate As DateTime
+                    parsedDate = DateTime.Parse(input) ' Parsing the input date
+                    cmd.Parameters.AddWithValue("@CreatedAt", parsedDate)
+                Else
+                    cmd.Parameters.Add("@CreatedAt", SqlDbType.Date).Value = DBNull.Value
+                End If
 
                 Using reader As SqlDataReader = cmd.ExecuteReader()
                     While reader.Read()
@@ -131,7 +171,7 @@ Public Class Inventory
                         .Price = Convert.ToDecimal(reader("Price")),
                         .CategoryID = Convert.ToInt32(reader("CategoryID")),
                         .CategoryName = reader("CategoryName").ToString(),
-                        .CreatedAt = Convert.ToDateTime(reader("CreatedAt"))
+                        .CreatedAt = Convert.ToDateTime(reader("CreatedAt")).ToString("yyyy-MM-dd hh:mm")
                     }
 
                         products.Add(filter)
@@ -142,6 +182,8 @@ Public Class Inventory
 
         productDataGrid.ItemsSource = products
     End Sub
+
+
 
     Private Sub PrintToPDF(dataGrid As DataGrid, filePath As String)
         Using pdfWriter As New PdfWriter(filePath)
@@ -198,7 +240,7 @@ Public Class Inventory
                     table.AddCell(New Cell().Add(New Paragraph(product.Color.ToString())))
                     table.AddCell(New Cell().Add(New Paragraph(product.Price.ToString())))
 
-                    table.AddCell(New Cell().Add(New Paragraph(product.CreatedAt.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))))
+                    table.AddCell(New Cell().Add(New Paragraph(String.Format(CultureInfo.InvariantCulture, "{0:yyyy-MM-dd}", product.CreatedAt))))
                 Next
 
                 document.Add(table)
@@ -254,24 +296,62 @@ Public Class Inventory
         End If
     End Sub
 
-    Private Sub datePickerFilter_SelectedDateChanged(sender As Object, e As SelectionChangedEventArgs)
-        Dim filterDate As DateTime = datePickerFilter.SelectedDate
+    Private ViewDetails As ViewDetailsProduct = Nothing
 
-        Dim collectionView As CollectionView = CType(CollectionViewSource.GetDefaultView(productDataGrid.ItemsSource), CollectionView)
-        collectionView.Filter = New Predicate(Of Object)(Function(item) FilterByDate(item, filterDate))
+    Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
+        If ViewDetails Is Nothing OrElse Not ViewDetails.IsLoaded Then
+            ViewDetails = New ViewDetailsProduct()
+            ViewDetails.Show()
+        Else
+            ViewDetails.Activate()
+        End If
     End Sub
 
-    Private Function FilterByDate(item As Object, selected As DateTime?) As Boolean
+    'Private Sub datePickerFilter_SelectedDateChanged(sender As Object, e As SelectionChangedEventArgs)
+    '  If datePickerFilter.SelectedDate.HasValue Then
+    ' Dim selectedDate As Date = datePickerFilter.SelectedDate.Value
+    '    FilterDataByDate(selectedDate)
+    ' End If
+    'End Sub
+    Private Sub FilterDataByDate(selectedDate As Date)
+        Dim query As String = "SELECT p.ProductID, p.ProductName, p.Description, p.Price, p.Brand, p.Size, p.Color, p.CreatedAt, " &
+                              "p.CategoryID, c.CategoryName " &
+                              "FROM Product p " &
+                              "JOIN Category c ON p.CategoryID = c.CategoryID " &
+                              "WHERE CONVERT(DATE, p.CreatedAt) = @SelectedDate"
+
+        Dim filteredProducts As New List(Of Product)()
+
+        Using connection As New SqlConnection(con.connectionString)
+            Using command As New SqlCommand(query, connection)
+                ' Set the parameter for the selected date
+                command.Parameters.Add("@SelectedDate", SqlDbType.Date).Value = selectedDate
+
+                connection.Open()
+                Using reader As SqlDataReader = command.ExecuteReader()
+                    ' Read each record and map it to the Product object
+                    While reader.Read()
+                        Dim filter As New Product() With {
+                            .ProductID = Convert.ToInt32(reader("ProductID")),
+                            .ProductName = reader("ProductName").ToString(),
+                            .Description = reader("Description").ToString(),
+                            .Brand = reader("Brand").ToString(),
+                            .Size = reader("Size").ToString(),
+                            .Color = reader("Color").ToString(),
+                            .Price = Convert.ToDecimal(reader("Price")),
+                            .CategoryID = Convert.ToInt32(reader("CategoryID")),
+                            .CategoryName = reader("CategoryName").ToString(),
+                            .CreatedAt = Convert.ToDateTime(reader("CreatedAt")).ToString("yyyy-MM-dd HH:mm")
+                        }
+                        filteredProducts.Add(filter)
+                    End While
+                End Using
+            End Using
+        End Using
+
+        ' Bind the filtered list to your DataGrid or other UI element
+        productDataGrid.ItemsSource = filteredProducts
+    End Sub
 
 
-        Dim row As Product = CType(item, Product)
-
-        If selected.HasValue Then
-            Return row.CreatedAt.Date = selected.Value.Date
-
-
-        End If
-
-        Return True
-    End Function
 End Class

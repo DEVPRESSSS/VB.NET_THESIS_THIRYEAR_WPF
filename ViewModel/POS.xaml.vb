@@ -94,7 +94,7 @@ Public Class POS
     End Sub
 
 
-
+    'Get specific product
     Public Function GetSpecificProduct() As List(Of Product)
         Dim input As String = Search.Text.Trim()
         Dim products As New List(Of Product)
@@ -150,34 +150,46 @@ Public Class POS
             ProductList.ItemsSource = products
 
         Else
-            MessageBox.Show("No products found.")
+            MessageBox.Show("No products found.", "Not found", MessageBoxImage.Error, MessageBoxButton.OK)
 
 
         End If
     End Sub
+
+
     'Fetch all the products
     Public Function GetProducts() As List(Of Product)
         Dim products As New List(Of Product)
 
         Using connection As New SqlConnection(con.connectionString)
             connection.Open()
-            Dim query As String = "SELECT ProductID, ProductName, Size, Price FROM Product"
-            Dim command As New SqlCommand(query, connection)
-            Dim reader As SqlDataReader = command.ExecuteReader()
+            Dim query As String = "SELECT p.ProductID, p.ProductName, p.Size, p.Price, i.Quantity, pi.ImageUrl " &
+                              "FROM Product p " &
+                              "INNER JOIN Inventory i ON p.ProductID = i.ProductID " &
+                              "LEFT JOIN ProductImage pi ON p.ProductID = pi.ProductID " &
+                              "WHERE i.Quantity >= 1"
 
-            While reader.Read()
-                Dim product As New Product() With {
-                    .ProductID = reader("ProductID"),
-                    .ProductName = reader("ProductName").ToString(),
-                    .Price = Decimal.Parse(reader("Price").ToString()),
-                    .Size = Decimal.Parse(reader("Size").ToString())
-                }
-                products.Add(product)
-            End While
+            Using command As New SqlCommand(query, connection)
+                Using reader As SqlDataReader = command.ExecuteReader()
+                    While reader.Read()
+                        Dim product As New Product()
+                        product.ProductID = reader("ProductID")
+                        product.ProductName = reader("ProductName").ToString()
+                        product.Size = reader("Size").ToString()
+                        product.Price = Convert.ToDecimal(reader("Price"))
+                        product.Stock = Convert.ToInt32(reader("Quantity"))
+                        product.ImageUrl = reader("ImageUrl").ToString()
+
+                        products.Add(product)
+                    End While
+                End Using
+            End Using
         End Using
 
         Return products
     End Function
+
+
 
     Private Sub StackPanel_Scroll(sender As Object, e As Primitives.ScrollEventArgs)
 
@@ -207,12 +219,21 @@ Public Class POS
 
 
         If existingItem IsNot Nothing Then
-
             existingItem.Quantity += 1
+
+
+            If existingItem.Quantity > selectedProduct.Stock Then
+
+                MessageBox.Show("Oops the quantity is greater than stock", MessageBoxImage.Error, MessageBoxButton.OK)
+                existingItem.Quantity -= 1
+
+                Return
+
+            End If
 
         Else
 
-            existingItem = New SelectedItem With {
+                existingItem = New SelectedItem With {
             .ProductID = selectedProduct.ProductID,
             .ProductName = selectedProduct.ProductName,
             .Price = selectedProduct.Price,
@@ -309,7 +330,6 @@ Public Class POS
                 cmd.Parameters.AddWithValue("@SaleDate", DateTime.Now)
                 cmd.Parameters.AddWithValue("@TotalAmount", totalAmount)
 
-                ' Retrieve the SalesID of the inserted sale
                 salesID = Convert.ToInt32(cmd.ExecuteScalar())
                 InsertSalesDetails(salesID)
             End Using
@@ -354,7 +374,6 @@ Public Class POS
             Return
         End If
 
-        ' Variables for product and sale processing
         Dim productID As String
         Dim qty, currentStock As Integer
         Dim totalAmount As Decimal = 0D
@@ -363,11 +382,9 @@ Public Class POS
         Dim cashierID As String = String.Empty
         Dim cashierQuery As String = "SELECT CashierID FROM Cashier WHERE Username = @Username"
 
-        ' Start the process inside a database transaction to ensure all steps are consistent
         Using connection As New SqlConnection(con.connectionString)
             connection.Open()
 
-            ' Begin transaction
             Using transaction = connection.BeginTransaction()
                 Try
                     ' Fetch CashierID
@@ -435,6 +452,7 @@ Public Class POS
                     ' Show success message after completing the process
                     MessageBox.Show($"Order placed successfully. Total: {totalAmount:C}", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
                     PrintReceipt()
+                    GetProducts()
                     selectedLists.Clear()
 
                     Bill.Text = ""
@@ -543,7 +561,7 @@ Public Class POS
 
 
                 ' Grand total and Change section
-                Dim gtotal As String = $"Change: {ChangeCount.Content}         Grand Total: {total.ToString("C2")}"
+                Dim gtotal As String = $"Bill:{Bill.Text}                 Change: {ChangeCount.Content}         Grand Total: {total.ToString("C2")}"
                 Dim gtotal_format As New Paragraph(gtotal)
                 gtotal_format.SetTextAlignment(TextAlignment.RIGHT)
                 gtotal_format.SetBold()
@@ -588,5 +606,17 @@ Public Class POS
 
         End If
 
+    End Sub
+
+    Private Sub Bill_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        If e.Key = Key.Back OrElse e.Key = Key.Delete OrElse e.Key = Key.Left OrElse e.Key = Key.Right Then
+            Return
+        End If
+
+        If Not ((e.Key >= Key.D0 And e.Key <= Key.D9) OrElse
+                (e.Key >= Key.NumPad0 And e.Key <= Key.NumPad9) OrElse
+                (e.Key = Key.Decimal OrElse e.Key = Key.OemPeriod)) Then
+            e.Handled = True
+        End If
     End Sub
 End Class

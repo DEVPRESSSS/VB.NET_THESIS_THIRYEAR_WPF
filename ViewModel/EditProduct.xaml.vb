@@ -80,7 +80,9 @@ Public Class EditProduct
     End Sub
 
     Private Sub Size_PreviewKeyDown(sender As Object, e As KeyEventArgs)
-        If (e.Key < Key.A OrElse e.Key > Key.Z) AndAlso e.Key <> Key.Back Then
+        If e.Key = Key.Back OrElse e.Key = Key.Delete OrElse e.Key = Key.Tab OrElse e.Key = Key.Left OrElse e.Key = Key.Right Then
+            e.Handled = False
+        ElseIf Not (e.Key >= Key.D0 AndAlso e.Key <= Key.D9 OrElse e.Key >= Key.NumPad0 AndAlso e.Key <= Key.NumPad9) Then
             e.Handled = True
         End If
     End Sub
@@ -90,7 +92,15 @@ Public Class EditProduct
     End Sub
 
     Private Sub Price_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        If e.Key = Key.Back OrElse e.Key = Key.Delete OrElse e.Key = Key.Left OrElse e.Key = Key.Right Then
+            Return
+        End If
 
+        If Not ((e.Key >= Key.D0 And e.Key <= Key.D9) OrElse
+                (e.Key >= Key.NumPad0 And e.Key <= Key.NumPad9) OrElse
+                (e.Key = Key.Decimal OrElse e.Key = Key.OemPeriod)) Then
+            e.Handled = True
+        End If
     End Sub
 
     Private Sub Price_TextChanged(sender As Object, e As TextChangedEventArgs)
@@ -272,5 +282,11 @@ Public Class EditProduct
 
     Private Sub ComboCat_MouseDoubleClick_1(sender As Object, e As MouseButtonEventArgs)
 
+    End Sub
+
+    Private Sub Size_PreviewTextInput(sender As Object, e As TextCompositionEventArgs)
+        If Not IsNumeric(e.Text) Then
+            e.Handled = True
+        End If
     End Sub
 End Class

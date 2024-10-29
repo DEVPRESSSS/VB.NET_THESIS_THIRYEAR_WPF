@@ -11,5 +11,5 @@
     Public Property FirstName As String
     Public Property LastName As String
     Public Property Email As String
-    Public Property CreatedAt As DateTime
+    Public Property CreatedAt As String
 End Class
