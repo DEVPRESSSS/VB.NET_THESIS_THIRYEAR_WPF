@@ -72,10 +72,10 @@
                             FontFamily="Roboto"
                             Grid.Column="0"
                             VerticalAlignment="Top"
-                            Margin="24,10,717,0"
+                            Margin="24,10,0,0"
                       Width="100"
                             
-                            FontWeight="Medium"/>
+                            FontWeight="Medium" HorizontalAlignment="Left"/>
 
 
 

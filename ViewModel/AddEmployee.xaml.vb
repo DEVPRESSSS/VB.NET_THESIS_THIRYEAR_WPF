@@ -6,7 +6,14 @@ Imports System.Text.RegularExpressions
 
 Public Class AddEmployee
     Dim cons As New ConnectionString
+    Dim emp As Employee
+    Public Sub New(employeeforma As Employee)
 
+
+        InitializeComponent()
+
+        emp = employeeforma
+    End Sub
     Private Sub btnClose_Click(sender As Object, e As RoutedEventArgs)
         Me.Close()
     End Sub
@@ -68,7 +75,10 @@ Public Class AddEmployee
                     connection.Open()
                     command.ExecuteNonQuery()
                     MessageBox.Show("Cashier record inserted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+                    emp.FetchCashierData()
+
                     clear()
+                    Me.Close()
                     Return True
                 Catch ex As Exception
                     MessageBox.Show("Username or email already exist, Please input unique value ", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
@@ -145,6 +155,21 @@ Public Class AddEmployee
         If Not Regex.IsMatch(emailInput, emailPattern) AndAlso Not String.IsNullOrEmpty(emailInput) Then
             MessageBox.Show("Invalid email address format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
 
+        End If
+    End Sub
+
+    Private Sub Password_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        If e.Key = Key.Space Then
+
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Email_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+
+        If e.Key = Key.Space Then
+
+            e.Handled = True
         End If
     End Sub
 End Class

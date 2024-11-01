@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VB_THESIS_WPS" xmlns:Icon="clr-namespace:MahApps.Metro.IconPacks;assembly=MahApps.Metro.IconPacks.Material"
         mc:Ignorable="d"
-        Title="Add Product" Height="338" Width="800"
+        Title="Add Product" Height="486" Width="800"
         WindowStyle="None"
         ResizeMode="NoResize"
         FontFamily="Roboto"
         Background="Transparent"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
-        MinHeight="400" MinWidth="800"
+        MinHeight="480" MinWidth="800"
         >
 
 
@@ -46,7 +46,7 @@
             <Border Grid.Row="1"
                  Background="White"
                  CornerRadius="10"
-                 Margin="0,10,0,0"
+                 Margin="10,10,10,10"
                  Effect="{StaticResource dropShadow}">
 
 
@@ -78,40 +78,6 @@
                             FontWeight="Medium"/>
                 <!--BtnMinimize-->
 
-                <Button x:Name="btnMinimize"
-                    BorderThickness="0"
-                    Foreground="White"
-                    FontSize="13"
-                    Content="-"
-                    Cursor="Hand"
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    >
-
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Background" Value="#EF476F"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#FF60"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border Width="20" Height="20"
-              CornerRadius="10"
-              Background="{TemplateBinding Background}">
-                                <ContentPresenter VerticalAlignment="Center"
-              HorizontalAlignment="Center"/>
-
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
                 <!--btn close  -->
                 <Button x:Name="btnClose"
                      BorderThickness="0"
@@ -136,11 +102,11 @@
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Width="20" Height="20"
-                CornerRadius="10"
-                Margin="0px 2px 0px 2px"
-                Background="{TemplateBinding Background}">
+                                    CornerRadius="10"
+                                    Margin="0px 2px 0px 2px"
+                                    Background="{TemplateBinding Background}">
                                 <ContentPresenter VerticalAlignment="Center"
-                HorizontalAlignment="Center"/>
+                                    HorizontalAlignment="Center"/>
 
                             </Border>
                         </ControlTemplate>
@@ -150,160 +116,117 @@
 
             </Grid>
 
-            <!--PRODUCTNAME-->
 
-            <TextBox x:Name="ProductName" Style="{StaticResource TextBoxes}"
-                     HorizontalAlignment="Left" 
-                     Margin="109,48,0,0"
-                     Grid.Row="1"
-                     TextWrapping="Wrap" 
-                     VerticalAlignment="Top"
-                     Width="146" 
-                     MaxLength="20"/>
+            <!-- Image Path-->
+
+            <Image x:Name="Imagepreview" Source="D:\VB_THESIS_WPS\Images\smart-shoe.png" 
+                   Stretch="Fill"
+                   Width="150"
+                   Height="150"
+                   Margin="334,14,312,278" 
+                   Grid.Row="1"
+                   />
 
 
 
-            <TextBlock HorizontalAlignment="Left"
-                       Margin="109,27,0,0" 
+            <!-- Productname-->
+            <TextBlock x:Name="productname" Text="Shoes One"
+                       FontSize="18"
                        Grid.Row="1"
-                       TextWrapping="Wrap"
-                       Text="ProductName" 
-                       VerticalAlignment="Top"/>
+                       Width="100"
+                       FontFamily="Roboto"
+                       FontWeight="Bold"
+                       Foreground="#073b4c" Margin="271,184,425,224"
+                       />
 
-            <!--DESCRIPTION-->
+            <!-- Size-->
 
-            <TextBox x:Name="Description" 
-                     Style="{StaticResource TextBoxes}"
-                     HorizontalAlignment="Left" 
-                     Margin="109,190,0,0" Grid.Row="1"
-                     TextWrapping="Wrap" 
-                     VerticalAlignment="Top" 
-                     Width="146"
-                     
-                     
-                     MaxLength="20"/>
-            <TextBlock  HorizontalAlignment="Left"
-                        Margin="109,0,0,0" Grid.Row="1" 
-                        TextWrapping="Wrap"
-                        Text="Description" 
-                        VerticalAlignment="Center"/>
+            <TextBlock x:Name="size" Text="75 cm"
+                FontSize="18"
+                Grid.Row="1"
+                FontFamily="Roboto"
+                FontWeight="DemiBold"
+                Foreground="#073b4c" 
+                Margin="467,184,269,225"
+                       />
 
 
-            <!--CATEGORY-->
+            <!-- Description-->
 
-            <ComboBox  x:Name="ComboCat" 
-                       Style="{StaticResource ComboBoxStyle}"
-                       HorizontalAlignment="Left" 
-                       Margin="341,48,0,0" 
-                       Grid.Row="1"
-                       VerticalAlignment="Top" 
-                       Width="146" Height="23"/>
+            <TextBlock x:Name="description" Text="this is test "
+                HorizontalAlignment="Center"
+                
+                FontSize="14"
+                Grid.Row="1"
+                FontFamily="Roboto"
+                FontWeight="DemiBold"
+                Foreground="#073b4c" 
+                Margin="0,231,0,183" Width="68"
+                FontStyle="Italic"
+                       />
 
+            <!-- Price-->
 
-            <TextBlock HorizontalAlignment="Left" 
-                       Margin="341,28,0,0" 
-                       Grid.Row="1" 
-                       TextWrapping="Wrap" 
-                       Text="Category"
-                       VerticalAlignment="Top" Height="16"/>
-
-
-
-
-            <!--BRAND-->
-
-            <TextBox x:Name="Brand" 
-                     Style="{StaticResource TextBoxes}"
-                     HorizontalAlignment="Left" 
-                     Margin="555,48,0,0"
-                     Grid.Row="1" 
-                     VerticalAlignment="Top"
-                     Width="146"
-                     MaxLength="20" 
-                />
-            <TextBlock HorizontalAlignment="Left"
-                       Margin="555,30,0,0" Grid.Row="1" 
-                       TextWrapping="Wrap"
-                       Text="Brand"
-                       VerticalAlignment="Top"/>
+            <TextBlock x:Name="Price" Text="2000"
+                FontSize="24"
+                Grid.Row="1"
+                Width="auto"
+                FontFamily="Roboto"
+                FontWeight="Bold"
+                Foreground="#EF476F" 
+                Margin="378,276,356,132"
+                RenderTransformOrigin="1.211,0.677"
+                       />
 
 
-            <TextBlock HorizontalAlignment="Left"
-                       Margin="107,96,0,0" 
-                       Grid.Row="1" 
-                       TextWrapping="Wrap"
-                       Text="Size"
-                       VerticalAlignment="Top"/>
+            <!--Category-->
+            <TextBlock x:Name="category" Text="Running shoes"
+                HorizontalAlignment="Left"
+                FontSize="14"
+                Grid.Row="1"
+                FontFamily="Roboto"
+                FontWeight="DemiBold"
+                Foreground="#073b4c" 
+                FontStyle="Italic"
+                Margin="355,325,0,97" Width="Auto"
+                       />
 
 
-            <!--BUTTONS-->
-
-            <!--SIZE-->
-
-            <TextBox x:Name="Size" 
-                     Style="{StaticResource TextBoxes}" 
-                     HorizontalAlignment="Left"
-                     Margin="109,117,0,0"
-                     Grid.Row="1" 
-                     TextWrapping="Wrap" 
-                     VerticalAlignment="Top" 
-                     Width="146"  
-                     MaxLength="2"/>
-
-            <!--PRICE-->
-
-            <TextBox x:Name="Price" 
-                     Style="{StaticResource TextBoxes}" 
-                     HorizontalAlignment="Left" 
-                     Margin="555,190,0,0"
-                     Grid.Row="1" 
-                     TextWrapping="Wrap"
-                     VerticalAlignment="Top" 
-                     Width="146"
-                     MaxLength="6"/>
-            <TextBlock HorizontalAlignment="Left"
-                       Margin="555,169,0,0" Grid.Row="1" 
-                       TextWrapping="Wrap" 
-                       Text="Price" 
-                       VerticalAlignment="Top"/>
-
-
-            <!--COLOR-->
-            <TextBox x:Name="Color" 
-                     Style="{StaticResource TextBoxes}"
-                     HorizontalAlignment="Left" 
-                     Margin="555,117,0,0" 
-                     Grid.Row="1" 
-                     TextWrapping="Wrap" 
-                     VerticalAlignment="Top" 
-                     Width="146"
-                     IsReadOnly="True"
-                    MaxLength="20"/>
-
-            <TextBlock HorizontalAlignment="Left" 
-                       Margin="555,96,0,0"
-                       Grid.Row="1" 
-                       TextWrapping="Wrap"
-                       Text="Color" 
-                       VerticalAlignment="Top"/>
+            <!-- Brand-->
+            <TextBlock x:Name="brand" Text="Nike"
+                FontSize="24"
+                Grid.Row="1"
+                FontFamily="Roboto"
+                VerticalAlignment="Top"
+                FontWeight="DemiBold"
+                Width="Auto"
+                FontStyle="Italic"
+                Foreground="#073b4c"
+                Margin="633,42,43,0" Height="27"
+                       />
 
 
 
-            <TextBox x:Name="Quantity" 
-                Style="{StaticResource TextBoxes}" 
-                HorizontalAlignment="Left" 
-                Margin="341,117,0,0"
-                Grid.Row="1" 
-                TextWrapping="Wrap"
-                VerticalAlignment="Top" 
-                Width="146"
-                MaxLength="4"
-                     />
-            <TextBlock HorizontalAlignment="Left"
-                Margin="341,96,0,0" Grid.Row="1" 
-                TextWrapping="Wrap" 
-                Text="Stock" 
-                VerticalAlignment="Top"/>
+
+            <StackPanel Orientation="Horizontal" Margin="71,31,694,371" Grid.Row="1">
+                <Border Width="30" Height="30" CornerRadius="50" Background="Black" RenderTransformOrigin="-0.876,-0.681">
+                </Border>
+
+            </StackPanel>
+            
+            
+            
+            
+            <TextBlock x:Name="Price_Copy" Text="₱"
+                FontSize="24"
+                Grid.Row="1"
+                Width="auto"
+                FontFamily="Roboto"
+                FontWeight="Bold"
+                Foreground="#EF476F" 
+                Margin="355,276,425,142"
+                RenderTransformOrigin="1.211,0.677"
+                       />
 
 
 

@@ -172,4 +172,12 @@ Public Class EditEmployee
 
         End If
     End Sub
+
+    Private Sub Email_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+
+        If e.Key = Key.Space Then
+
+            e.Handled = True
+        End If
+    End Sub
 End Class

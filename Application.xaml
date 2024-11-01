@@ -74,7 +74,35 @@
         </Style>
 
 
-        
+        <!-- RichTextBox template -->
+        <Style x:Key="RichTextBoxes" TargetType="RichTextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RichTextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="#727272" 
+                        BorderThickness="1"
+                        CornerRadius="6">
+                            <!-- Use FlowDocumentScrollViewer to handle rich text content -->
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                  Padding="{TemplateBinding Padding}" 
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+
         <!--Password-->
         <Style x:Key="PasswordBoxes" TargetType="PasswordBox">
             <Setter Property="Background" Value="White"/>
@@ -496,7 +524,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-
+         
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#623ED0"/>
@@ -506,6 +534,11 @@
                     <Setter Property="Background" Value="#623ED0"/>
                     <Setter Property="Foreground" Value="#ffffff"/>
                 </Trigger>
+                
+                <DataTrigger Binding="{Binding CurrentStock}" Value="0">
+                    <Setter Property="Background" Value="#EF476F"/>
+                </DataTrigger>
+                
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
                         <Condition Property="IsSelected" Value="true"/>

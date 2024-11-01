@@ -169,11 +169,12 @@ Public Class ChangePassword
     End Sub
 
     Private Sub CheckBox_Unchecked(sender As Object, e As RoutedEventArgs)
-        ConfirmPassword.Visibility = Visibility.Visible
-        ConfirmPasswordTextBox.Visibility = Visibility.Collapsed
         ConfirmPassword.Password = ConfirmPasswordTextBox.Text
-        NewPassword.Visibility = Visibility.Visible
-        NewPasswordTextBox.Visibility = Visibility.Collapsed
+        ConfirmPasswordTextBox.Visibility = Visibility.Collapsed
+        ConfirmPassword.Visibility = Visibility.Visible
+
         NewPassword.Password = NewPasswordTextBox.Text
+        NewPasswordTextBox.Visibility = Visibility.Collapsed
+        NewPassword.Visibility = Visibility.Visible
     End Sub
 End Class

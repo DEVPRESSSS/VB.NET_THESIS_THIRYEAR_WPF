@@ -177,7 +177,6 @@ Public Class Sales
         Dim searchTerm As String = Search.Text.Trim()
         Dim salesDetailsCollection As New ObservableCollection(Of SaleDetails)()
 
-        ' Adjust the SQL query to filter based on the search term
         Dim query As String = "SELECT s.[SalesID], s.[CashierID], s.[SaleDate], s.[TotalAmount], " &
                       "sd.[SalesDetailID], sd.[ProductName], sd.[Quantity], sd.[UnitPrice], sd.[TotalPrice] " &
                       "FROM [Pamela].[dbo].[Sales] s " &
@@ -186,7 +185,7 @@ Public Class Sales
                       "WHERE sd.[ProductName] LIKE @searchTerm OR " &
                       "s.[SalesID] LIKE @searchTerm OR " &
                       "s.[CashierID] LIKE @searchTerm OR " &
-                      "s.[SaleDate] LIKE @searchTerm OR " &
+                      "CONVERT(NVARCHAR, s.[SaleDate], 120) LIKE @searchTerm OR " &
                       "s.[TotalAmount] LIKE @searchTerm OR " &
                       "sd.[Quantity] LIKE @searchTerm OR " &
                       "sd.[UnitPrice] LIKE @searchTerm OR " &
@@ -198,8 +197,6 @@ Public Class Sales
             Dim command As New SqlCommand(query, connection)
             command.Parameters.AddWithValue("@searchTerm", "%" & searchTerm & "%")
 
-            ' Dim parsedDate As DateTime
-            '  command.Parameters.Add("@SaleDate", SqlDbType.Date).Value = If(DateTime.TryParse(searchTerm, parsedDate), parsedDate, DBNull.Value)
 
             Dim adapter As New SqlDataAdapter(command)
             Dim dataTable As New DataTable()

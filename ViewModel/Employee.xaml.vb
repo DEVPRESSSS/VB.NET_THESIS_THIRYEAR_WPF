@@ -47,7 +47,7 @@ Public Class Employee
 
     Private Sub AddbtnClick(sender As Object, e As RoutedEventArgs)
         If insert_image_window Is Nothing OrElse Not insert_image_window.IsLoaded Then
-            insert_image_window = New AddEmployee()
+            insert_image_window = New AddEmployee(Me)
             insert_image_window.Show()
         Else
             insert_image_window.Activate()

@@ -65,15 +65,9 @@ Public Class EditProduct
 
     End Sub
 
-    Private Sub Description_PreviewKeyDown(sender As Object, e As KeyEventArgs)
-        If (e.Key < Key.A OrElse e.Key > Key.Z) AndAlso e.Key <> Key.Back Then
-            e.Handled = True
-        End If
-    End Sub
 
-    Private Sub Description_TextChanged(sender As Object, e As TextChangedEventArgs)
 
-    End Sub
+
 
     Private Sub Clear(sender As Object, e As RoutedEventArgs)
         Clear()
@@ -230,7 +224,6 @@ Public Class EditProduct
                 Dim rowsAffected As Integer = command.ExecuteNonQuery()
                 If rowsAffected > 0 Then
                     MessageBox.Show("Product record updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
-                    ' UpdateInventoryQuantity(editID)
                     Clear()
                     RefreshForm()
                     Me.Close()
@@ -271,8 +264,8 @@ Public Class EditProduct
 
 
         ProductName.Text = ""
-        Description.Text = ""
         Brand.Text = ""
+        Description.Text = ""
         Size.Text = ""
         Price.Text = ""
         Color.Text = ""
@@ -288,5 +281,39 @@ Public Class EditProduct
         If Not IsNumeric(e.Text) Then
             e.Handled = True
         End If
+    End Sub
+
+    Private Sub Description_TextChanged_1(sender As Object, e As TextChangedEventArgs)
+        Dim maxLength As Integer = 30
+        Dim richTextBox As RichTextBox = DirectCast(sender, RichTextBox)
+        Dim textRange As New TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd)
+
+        If textRange.Text.Length > maxLength Then
+            textRange.Text = textRange.Text.Substring(0, maxLength)
+            richTextBox.CaretPosition = richTextBox.Document.ContentEnd
+        End If
+    End Sub
+
+    Private Sub description_TextChanged(sender As Object, e As TextChangedEventArgs)
+        Dim maxLength As Integer = 30
+        Dim richTextBox As RichTextBox = DirectCast(sender, RichTextBox)
+
+        ' Temporarily unsubscribe from the TextChanged event
+        RemoveHandler richTextBox.TextChanged, AddressOf description_TextChanged
+
+        Try
+            Dim textRange As New TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd)
+
+            If textRange.Text.Length > maxLength Then
+                ' Truncate the text to the max length
+                Dim truncatedText As String = textRange.Text.Substring(0, maxLength)
+                richTextBox.Document.Blocks.Clear() ' Clear existing content
+                richTextBox.AppendText(truncatedText) ' Add truncated text
+                richTextBox.CaretPosition = richTextBox.Document.ContentEnd ' Set caret to the end
+            End If
+        Finally
+            ' Re-subscribe to the TextChanged event
+            AddHandler richTextBox.TextChanged, AddressOf description_TextChanged
+        End Try
     End Sub
 End Class

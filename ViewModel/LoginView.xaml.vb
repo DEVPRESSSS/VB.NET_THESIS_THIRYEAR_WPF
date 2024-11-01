@@ -41,19 +41,17 @@ Public Class LoginView
     'Login logic
 
     Private Sub Login()
-
         Dim connections As New ConnectionString()
         Dim usernames As String = Username.Text
-        Dim passwords As String = Password.Password
-        PasswordTextBox.Text = passwords
+        Dim passwords As String = If(revealmode.IsChecked, PasswordTextBox.Text, Password.Password)
 
-        If String.IsNullOrWhiteSpace(usernames) OrElse String.IsNullOrWhiteSpace(passwords) OrElse String.IsNullOrWhiteSpace(PasswordTextBox.Text) Then
+        If String.IsNullOrWhiteSpace(usernames) OrElse String.IsNullOrWhiteSpace(passwords) Then
             MessageBox.Show("Username and password are required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error)
             Return
         End If
 
-        Dim adminQuery As String = "SELECT PasswordHash, Salt FROM Admin WHERE Username = @Username"
-        Dim cashierQuery As String = "SELECT PasswordHash, Salt FROM Cashier WHERE Username = @Username"
+        Dim adminQuery As String = "SELECT PasswordHash, Salt FROM Admin WHERE Username = @Username COLLATE Latin1_General_BIN"
+        Dim cashierQuery As String = "SELECT PasswordHash, Salt FROM Cashier WHERE Username = @Username COLLATE Latin1_General_BIN"
 
         Using connection As New SqlConnection(connections.connectionString)
             connection.Open()
@@ -94,8 +92,6 @@ Public Class LoginView
                         Dim hashedPassword As Byte() = HashPassword(passwords, storedSalt)
 
                         If storedPasswordHash.SequenceEqual(hashedPassword) Then
-
-
                             Dim main As New POS(usernames)
                             main.Show()
                             Me.Close()
@@ -168,16 +164,16 @@ Public Class LoginView
     End Sub
 
     Private Sub CheckBox_Checked(sender As Object, e As RoutedEventArgs)
-        If revealmode.IsChecked = True Then
-            PasswordTextBox.Text = Password.Password
-            PasswordTextBox.Visibility = Visibility.Visible
-            Password.Visibility = Visibility.Collapsed
+        PasswordTextBox.Text = Password.Password
+        PasswordTextBox.Visibility = Visibility.Visible
+        Password.Visibility = Visibility.Collapsed
 
-        End If
+
+
+
     End Sub
 
     Private Sub CheckBox_Unchecked(sender As Object, e As RoutedEventArgs)
-        Password.Password = PasswordTextBox.Text
         Password.Visibility = Visibility.Visible
         PasswordTextBox.Visibility = Visibility.Collapsed
 

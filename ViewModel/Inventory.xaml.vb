@@ -299,13 +299,35 @@ Public Class Inventory
     Private ViewDetails As ViewDetailsProduct = Nothing
 
     Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
+
+
+
         If ViewDetails Is Nothing OrElse Not ViewDetails.IsLoaded Then
-            ViewDetails = New ViewDetailsProduct()
+            Dim viewbtn As Button = CType(sender, Button)
+
+            Dim selectedItem As Product = CType(viewbtn.DataContext, Product)
+
+            ViewDetails = New ViewDetailsProduct(
+            Integer.Parse(selectedItem.ProductID),
+            selectedItem.ProductName,
+            selectedItem.Price,
+            selectedItem.Description,
+            selectedItem.CategoryName,
+            selectedItem.Brand,
+            selectedItem.Size,
+            selectedItem.Color
+        )
+
             ViewDetails.Show()
         Else
             ViewDetails.Activate()
         End If
     End Sub
+
+
+
+
+
 
     'Private Sub datePickerFilter_SelectedDateChanged(sender As Object, e As SelectionChangedEventArgs)
     '  If datePickerFilter.SelectedDate.HasValue Then

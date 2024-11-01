@@ -26,15 +26,13 @@ Public Class AddProduct
 
     End Sub
 
-    Private Sub Description_PreviewKeyDown(sender As Object, e As KeyEventArgs)
-        If (e.Key < Key.A OrElse e.Key > Key.Z) AndAlso e.Key <> Key.Back Then
-            e.Handled = True
-        End If
-    End Sub
+    ' Private Sub Description_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+    'If (e.Key < Key.A OrElse e.Key > Key.Z) AndAlso e.Key <> Key.Back Then
+    '    e.Handled = True
+    '  End If
+    '  End Sub
 
-    Private Sub Description_TextChanged(sender As Object, e As TextChangedEventArgs)
 
-    End Sub
 
     Private Sub Size_PreviewKeyDown(sender As Object, e As KeyEventArgs)
         If e.Key = Key.Back OrElse e.Key = Key.Delete OrElse e.Key = Key.Tab OrElse e.Key = Key.Left OrElse e.Key = Key.Right Then
@@ -204,7 +202,7 @@ Public Class AddProduct
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As RoutedEventArgs)
-        Me.Hide()
+        Me.Close()
     End Sub
 
     Private Sub Price_TextChanged(sender As Object, e As TextChangedEventArgs)
@@ -253,4 +251,6 @@ Public Class AddProduct
             e.Handled = True ' Reject the input
         End If
     End Sub
+
+
 End Class

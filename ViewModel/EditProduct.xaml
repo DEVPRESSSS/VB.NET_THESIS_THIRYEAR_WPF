@@ -115,24 +115,24 @@
 
                 <!--btn close  -->
                 <Button x:Name="btnClose"
-         BorderThickness="0"
-         Foreground="White"
-         FontSize="12"
-         Content="x"
-         Cursor="Hand"
-         Grid.Column="3"
-         Click="btnClose_Click"
-         VerticalAlignment="Center">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Background" Value="#06D6A0"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#00CA4E"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
+                     BorderThickness="0"
+                     Foreground="White"
+                     FontSize="12"
+                     Content="x"
+                     Cursor="Hand"
+                     Grid.Column="3"
+                     Click="btnClose_Click"
+                     VerticalAlignment="Center">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="#06D6A0"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#00CA4E"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
 
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
@@ -174,8 +174,9 @@
                        VerticalAlignment="Top"/>
 
             <!--DESCRIPTION-->
-
-            <TextBox x:Name="Description" 
+<!--
+            
+                        <TextBox x:Name="Description" 
                      Style="{StaticResource TextBoxes}"
                      HorizontalAlignment="Left" 
                      Margin="109,190,0,0" Grid.Row="1"
@@ -185,11 +186,40 @@
                      PreviewKeyDown="Description_PreviewKeyDown"
                      TextChanged="Description_TextChanged" 
                      MaxLength="20" Height="70"/>
+            
+            
+            
+            
+            
+            -->
+
+            <!--Description-->
+            <TextBox x:Name="Description" 
+                 Style="{StaticResource TextBoxes}"
+                 HorizontalAlignment="Left" 
+                 Margin="109,190,0,0" 
+                 Grid.Row="1"
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 VerticalContentAlignment="Top"
+                 Width="146"
+                 Height="70"
+                 MaxLength="30"
+                 AcceptsReturn="True" />
+
+
+
+
+
+
             <TextBlock  HorizontalAlignment="Left"
                         Margin="109,0,0,0" Grid.Row="1" 
                         TextWrapping="Wrap"
                         Text="Description" 
                         VerticalAlignment="Center"/>
+            
+            
+            
 
 
             <!--CATEGORY-->

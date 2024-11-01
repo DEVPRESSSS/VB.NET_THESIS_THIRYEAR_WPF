@@ -60,7 +60,6 @@ Public Class MyInventory
                     .CurrentStock = Convert.ToInt32(reader("Quantity")),
                     .OriginalStock = Convert.ToInt32(reader("OriginalStock"))
                 }
-
                         inventoryItems.Add(inventoryItem)
                     End While
                 End Using

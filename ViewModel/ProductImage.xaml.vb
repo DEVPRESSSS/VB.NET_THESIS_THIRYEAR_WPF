@@ -16,7 +16,11 @@ Public Class ProductImage
     Public Sub FetchImages()
 
         Dim images As New ObservableCollection(Of ProductImages)()
-        Dim q As String = "SELECT ImageID, ProductID, ImageUrl, CreatedAt FROM ProductImage"
+        Dim q As String = "
+            SELECT pi.ImageID, pi.ProductID, p.ProductName, pi.ImageUrl, pi.CreatedAt
+            FROM ProductImage pi
+            INNER JOIN Product p ON pi.ProductID = p.ProductID
+        "
 
         Using connection As New SqlConnection(con.connectionString)
 
@@ -35,6 +39,7 @@ Public Class ProductImage
                         images.Add(New ProductImages With {
                               .ImageID = Convert.ToInt32(row("ImageID")),
                               .ProductID = Convert.ToInt32(row("ProductID")),
+                              .ProductName = row("ProductName").ToString(),
                               .ImageUrl = row("ImageUrl").ToString(),
                               .CreatedAt = CDate(row("CreatedAt")).ToString("yyyy-MM-dd")
                         })
@@ -78,7 +83,7 @@ Public Class ProductImage
                     cmd.ExecuteNonQuery()
 
                     MessageBox.Show("Product image deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
-
+                    FetchImages()
 
                 Catch ex As Exception
                     MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error)
@@ -112,13 +117,20 @@ Public Class ProductImage
     End Sub
     Private Sub SearhImage()
         Dim images As New List(Of ProductImages)()
-
         Dim input As String = Search.Text.Trim()
 
-        Dim query As String = "SELECT ImageID, ProductID, ImageUrl, CreatedAt FROM ProductImage WHERE 1=1"
+        Dim query As String = "
+        SELECT pi.ImageID, pi.ProductID, p.ProductName, pi.ImageUrl, pi.CreatedAt
+        FROM ProductImage pi
+        INNER JOIN Product p ON pi.ProductID = p.ProductID
+        WHERE 1=1"
 
         If Not String.IsNullOrEmpty(input) Then
-            query += " AND (ImageID LIKE '%' + @ImageID + '%' OR ProductID LIKE '%' + @ProductID + '%' OR ImageUrl LIKE '%' + @ImageUrl + '%' OR CONVERT(DATE, CreatedAt) = @CreatedAt)"
+            query += " AND (pi.ImageID LIKE '%' + @ImageID + '%' 
+                        OR pi.ProductID LIKE '%' + @ProductID + '%' 
+                        OR pi.ImageUrl LIKE '%' + @ImageUrl + '%' 
+                        OR p.ProductName LIKE '%' + @ProductName + '%' 
+                        OR CONVERT(DATE, pi.CreatedAt) = @CreatedAt)"
         End If
 
         Using connecton As New SqlConnection(con.connectionString)
@@ -127,6 +139,7 @@ Public Class ProductImage
                 cmd.Parameters.AddWithValue("@ImageID", If(IsNumeric(input), input, DBNull.Value))
                 cmd.Parameters.AddWithValue("@ProductID", If(IsNumeric(input), input, DBNull.Value))
                 cmd.Parameters.AddWithValue("@ImageUrl", If(String.IsNullOrEmpty(input), "", input))
+                cmd.Parameters.AddWithValue("@ProductName", input)
                 cmd.Parameters.AddWithValue("@CreatedAt", If(DateTime.TryParse(input, Nothing), DateTime.Parse(input), DBNull.Value))
 
                 Using reader As SqlDataReader = cmd.ExecuteReader()
@@ -134,6 +147,7 @@ Public Class ProductImage
                         Dim filter As New ProductImages() With {
                             .ImageID = Convert.ToInt32(reader("ImageID")),
                             .ProductID = Convert.ToInt32(reader("ProductID")),
+                            .ProductName = reader("ProductName").ToString(),
                             .ImageUrl = reader("ImageUrl").ToString(),
                             .CreatedAt = CDate(reader("CreatedAt")).ToString("yyyy-MM-dd")
                         }
@@ -145,6 +159,7 @@ Public Class ProductImage
             End Using
         End Using
     End Sub
+
 
 
 

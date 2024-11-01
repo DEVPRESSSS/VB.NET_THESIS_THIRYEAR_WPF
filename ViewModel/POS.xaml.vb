@@ -27,7 +27,7 @@ Public Class POS
         selectedLists = New ObservableCollection(Of SelectedItem)()
 
         Dim products As List(Of Product) = GetProducts()
-
+        GetProducts()
         ProductList.ItemsSource = products
         _cashier = cashier
     End Sub
@@ -293,7 +293,11 @@ Public Class POS
 
             items.ItemsSource = Nothing
             items.ItemsSource = selectedLists
+            Bill.Text = ""
+            Subtotalcount.Content = ""
+
             SumSubtotalColumn()
+
 
         End If
     End Sub
@@ -332,6 +336,7 @@ Public Class POS
 
                 salesID = Convert.ToInt32(cmd.ExecuteScalar())
                 InsertSalesDetails(salesID)
+
             End Using
         End Using
 
@@ -367,6 +372,16 @@ Public Class POS
     'Sell button logic
     Private Sub sellbtn_Click(sender As Object, e As RoutedEventArgs)
 
+        If Subtotalcount.Content = "₱0.00" Then
+
+            MessageBox.Show("The cart items are empty", "Purchase Error", MessageBoxButton.OK, MessageBoxImage.Error)
+
+            Bill.Text = ""
+            ChangeCount.Content = ""
+
+            Return
+        End If
+
 
         Dim billAmount As Decimal
         If String.IsNullOrEmpty(Bill.Text) OrElse Not Decimal.TryParse(Bill.Text, billAmount) Then
@@ -387,7 +402,6 @@ Public Class POS
 
             Using transaction = connection.BeginTransaction()
                 Try
-                    ' Fetch CashierID
                     Using cmd As New SqlCommand(cashierQuery, connection, transaction)
                         cmd.Parameters.AddWithValue("@Username", _cashier)
                         Dim result = cmd.ExecuteScalar()
@@ -399,12 +413,10 @@ Public Class POS
                         cashierID = result.ToString()
                     End Using
 
-                    ' Loop through selected items and update the inventory
                     For Each item As SelectedItem In selectedLists
                         productID = item.ProductID
                         qty = item.Quantity
 
-                        ' Get the current stock for the product
                         Using cmd As New SqlCommand(q, connection, transaction)
                             cmd.Parameters.AddWithValue("@ProductID", productID)
                             Dim stockResult = cmd.ExecuteScalar()
@@ -452,12 +464,15 @@ Public Class POS
                     ' Show success message after completing the process
                     MessageBox.Show($"Order placed successfully. Total: {totalAmount:C}", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
                     PrintReceipt()
-                    GetProducts()
                     selectedLists.Clear()
 
                     Bill.Text = ""
 
                     Subtotalcount.Content = ""
+
+
+                    Dim updateProducts = GetProducts()
+                    UpdateProductUI(updateProducts)
 
                 Catch ex As Exception
                     ' In case of any error, roll back the transaction
@@ -466,8 +481,15 @@ Public Class POS
                 End Try
             End Using
         End Using
+
+
     End Sub
 
+
+    'Update the Product in realtime
+    Private Sub UpdateProductUI(products As List(Of Product))
+        ProductList.ItemsSource = products
+    End Sub
 
     'Disable the bill textbox
     Private Sub Disable()

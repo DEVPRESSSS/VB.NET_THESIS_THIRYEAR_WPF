@@ -162,7 +162,8 @@
                          VerticalAlignment="Top"
                          Width="146" 
                          MaxLength="20"
-                         Style="{StaticResource PasswordBoxes}"/>
+                         Style="{StaticResource PasswordBoxes}"
+                         PreviewKeyDown="Password_PreviewKeyDown"/>
             <TextBlock HorizontalAlignment="Left" 
                        Margin="135,165,0,0"
                        Grid.Row="1" 
@@ -212,7 +213,10 @@
                      Style="{StaticResource TextBoxes}"
                      MaxLength="30" 
                      TextChanged="Email_TextChanged"
-                     LostFocus="Email_LostFocus_1"/>
+                     LostFocus="Email_LostFocus_1"
+                     PreviewKeyDown="Email_PreviewKeyDown"
+                     
+                     />
 
             <TextBlock HorizontalAlignment="Left" 
                        Margin="310,127,0,0" 

@@ -11,7 +11,6 @@ Public Class InsertImage
         FetchCategory()
 
         imageform = image
-
     End Sub
     Dim con As New ConnectionString
     Private Sub btnBrowseImage_Click(sender As Object, e As RoutedEventArgs)
@@ -36,42 +35,53 @@ Public Class InsertImage
         Dim selectedCatID As Integer = selectedCategory.ProductID
         Dim path As String = txtImagePath.Text
 
-        InsertProductImage(selectedCatID, path)
+        InsertOrUpdateProductImage(selectedCatID, path)
     End Sub
 
-    Public Sub InsertProductImage(id As Integer, uploadedImage As String)
-        Dim productImage As New ProductImages()
-        Dim imageFolder As String = "D:\VB_THESIS_WPS\ProductImages\"
+    Public Sub InsertOrUpdateProductImage(id As Integer, uploadedImage As String)
+        If String.IsNullOrEmpty(txtImagePath.Text) Then
+            MessageBox.Show("Please choose a file before inserting.", "Insert Failed", MessageBoxButton.OK, MessageBoxImage.Error)
+        Else
+            Dim imageFolder As String = "D:\VB_THESIS_WPS\ProductImages\"
 
-        If Not Directory.Exists(imageFolder) Then
-            Directory.CreateDirectory(imageFolder)
-        End If
+            If Not Directory.Exists(imageFolder) Then
+                Directory.CreateDirectory(imageFolder)
+            End If
 
-        Dim fileName As String = Path.GetFileName(uploadedImage)
-        Dim uniqueFileName As String = Guid.NewGuid().ToString() & "_" & fileName
+            Dim fileName As String = Path.GetFileName(uploadedImage)
+            Dim uniqueFileName As String = Guid.NewGuid().ToString() & "_" & fileName
+            Dim imagePath As String = Path.Combine(imageFolder, uniqueFileName)
 
-        Dim imagePath As String = Path.Combine(imageFolder, uniqueFileName)
+            File.Copy(uploadedImage, imagePath, overwrite:=True)
 
-        File.Copy(uploadedImage, imagePath)
+            Dim query As String = "
+            IF EXISTS (SELECT 1 FROM ProductImage WHERE ProductID = @ProductID)
+                UPDATE ProductImage
+                SET ImageUrl = @ImageUrl
+                WHERE ProductID = @ProductID
+            ELSE
+                INSERT INTO ProductImage (ProductID, ImageUrl)
+                VALUES (@ProductID, @ImageUrl)
+        "
 
+            Using connection As New SqlConnection(con.connectionString)
+                Using command As New SqlCommand(query, connection)
+                    command.Parameters.AddWithValue("@ProductID", id)
+                    command.Parameters.AddWithValue("@ImageUrl", imagePath)
 
-        Dim query As String = "INSERT INTO ProductImage (ProductID, ImageUrl) VALUES (@ProductID, @ImageUrl)"
-
-        Using connection As New SqlConnection(con.connectionString)
-            Using command As New SqlCommand(query, connection)
-                command.Parameters.AddWithValue("@ProductID", id)
-                command.Parameters.AddWithValue("@ImageUrl", uploadedImage)
-
-                connection.Open()
-                command.ExecuteNonQuery()
+                    connection.Open()
+                    command.ExecuteNonQuery()
+                End Using
             End Using
-        End Using
 
-        MessageBox.Show("Image inserted and saved successfully!", MessageBoxImage.Information, MessageBoxButton.OK)
-        imageform.FetchImages()
-        Me.Close()
-
+            MessageBox.Show("Image inserted or updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+            Refresh()
+            ComboCat.SelectedItem = Nothing
+            txtImagePath.Text = ""
+            imgPreview.Source = Nothing
+        End If
     End Sub
+
     Public Sub FetchCategory()
         Dim query As String = "SELECT ProductID, ProductName FROM Product"
         ComboCat.Items.Clear()
@@ -95,5 +105,9 @@ Public Class InsertImage
 
     Private Sub btnClose_Click(sender As Object, e As RoutedEventArgs) Handles btnClose.Click
         Me.Close()
+    End Sub
+    Private Sub Refresh()
+        imageform.FetchImages()
+
     End Sub
 End Class

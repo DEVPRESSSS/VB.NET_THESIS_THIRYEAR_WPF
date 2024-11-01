@@ -109,7 +109,12 @@
           Margin="0,10,0,0"
           CornerRadius="4">
 
-            <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="productDataGrid" Style="{DynamicResource DataGridStyle1}">
+            <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" 
+                      ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                      CellStyle="{DynamicResource DataGridCellStyle1}" 
+                      x:Name="productDataGrid" 
+                      Style="{DynamicResource DataGridStyle1}">
+                
                 <DataGrid.Columns>
 
                     <DataGridTextColumn Header="ProductID" IsReadOnly="True" CanUserResize="False" Width="*" Binding="{Binding ProductID}"/>
@@ -136,6 +141,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
+        
             </DataGrid>
 
 
