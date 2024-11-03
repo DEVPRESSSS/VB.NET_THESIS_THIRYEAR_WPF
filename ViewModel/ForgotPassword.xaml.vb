@@ -9,7 +9,7 @@ Public Class ForgotPassword
 
         InitializeComponent()
 
-        Code.IsReadOnly = True
+        '  Code.IsReadOnly = True
     End Sub
     Private Sub Verify_Click(sender As Object, e As RoutedEventArgs)
         Dim emailInput As String = Email.Text
@@ -80,7 +80,6 @@ Public Class ForgotPassword
         Try
             smtpServer.Send(mail)
             MessageBox.Show("OTP sent successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
-            Email.Text = ""
         Catch ex As Exception
             MessageBox.Show("Error sending OTP: " & ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error)
         End Try
@@ -161,17 +160,12 @@ Public Class ForgotPassword
     End Sub
 
     Private Sub Email_LostFocus(sender As Object, e As RoutedEventArgs)
-        ' Dim emailTextBox As TextBox = CType(sender, TextBox)
+        Dim emailPattern As String = "^[a-zA-Z0-9._%+-]+@gmail\.com$"
+        Dim emailInput As String = Email.Text.Trim()
 
-        ' Email regex pattern
-        ' Dim emailPattern As String = "^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$"
-
-        ' Check if the input matches the email pattern
-        'If Not String.IsNullOrWhiteSpace(emailTextBox.Text) AndAlso Not Regex.IsMatch(emailTextBox.Text, emailPattern) Then
-        ' emailTextBox.Focus()
-        ' MessageBox.Show("Please enter a valid email address.", "Invalid Email", MessageBoxButton.OK, MessageBoxImage.Error)
-
-        ' End If
+        If Not Regex.IsMatch(emailInput, emailPattern) AndAlso Not String.IsNullOrEmpty(emailInput) Then
+            MessageBox.Show("Invalid email address format. Email should end with @gmail.com.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+        End If
     End Sub
 End Class
 

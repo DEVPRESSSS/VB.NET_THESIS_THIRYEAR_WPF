@@ -15,9 +15,19 @@ Public Class ChangePassword
     Dim cons As New ConnectionString
 
     Private Sub Change_Click(sender As Object, e As RoutedEventArgs)
-        Dim pass1 As String = NewPassword.Password
-        Dim pass2 As String = ConfirmPassword.Password
+        Dim pass1 As String
+        Dim pass2 As String
 
+        ' Determine which controls are visible and use their values
+        If NewPassword.Visibility = Visibility.Visible Then
+            pass1 = NewPassword.Password
+            pass2 = ConfirmPassword.Password
+        Else
+            pass1 = NewPasswordTextBox.Text
+            pass2 = ConfirmPasswordTextBox.Text
+        End If
+
+        ' Validate fields
         If String.IsNullOrWhiteSpace(pass1) OrElse String.IsNullOrWhiteSpace(pass2) Then
             MessageBox.Show("All fields are required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning)
             Return
@@ -27,9 +37,12 @@ Public Class ChangePassword
             MessageBox.Show("Passwords don't match", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
             NewPassword.Password = ""
             ConfirmPassword.Password = ""
+            NewPasswordTextBox.Text = ""
+            ConfirmPasswordTextBox.Text = ""
             Return
         End If
 
+        ' Continue with password update
         If VerifyEmailInAdmin(Email) Then
             UpdatePasswordInTable("Admin", pass2)
         ElseIf VerifyEmailInCashier(Email) Then
@@ -38,6 +51,8 @@ Public Class ChangePassword
             MessageBox.Show("Email not found in Admin or Cashier tables.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
             NewPassword.Password = ""
             ConfirmPassword.Password = ""
+            NewPasswordTextBox.Text = ""
+            ConfirmPasswordTextBox.Text = ""
         End If
     End Sub
 
@@ -134,7 +149,7 @@ Public Class ChangePassword
 
     Private Sub btnClose_Click(sender As Object, e As RoutedEventArgs)
 
-        Dim result As MsgBoxResult = MessageBox.Show("Are you sure you want to go back to forgot pass?")
+        Dim result As MsgBoxResult = MessageBox.Show("Are you sure you want to go back to forgot pass?", MessageBoxButton.YesNo, MessageBoxImage.Question)
 
         If result = MessageBoxResult.Yes Then
 
@@ -157,15 +172,13 @@ Public Class ChangePassword
     End Sub
 
     Private Sub CheckBox_Checked(sender As Object, e As RoutedEventArgs)
+        ConfirmPasswordTextBox.Text = ConfirmPassword.Password
+        ConfirmPassword.Visibility = Visibility.Collapsed
+        ConfirmPasswordTextBox.Visibility = Visibility.Visible
 
-        If revealmode.IsChecked = True Then
-            ConfirmPasswordTextBox.Text = ConfirmPassword.Password
-            ConfirmPassword.Visibility = Visibility.Collapsed
-            ConfirmPasswordTextBox.Visibility = Visibility.Visible
-            NewPasswordTextBox.Text = NewPassword.Password
-            NewPassword.Visibility = Visibility.Collapsed
-            NewPasswordTextBox.Visibility = Visibility.Visible
-        End If
+        NewPasswordTextBox.Text = NewPassword.Password
+        NewPassword.Visibility = Visibility.Collapsed
+        NewPasswordTextBox.Visibility = Visibility.Visible
     End Sub
 
     Private Sub CheckBox_Unchecked(sender As Object, e As RoutedEventArgs)

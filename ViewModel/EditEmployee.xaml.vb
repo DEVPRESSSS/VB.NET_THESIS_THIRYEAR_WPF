@@ -135,7 +135,7 @@ Public Class EditEmployee
 
 
     Private Sub Email_TextChanged(sender As Object, e As TextChangedEventArgs)
-        regex_email()
+        '  regex_email()
 
     End Sub
 
@@ -143,33 +143,32 @@ Public Class EditEmployee
 
 
         ' Email validation regex
-        Dim emails As String = Email.Text
-        Dim emailPattern As String = "^[^\s@]+@[^\s@]+\.[^\s@]+$"
-        Dim regex As New Regex(emailPattern)
+        'Dim emails As String = Email.Text
+        ' Dim emailPattern As String = "^[^\s@]+@[^\s@]+\.[^\s@]+$"
+        ' Dim regex As New Regex(emailPattern)
 
         ' Validate the email format
-        If regex.IsMatch(emails) Then
-            ' If the email is valid, reset the background or border
-            Email.Background = Brushes.White
-            Email.BorderBrush = Brushes.Gray ' or any default border color
-        Else
-            ' If the email is invalid, mark it with a warning
-            Email.BorderBrush = Brushes.LightPink
-        End If
+        ' If regex.IsMatch(emails) Then
+        ' If the email is valid, reset the background or border
+        '      Email.Background = Brushes.White
+        '     Email.BorderBrush = Brushes.Gray ' or any default border color
+        '  Else
+        ' If the email is invalid, mark it with a warning
+        '     Email.BorderBrush = Brushes.LightPink
+        'End If
     End Sub
 
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
-        regex_email()
+        'regex_email()
 
     End Sub
 
     Private Sub Email_LostFocus(sender As Object, e As RoutedEventArgs)
-        Dim emailPattern As String = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        Dim emailPattern As String = "^[a-zA-Z0-9._%+-]+@gmail\.com$"
         Dim emailInput As String = Email.Text.Trim()
 
         If Not Regex.IsMatch(emailInput, emailPattern) AndAlso Not String.IsNullOrEmpty(emailInput) Then
-            MessageBox.Show("Invalid email address format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
-
+            MessageBox.Show("Invalid email address format. Email should end with @gmail.com.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
         End If
     End Sub
 

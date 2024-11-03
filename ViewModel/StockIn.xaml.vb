@@ -22,6 +22,10 @@ Public Class StockIn
         load.FetchProductData()
     End Sub
     Private Sub EditStock()
+        If String.IsNullOrWhiteSpace(newstock.Text) Then
+            MessageBox.Show("Stock value cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+            Return
+        End If
         Dim newStocks As Integer = Integer.Parse(newstock.Text)
         Dim currentQuantity As Integer
 
