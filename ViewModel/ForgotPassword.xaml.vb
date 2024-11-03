@@ -1,5 +1,6 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Net.Mail
+Imports System.Text.RegularExpressions
 
 Public Class ForgotPassword
 
@@ -63,12 +64,12 @@ Public Class ForgotPassword
         Dim otp As String = random.Next(100000, 999999).ToString()
         Return otp
     End Function
-    Public Sub SendOTPEmail(email As String, otp As String)
+    Public Sub SendOTPEmail(emails As String, otp As String)
         Dim mail As New MailMessage()
         Dim smtpServer As New SmtpClient("smtp.gmail.com")
 
         mail.From = New MailAddress("xmontemorjerald@gmail.com")
-        mail.To.Add(email)
+        mail.To.Add(emails)
         mail.Subject = "Your OTP Code"
         mail.Body = "Your OTP is: " & otp
 
@@ -79,7 +80,7 @@ Public Class ForgotPassword
         Try
             smtpServer.Send(mail)
             MessageBox.Show("OTP sent successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
-
+            Email.Text = ""
         Catch ex As Exception
             MessageBox.Show("Error sending OTP: " & ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error)
         End Try
@@ -157,6 +158,20 @@ Public Class ForgotPassword
         If Not Char.IsDigit(CChar(e.Text)) OrElse Char.IsWhiteSpace(CChar(e.Text)) Then
             e.Handled = True
         End If
+    End Sub
+
+    Private Sub Email_LostFocus(sender As Object, e As RoutedEventArgs)
+        ' Dim emailTextBox As TextBox = CType(sender, TextBox)
+
+        ' Email regex pattern
+        ' Dim emailPattern As String = "^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$"
+
+        ' Check if the input matches the email pattern
+        'If Not String.IsNullOrWhiteSpace(emailTextBox.Text) AndAlso Not Regex.IsMatch(emailTextBox.Text, emailPattern) Then
+        ' emailTextBox.Focus()
+        ' MessageBox.Show("Please enter a valid email address.", "Invalid Email", MessageBoxButton.OK, MessageBoxImage.Error)
+
+        ' End If
     End Sub
 End Class
 

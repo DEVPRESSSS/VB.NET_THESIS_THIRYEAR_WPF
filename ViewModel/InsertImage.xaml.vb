@@ -32,8 +32,19 @@ Public Class InsertImage
 
     Private Sub updatebtn_Click(sender As Object, e As RoutedEventArgs) Handles updatebtn.Click
         Dim selectedCategory = CType(ComboCat.SelectedItem, Product)
+
+        If selectedCategory Is Nothing OrElse selectedCategory.ProductID = 0 Then
+            MessageBox.Show("Please select a valid category.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+            Return
+        End If
+
+
+
         Dim selectedCatID As Integer = selectedCategory.ProductID
         Dim path As String = txtImagePath.Text
+
+
+
 
         InsertOrUpdateProductImage(selectedCatID, path)
     End Sub

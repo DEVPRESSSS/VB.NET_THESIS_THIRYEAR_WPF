@@ -119,7 +119,7 @@
 
             <!-- Image Path-->
 
-            <Image x:Name="Imagepreview" Source="D:\VB_THESIS_WPS\Images\smart-shoe.png" 
+            <Image x:Name="Imagepreview"
                    Stretch="Fill"
                    Width="150"
                    Height="150"
@@ -154,15 +154,17 @@
             <!-- Description-->
 
             <TextBlock x:Name="description" Text="this is test "
-                HorizontalAlignment="Center"
                 
                 FontSize="14"
                 Grid.Row="1"
                 FontFamily="Roboto"
                 FontWeight="DemiBold"
                 Foreground="#073b4c" 
-                Margin="0,231,0,183" Width="68"
+                Margin="271,231,299,183"
                 FontStyle="Italic"
+                TextAlignment="Center"
+                       Width="Auto"
+                       
                        />
 
             <!-- Price-->
@@ -181,14 +183,16 @@
 
             <!--Category-->
             <TextBlock x:Name="category" Text="Running shoes"
-                HorizontalAlignment="Left"
                 FontSize="14"
                 Grid.Row="1"
                 FontFamily="Roboto"
                 FontWeight="DemiBold"
                 Foreground="#073b4c" 
                 FontStyle="Italic"
-                Margin="355,325,0,97" Width="Auto"
+                Margin="271,325,281,97"
+                Width="Auto"
+                TextAlignment="Center"
+                       
                        />
 
 

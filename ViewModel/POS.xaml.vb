@@ -101,15 +101,14 @@ Public Class POS
 
         If String.IsNullOrEmpty(input) Then
             MessageBox.Show("Please input a value", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
-
+            Return products
         End If
 
         Dim q As String = "SELECT p.ProductID, p.ProductName, p.Size, p.Price, i.Quantity, c.CategoryName " &
-                  "FROM PRODUCT p " &
-                  "INNER JOIN Category c ON p.CategoryID = c.CategoryID " &
-                  "INNER JOIN Inventory i ON p.ProductID = i.ProductID " &
-                  "WHERE p.ProductName = @ProductName OR p.ProductID = @ProductID"
-
+                      "FROM PRODUCT p " &
+                      "INNER JOIN Category c ON p.CategoryID = c.CategoryID " &
+                      "INNER JOIN Inventory i ON p.ProductID = i.ProductID " &
+                      "WHERE (p.ProductName = @ProductName OR p.ProductID = @ProductID) AND i.Quantity >= 1"
 
         Using connection As New SqlConnection(con.connectionString)
             connection.Open()
@@ -121,19 +120,18 @@ Public Class POS
                 Using reader As SqlDataReader = cmd.ExecuteReader()
                     If reader.HasRows Then
                         While reader.Read()
-
-
                             Dim product As New Product() With {
+                            .ProductID = reader("ProductID"),
                             .ProductName = reader("ProductName").ToString(),
-                            .Price = Convert.ToDecimal(reader("Price").ToString()),
-                            .Size = reader("Size").ToString()
-                            }
+                            .Price = Convert.ToDecimal(reader("Price")),
+                            .Size = reader("Size").ToString(),
+                            .Stock = Convert.ToInt32(reader("Quantity"))
+                        }
                             products.Add(product)
-
-
                         End While
                     Else
                         MessageBox.Show("Product Name or Product ID does not exist", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+                        Search.Text = ""
                     End If
                 End Using
             End Using
@@ -146,11 +144,11 @@ Public Class POS
     Private Sub SearchBtn_Click(sender As Object, e As RoutedEventArgs)
         Dim products As List(Of Product) = GetSpecificProduct()
 
+
+
+
         If products.Any() Then
             ProductList.ItemsSource = products
-
-        Else
-            MessageBox.Show("No products found.", "Not found", MessageBoxImage.Error, MessageBoxButton.OK)
 
 
         End If
@@ -203,8 +201,6 @@ Public Class POS
             Dim products As List(Of Product) = GetProducts()
 
             ProductList.ItemsSource = products
-
-
         End If
 
     End Sub
@@ -216,32 +212,22 @@ Public Class POS
 
         Dim existingItem As SelectedItem = selectedLists.FirstOrDefault(Function(item) item.ProductID = selectedProduct.ProductID)
 
-
-
         If existingItem IsNot Nothing Then
             existingItem.Quantity += 1
 
-
             If existingItem.Quantity > selectedProduct.Stock Then
-
-                MessageBox.Show("Oops the quantity is greater than stock", MessageBoxImage.Error, MessageBoxButton.OK)
+                MessageBox.Show("Oops, quantity is greater than stock", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
                 existingItem.Quantity -= 1
-
                 Return
-
             End If
-
         Else
-
-                existingItem = New SelectedItem With {
+            existingItem = New SelectedItem With {
             .ProductID = selectedProduct.ProductID,
             .ProductName = selectedProduct.ProductName,
             .Price = selectedProduct.Price,
             .Quantity = 1
-             }
+        }
             selectedLists.Add(existingItem)
-
-
         End If
 
         existingItem.SubTotal = existingItem.Quantity * existingItem.Price

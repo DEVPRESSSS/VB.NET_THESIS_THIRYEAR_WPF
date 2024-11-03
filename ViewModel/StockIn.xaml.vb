@@ -25,6 +25,14 @@ Public Class StockIn
         Dim newStocks As Integer = Integer.Parse(newstock.Text)
         Dim currentQuantity As Integer
 
+
+        If newStocks = 0 Then
+
+            MessageBox.Show("You can't update stock using 0 value", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+
+            Return
+
+        End If
         Dim selectQuery As String = "SELECT Quantity FROM Inventory WHERE InventoryID = @InventoryID"
 
         Using mycon As New SqlConnection(con.connectionString)

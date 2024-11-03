@@ -38,6 +38,17 @@
                 </Grid.RowDefinitions>
 
 
+                <Border Grid.Row="0"
+                        Background="#073b4c"
+                        Margin="0,0,0,0"
+                        CornerRadius="7,7,0,0"
+                        Effect="{StaticResource dropShadow}">
+
+
+
+                </Border>
+
+
                 <Grid>
                     <Grid.ColumnDefinitions>
 
@@ -50,8 +61,8 @@
 
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Welcome to Pamela Mabulay Store"
-                                            Foreground="#383838"
+                    <TextBlock Text="Welcome"
+                                            Foreground="White"
                                             FontSize="14"
                                             FontFamily="Roboto"
                                             Grid.Column="0"
@@ -199,15 +210,14 @@
                          BorderBrush="DarkGray"
                          Background="Transparent"
                          Width="170"
-                         Height="20"
+                         Height="25"
                          TextAlignment="Left"
                          Margin="0,5,0,10"
-                         VerticalAlignment="Center"
                          MaxLength="20"
                          PreviewKeyDown="Username_PreviewKeyDown"
                          PreviewTextInput="Username_PreviewTextInput"/>
 
-                   <TextBlock Foreground="#383838"
+                    <TextBlock Foreground="#383838"
                        FontSize="12" FontWeight="Medium"
                        TextAlignment="Left"
                        Width="170"
@@ -222,9 +232,8 @@
                      Background="Transparent"
                      BorderBrush="DarkGray"
                      Width="170"
-                     Height="20"
+                     Height="25"
                      Margin="0,5,0,10"
-                     VerticalAlignment="Center"
                      MaxLength="20"
                      PreviewKeyDown="Password_PreviewKeyDown"
                      PreviewTextInput="Password_PreviewTextInput"/>
@@ -232,7 +241,7 @@
                     <TextBox x:Name="PasswordTextBox"
                          HorizontalAlignment="Left"
                          Margin="5,5,0,10"
-                         Height="20"
+                         Height="25"
                          VerticalAlignment="Center"
                          Width="170"
                          Style="{StaticResource TextBoxes}"
@@ -240,7 +249,7 @@
                          Visibility="Collapsed"
                          PreviewTextInput="PasswordTextBox_PreviewTextInput"/>
 
-                
+
 
 
 
@@ -254,7 +263,7 @@
                               Checked="CheckBox_Checked"
                               FontStyle="Italic"
                               Unchecked="CheckBox_Unchecked"
-                              VerticalContentAlignment="Center"/>       
+                              VerticalContentAlignment="Center"/>
 
                     <TextBlock Foreground="#383838"
                            FontSize="10"
@@ -268,7 +277,7 @@
                                Margin="0,5,0,0"
                            MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
 
-                    <Button x:Name="LoginBtn" Width="170"
+                    <Button x:Name="LoginBtn" Width="163"
                         BorderThickness="0"
                         Content="Login"
                         Foreground="White"
