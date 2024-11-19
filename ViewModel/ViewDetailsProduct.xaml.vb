@@ -5,8 +5,25 @@ Public Class ViewDetailsProduct
 
 
     Dim cons As New ConnectionString
-
+    Dim currentColor As String
     Dim editID As Integer
+
+
+    Dim colorHexArray(,) As String = {
+    {"Red", "#FF5252"},
+    {"Blue", "#1E88E5"},
+    {"Green", "#0CA678"},
+    {"Yellow", "#FFC107"},
+    {"Orange", "#FF8F00"},
+    {"Purple", "#8E24AA"},
+    {"Teal", "#00796B"},
+    {"Brown", "#6D4C41"},
+    {"Gray", "#9E9E9E"},
+    {"Black", "#000000"},
+    {"White", "#FFFFFF"},
+    {"Pink", "#C2185B"}
+}
+
     Public Sub New(Id As Integer, pname As String, prices As Double, descrip As String, catname As String, brands As String, sizes As String, colors As String)
 
 
@@ -19,8 +36,26 @@ Public Class ViewDetailsProduct
         brand.Text = brands
         size.Text = sizes
         editID = Id
+        currentColor = colors
 
 
+
+        Dim hexCode As String = GetHexCodeByColor(currentColor)
+        If hexCode IsNot Nothing Then
+
+            Dim colorBrush As SolidColorBrush = CType((New BrushConverter().ConvertFromString(hexCode)), SolidColorBrush)
+            ColorBorder.Background = colorBrush
+            BorderColorOutline.BorderBrush = colorBrush
+            '  productname.Foreground = colorBrush
+            ' size.Foreground = colorBrush
+            ' description.Foreground = colorBrush
+            ' Price.Foreground = colorBrush
+            ' brand.Foreground = colorBrush
+            ' category.Foreground = colorBrush
+            ' Price_Copy.Foreground = colorBrush
+        Else
+            MessageBox.Show("Color not found in the array.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+        End If
         FetchImagePath()
 
     End Sub
@@ -79,5 +114,16 @@ Public Class ViewDetailsProduct
             Imagepreview.Source = bitmap
         End If
     End Sub
+
+
+    Private Function GetHexCodeByColor(colorName As String) As String
+        For i As Integer = 0 To colorHexArray.GetLength(0) - 1
+            If colorHexArray(i, 0).Equals(colorName, StringComparison.OrdinalIgnoreCase) Then
+                Return colorHexArray(i, 1)
+            End If
+        Next
+        Return Nothing
+    End Function
+
 
 End Class

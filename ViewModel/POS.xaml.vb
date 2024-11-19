@@ -9,7 +9,15 @@ Imports iText.Layout
 Imports iText.Layout.Element
 Imports iText.Layout.Properties
 Imports Microsoft.IdentityModel.Tokens
-
+Imports System.Windows.Documents
+Imports System.Windows.Media.Imaging
+Imports System.Windows.Controls
+Imports Paragraph = iText.Layout.Element.Paragraph
+Imports Table = iText.Layout.Element.Table
+Imports Image = iText.Layout.Element.Image
+Imports iText.IO.Font.Constants
+Imports iText.Kernel.Font
+Imports iText.Kernel.Geom
 
 Public Class POS
     'Connection string
@@ -461,12 +469,137 @@ Public Class POS
                     UpdateProductUI(updateProducts)
 
                 Catch ex As Exception
-                    ' In case of any error, roll back the transaction
-                    transaction.Rollback()
+                    If transaction.Connection IsNot Nothing Then
+                        transaction.Rollback()
+                    End If
                     MessageBox.Show($"An error occurred: {ex.Message}", "Transaction Error", MessageBoxButton.OK, MessageBoxImage.Error)
+
+
                 End Try
             End Using
         End Using
+
+
+    End Sub
+
+    'Generate receipt
+    Private Sub PrintReceipt()
+
+        Dim rand As New Random
+        Dim randomInRange As Integer = rand.Next(1, 1000)
+        Dim filePath As String = $"D:\VB_THESIS_WPS\Prints\Receipt_{randomInRange}.pdf"
+
+        Using pdfWriter As New PdfWriter(filePath)
+            Using pdfDocument As New PdfDocument(pdfWriter)
+
+                ' Calculate dynamic width
+                Dim maxContentWidth As Single = 0
+                Dim fontSize As Single = 12 ' Default font size
+                Dim font As PdfFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA)
+                Dim textToMeasure As List(Of String) = New List(Of String) From {
+                "Product Name", "Price", "Quantity", "Subtotal", "Pamela Mabulay Footwear Retail Store",
+                "#725 Quezon Blvd, Zone 030 Brgy. 308 Quiapo", "Manila, Philippines", "09947294323", "pamelamabulayfootwear@gmail.com",
+                $"Cashier Name: {_cashier}", $"Date: {DateTime.Now.ToString("yyyy-MM-dd hh:mm tt", CultureInfo.InvariantCulture)}"
+            }
+
+                ' Include dynamic table rows in the measurement
+                For Each item As SelectedItem In selectedLists
+                    textToMeasure.Add(item.ProductName)
+                    textToMeasure.Add(item.Price.ToString("C2"))
+                    textToMeasure.Add(item.Quantity.ToString())
+                    textToMeasure.Add(item.SubTotal.ToString("C2"))
+                Next
+
+                For Each text As String In textToMeasure
+                    Dim width As Single = font.GetWidth(text, fontSize)
+                    If width > maxContentWidth Then maxContentWidth = width
+                Next
+
+                maxContentWidth += 50
+
+                ' Define the page size dynamically
+                Dim pageWidth As Single = Math.Max(226.77F, maxContentWidth)
+                Dim pageHeight As Single = 842.0F
+                Dim pageSize As New PageSize(pageWidth, pageHeight)
+                pdfDocument.SetDefaultPageSize(pageSize)
+
+                Dim document As New Document(pdfDocument)
+
+                ' Add Logo
+                Dim logoPath As String = "D:\VB_THESIS_WPS\Images\logo.png"
+                Dim logo As Image = New Image(ImageDataFactory.Create(logoPath))
+                logo.SetHorizontalAlignment(HorizontalAlignment.Center)
+                logo.SetWidth(150)
+                document.Add(logo)
+
+                ' Add Company Address
+                Dim address As String = "Pamela Mabulay Footwear Retail Store" & vbCrLf &
+                                    "#725 Quezon Blvd, Zone 030 Brgy. 308 Quiapo" & vbCrLf &
+                                    "Manila, Philippines" & vbCrLf & "09947294323" & vbCrLf & "pamelamabulayfootwear@gmail.com"
+                Dim addressParagraph As New Paragraph(address)
+                addressParagraph.SetTextAlignment(TextAlignment.CENTER)
+                addressParagraph.SetFontSize(12)
+                document.Add(addressParagraph)
+                document.Add(New Paragraph().SetHeight(20))
+
+                ' Add other content (date, cashier name, table, totals, etc.)
+                Dim printedDate As String = DateTime.Now.ToString("yyyy-MM-dd   hh:mm tt", CultureInfo.InvariantCulture)
+                Dim concatDate As String = $"Date: {printedDate}"
+                Dim printedDateParagraph As New Paragraph(concatDate)
+                printedDateParagraph.SetTextAlignment(TextAlignment.RIGHT)
+                printedDateParagraph.SetFontSize(12)
+                document.Add(printedDateParagraph)
+                document.Add(New Paragraph().SetHeight(10))
+
+                Dim printedCashier As String = $"Cashier Name: {_cashier}"
+                Dim paragraph_cashier As New Paragraph(printedCashier)
+                paragraph_cashier.SetTextAlignment(TextAlignment.LEFT)
+                paragraph_cashier.SetFontSize(12)
+                document.Add(paragraph_cashier)
+                document.Add(New Paragraph().SetHeight(10))
+
+                Dim title As String = "RECEIPT"
+                Dim formatTitle As New Paragraph(title)
+                formatTitle.SetTextAlignment(TextAlignment.CENTER)
+                document.Add(formatTitle)
+
+                Dim table As New Table(4) ' Table with 4 columns
+                table.SetWidth(UnitValue.CreatePercentValue(100))
+                table.AddCell(New Cell().Add(New Paragraph("Product Name").SetBold().SetTextAlignment(TextAlignment.CENTER)))
+                table.AddCell(New Cell().Add(New Paragraph("Price").SetBold().SetTextAlignment(TextAlignment.CENTER)))
+                table.AddCell(New Cell().Add(New Paragraph("Quantity").SetBold().SetTextAlignment(TextAlignment.CENTER)))
+                table.AddCell(New Cell().Add(New Paragraph("Subtotal").SetBold().SetTextAlignment(TextAlignment.CENTER)))
+
+                Dim total As Decimal = 0
+                For Each item As SelectedItem In selectedLists
+                    table.AddCell(New Cell().Add(New Paragraph(item.ProductName).SetTextAlignment(TextAlignment.CENTER)))
+                    table.AddCell(New Cell().Add(New Paragraph(item.Price.ToString("C2")).SetTextAlignment(TextAlignment.CENTER)))
+                    table.AddCell(New Cell().Add(New Paragraph(item.Quantity.ToString()).SetTextAlignment(TextAlignment.CENTER)))
+                    table.AddCell(New Cell().Add(New Paragraph(item.SubTotal.ToString("C2")).SetTextAlignment(TextAlignment.CENTER)))
+                    total = item.GrandTotal
+                Next
+
+                document.Add(table)
+
+                Dim gtotal As String = $"Bill:{Bill.Text}                 Change: {ChangeCount.Content}         Total: {total.ToString("C2")}"
+                Dim gtotal_format As New Paragraph(gtotal)
+                gtotal_format.SetTextAlignment(TextAlignment.RIGHT)
+                gtotal_format.SetBold()
+                document.Add(gtotal_format)
+
+                MessageBox.Show("Receipt generated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+            End Using
+        End Using
+
+        Dim process As New Process()
+        process.StartInfo = New ProcessStartInfo() With {
+            .FileName = filePath,
+            .UseShellExecute = True
+        }
+        process.Start()
+
+
+
 
 
     End Sub
@@ -488,104 +621,10 @@ Public Class POS
     End Sub
 
 
-    'Generate receipt
-    Private Sub PrintReceipt()
-
-
-        Dim rand As New Random
-        Dim randomNumber As Integer = rand.Next()
-        Dim randomInRange As Integer = rand.Next(1, 1000)
-        Dim filePath As String = $"D:\VB_THESIS_WPS\Prints\Receipt_{randomInRange}.pdf"
-
-
-
-        Using pdfWriter As New PdfWriter(filePath)
-            Using pdfDocument As New PdfDocument(pdfWriter)
-                Dim document As New Document(pdfDocument)
-
-                ' Add Logo
-                Dim logoPath As String = "D:\VB_THESIS_WPS\Images\logo.png" ' 
-                Dim logo As Image = New Image(ImageDataFactory.Create(logoPath))
-                logo.SetHorizontalAlignment(HorizontalAlignment.Center)
-                logo.SetWidth(150)
-                document.Add(logo)
-
-                ' Add Company Address
-                Dim address As String = "Pamela Mabulay Footwear Retail Store" & vbCrLf &
-                                        "#725 Quezon Blvd, Zone 030 Brgy. 308 Quiapo" & vbCrLf &
-                                        "Manila, Philippines" & vbCrLf & "09947294323" & vbCrLf & "pamelamabulayfootwear@gmail.com"
-                Dim addressParagraph As New Paragraph(address)
-                addressParagraph.SetTextAlignment(TextAlignment.CENTER)
-                addressParagraph.SetFontSize(12)
-                document.Add(addressParagraph)
-                document.Add(New Paragraph().SetHeight(20))
-
-                'Printed date paragraph
-                Dim printedDate As String = DateTime.Now.ToString("yyyy-MM-dd   hh:mm tt", CultureInfo.InvariantCulture)
-                Dim concatDate As String = $"Date: {printedDate}"
-                Dim printedDateParagraph As New Paragraph(concatDate)
-                printedDateParagraph.SetTextAlignment(TextAlignment.RIGHT)
-                printedDateParagraph.SetFontSize(12)
-                document.Add(printedDateParagraph)
-                document.Add(New Paragraph().SetHeight(10))
-
-                'Printed Cashier
-                Dim printedCashier As String = $"Cashier Name: {_cashier}"
-                Dim paragraph_cashier As New Paragraph(printedCashier)
-                paragraph_cashier.SetTextAlignment(TextAlignment.LEFT)
-                paragraph_cashier.SetFontSize(12)
-                document.Add(paragraph_cashier)
-                document.Add(New Paragraph().SetHeight(10))
-
-
-                ' Title Section
-                Dim title As String = "RECEIPT"
-                Dim formatTitle As New Paragraph(title)
-                formatTitle.SetTextAlignment(TextAlignment.CENTER)
-                document.Add(formatTitle)
-
-                ' Header Section for the table
-                Dim table As New Table(4) ' Table with 4 columns (ProductName, Price, Quantity, Subtotal)
-                table.SetWidth(UnitValue.CreatePercentValue(100))
-
-                table.AddCell(New Cell().Add(New Paragraph("Product Name").SetBold().SetTextAlignment(TextAlignment.CENTER)))
-                table.AddCell(New Cell().Add(New Paragraph("Price").SetBold().SetTextAlignment(TextAlignment.CENTER)))
-                table.AddCell(New Cell().Add(New Paragraph("Quantity").SetBold().SetTextAlignment(TextAlignment.CENTER)))
-                table.AddCell(New Cell().Add(New Paragraph("Subtotal").SetBold().SetTextAlignment(TextAlignment.CENTER)))
-
-                ' Add items dynamically
-                Dim total As Decimal = 0
-
-                For Each item As SelectedItem In selectedLists
-                    table.AddCell(New Cell().Add(New Paragraph(item.ProductName).SetTextAlignment(TextAlignment.CENTER)))
-                    table.AddCell(New Cell().Add(New Paragraph(item.Price.ToString("C2")).SetTextAlignment(TextAlignment.CENTER)))
-                    table.AddCell(New Cell().Add(New Paragraph(item.Quantity.ToString()).SetTextAlignment(TextAlignment.CENTER)))
-                    table.AddCell(New Cell().Add(New Paragraph(item.SubTotal.ToString("C2")).SetTextAlignment(TextAlignment.CENTER)))
-
-                    total = item.GrandTotal ' 
-                Next
-
-                document.Add(table)
-
-
-                ' Grand total and Change section
-                Dim gtotal As String = $"Bill:{Bill.Text}                 Change: {ChangeCount.Content}         Grand Total: {total.ToString("C2")}"
-                Dim gtotal_format As New Paragraph(gtotal)
-                gtotal_format.SetTextAlignment(TextAlignment.RIGHT)
-                gtotal_format.SetBold()
-                document.Add(gtotal_format)
 
 
 
 
-                MessageBox.Show("Receipt generated  successfully: ", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
-            End Using
-        End Using
-
-        Process.Start(New ProcessStartInfo(filePath) With {
-        .UseShellExecute = True
-    })
-    End Sub
 
 
     'Log out code
@@ -617,14 +656,17 @@ Public Class POS
     End Sub
 
     Private Sub Bill_PreviewKeyDown(sender As Object, e As KeyEventArgs)
-        If e.Key = Key.Back OrElse e.Key = Key.Delete OrElse e.Key = Key.Left OrElse e.Key = Key.Right Then
-            Return
-        End If
-
-        If Not ((e.Key >= Key.D0 And e.Key <= Key.D9) OrElse
-                (e.Key >= Key.NumPad0 And e.Key <= Key.NumPad9) OrElse
-                (e.Key = Key.Decimal OrElse e.Key = Key.OemPeriod)) Then
+        If e.Key = Key.Back OrElse e.Key = Key.Delete OrElse e.Key = Key.Tab OrElse e.Key = Key.Left OrElse e.Key = Key.Right Then
+            e.Handled = False ' Allow these keys
+        ElseIf Not (e.Key >= Key.D0 AndAlso e.Key <= Key.D9 OrElse e.Key >= Key.NumPad0 AndAlso e.Key <= Key.NumPad9) Then
+            ' If the key is not a number, block it
             e.Handled = True
+        End If
+    End Sub
+
+    Private Sub Bill_PreviewTextInput(sender As Object, e As TextCompositionEventArgs)
+        If Not IsNumeric(e.Text) Then
+            e.Handled = True ' Reject the input
         End If
     End Sub
 End Class

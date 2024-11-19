@@ -412,7 +412,8 @@
                 HorizontalAlignment="Right" 
                 TextChanged="Bill_TextChanged"
                 Width="94" Height="25" VerticalAlignment="Bottom"
-                PreviewKeyDown="Bill_PreviewKeyDown"/>
+                PreviewKeyDown="Bill_PreviewKeyDown"
+                PreviewTextInput="Bill_PreviewTextInput"/>
 
         </Grid>
 

@@ -82,6 +82,8 @@ Public Class ForgotPassword
             MessageBox.Show("OTP sent successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
         Catch ex As Exception
             MessageBox.Show("Error sending OTP: " & ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+            Email.Text = ""
+
         End Try
     End Sub
 
@@ -104,6 +106,9 @@ Public Class ForgotPassword
 
         If String.IsNullOrEmpty(storedOtp) Then
             MessageBox.Show("No OTP generated. Please request a new one.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+            Email.Text = ""
+            Code.Text = ""
+
             Return
         End If
 
@@ -165,6 +170,7 @@ Public Class ForgotPassword
 
         If Not Regex.IsMatch(emailInput, emailPattern) AndAlso Not String.IsNullOrEmpty(emailInput) Then
             MessageBox.Show("Invalid email address format. Email should end with @gmail.com.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+            Email.Text = ""
         End If
     End Sub
 End Class

@@ -14,6 +14,7 @@ Public Class Dashboard
         InventoryCount()
         SaleCount()
         FetchMonthlySalesData()
+        LowCounts()
     End Sub
     Private Sub FetchMonthlySalesData()
         Dim monthlySales As New Dictionary(Of String, Decimal)
@@ -139,7 +140,7 @@ Public Class Dashboard
     End Sub
 
     Private Sub InventoryCount()
-        Dim query As String = "SELECT COUNT(*) FROM Inventory WHERE Quantity= 0"
+        Dim query As String = "SELECT COUNT(*) FROM Inventory WHERE Quantity = 0"
         Using connection As New SqlConnection(cons.connectionString)
             connection.Open()
             Using cmd As New SqlCommand(query, connection)
@@ -161,5 +162,27 @@ Public Class Dashboard
         End Using
 
     End Sub
+    Private Sub LowCounts()
+        Dim query As String = "SELECT COUNT(*) FROM Inventory WHERE Quantity <= 5"
+        Using connection As New SqlConnection(cons.connectionString)
+            connection.Open()
+            Using cmd As New SqlCommand(query, connection)
 
+                Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+
+                If count = 0 Then
+                    Lowcount.Text = count
+
+                Else
+                    Lowcount.Text = count
+                    Lowcount.Foreground = New SolidColorBrush(ColorConverter.ConvertFromString("#FFD700"))
+
+                End If
+
+
+            End Using
+
+        End Using
+
+    End Sub
 End Class

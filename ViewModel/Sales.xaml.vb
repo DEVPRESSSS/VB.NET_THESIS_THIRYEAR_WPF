@@ -141,22 +141,59 @@ Public Class Sales
                     End If
                 Next
 
-                ' Add rows
+                Dim groupedSales As New Dictionary(Of Integer, List(Of SaleDetails))()
+                Dim grandTotal As Decimal = 0 ' Variable to accumulate the grand total
+
+                ' First pass: group items by SaleID and keep a list of associated products
                 For Each item In dataGrid.ItemsSource
                     Dim saleDetails As SaleDetails = CType(item, SaleDetails)
 
-                    ' Add SaleDetails columns to the table
-                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.SaleID.ToString())))
-                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.CashierID.ToString())))
-                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.ProductName)))
-                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.UnitPrice.ToString("C", CultureInfo.CurrentCulture))))
-                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.Quantity.ToString())))
-                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.TotalPrice.ToString("C", CultureInfo.CurrentCulture))))
-                    table.AddCell(New Cell().Add(New Paragraph(String.Format(CultureInfo.InvariantCulture, "{0:yyyy-MM-dd}", saleDetails.SaleDate))))
-                    table.AddCell(New Cell().Add(New Paragraph(saleDetails.TotalAmount.ToString("C", CultureInfo.CurrentCulture))))
+                    If Not groupedSales.ContainsKey(saleDetails.SaleID) Then
+                        groupedSales(saleDetails.SaleID) = New List(Of SaleDetails)
+                    End If
+                    groupedSales(saleDetails.SaleID).Add(saleDetails)
                 Next
 
+                ' Second pass: add grouped items to the table, with total amount displayed only once per SaleID group
+                For Each saleID In groupedSales.Keys
+                    Dim salesList = groupedSales(saleID)
+                    Dim totalAmount As Decimal = salesList.Sum(Function(sd) sd.TotalPrice)  ' Calculate total amount for this SaleID
+                    grandTotal += totalAmount  ' Add to grand total
+
+                    For i As Integer = 0 To salesList.Count - 1
+                        Dim saleDetails = salesList(i)
+
+                        ' Add SaleID, CashierID, ProductName, etc.
+                        table.AddCell(New Cell().Add(New Paragraph(saleDetails.SaleID.ToString())))
+                        table.AddCell(New Cell().Add(New Paragraph(saleDetails.CashierID.ToString())))
+                        table.AddCell(New Cell().Add(New Paragraph(saleDetails.ProductName)))
+                        table.AddCell(New Cell().Add(New Paragraph(saleDetails.UnitPrice.ToString("C", CultureInfo.CurrentCulture))))
+                        table.AddCell(New Cell().Add(New Paragraph(saleDetails.Quantity.ToString())))
+                        table.AddCell(New Cell().Add(New Paragraph(saleDetails.TotalPrice.ToString("C", CultureInfo.CurrentCulture))))
+                        table.AddCell(New Cell().Add(New Paragraph(String.Format(CultureInfo.InvariantCulture, "{0:yyyy-MM-dd}", saleDetails.SaleDate))))
+
+                        ' Only display the total amount in the last row of the group
+                        If i = salesList.Count - 1 Then
+                            table.AddCell(New Cell().Add(New Paragraph(totalAmount.ToString("C", CultureInfo.CurrentCulture))))
+                        Else
+                            table.AddCell(New Cell()) ' Empty cell for other rows in the group
+                        End If
+                    Next
+                Next
+
+                ' Add a final row for the grand total
+                Dim grandTotalParagraph As New Paragraph("Grand Total: " & grandTotal.ToString("C", CultureInfo.CurrentCulture))
+                grandTotalParagraph.SetFontSize(12).SetBold() ' Optional styling
+
+
+                grandTotalParagraph.SetTextAlignment(TextAlignment.RIGHT) ' Align text to the right to fit under the column
+
+                ' Add rows
+
+
                 document.Add(table)
+                document.Add(grandTotalParagraph)
+
                 document.Close()
                 MessageBox.Show("Receipt created successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
             End Using

@@ -13,7 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition/>
-            
+
 
 
         </Grid.RowDefinitions>
@@ -122,13 +122,14 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Out of Stock" FontSize="16" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,0,0"/>
-                    <TextBlock x:Name="ZeroCounts"  Text="0" FontSize="18" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="30, 40 0,0"/>
+                    <TextBlock Text="Low/out of Stock" FontSize="16" FontWeight="DemiBold" VerticalAlignment="Bottom" Margin="2,0,0,50" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="124"/>
+                    <TextBlock x:Name="ZeroCounts"  Text="0" FontSize="18" FontWeight="DemiBold" VerticalAlignment="Top" Margin="72,40,8,0" RenderTransformOrigin="1.674,0.605"/>
 
                     <StackPanel Grid.Column="1" Width="70" Height="80" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,5,5,5">
                         <Icon:PackIconMaterial Kind="Cancel" Foreground="#073b4c" HorizontalAlignment="Center" RenderTransformOrigin="4.792,2.972" Height="80" Width="36"/>
 
                     </StackPanel>
+                    <TextBlock x:Name="Lowcount"  Text="0" FontSize="18" FontWeight="DemiBold" Margin="15,40,65,28"/>
                 </Grid>
             </StackPanel>
 
@@ -146,7 +147,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Sales" FontSize="16" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,0,0"/>
-                    <TextBlock x:Name="Sale"  Text="0" FontSize="18" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="30, 40 0,0"/>
+                    <TextBlock x:Name="Sale"  Text="0" FontSize="18" FontWeight="DemiBold" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,40,25,0"/>
 
                     <StackPanel Grid.Column="1" Width="70" Height="80" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,5,5,5">
                         <Icon:PackIconMaterial Kind="Cash" Foreground="#073b4c" HorizontalAlignment="Center" RenderTransformOrigin="4.792,2.972" Height="80" Width="36"/>
@@ -163,14 +164,17 @@
 
 
 
-        <TextBlock Text="Analytics Report" Foreground="#073b4c"
-            HorizontalAlignment="Left"
-Margin="10,116,0,289" Grid.Row="1" FontSize="14"
-                   />
 
 
 
-     
+
+
+
+
+
+
+
+
 
         <lvc:CartesianChart x:Name="test" Margin="0,146,0,0" Grid.Row="1" Grid.RowSpan="3">
             <lvc:CartesianChart.AxisX>

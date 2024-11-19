@@ -149,7 +149,7 @@ Public Class ChangePassword
 
     Private Sub btnClose_Click(sender As Object, e As RoutedEventArgs)
 
-        Dim result As MsgBoxResult = MessageBox.Show("Are you sure you want to go back to forgot pass?", MessageBoxButton.YesNo, MessageBoxImage.Question)
+        Dim result As MsgBoxResult = MessageBox.Show("Are you sure you want to go back to forgot pass?", MessageBoxImage.Question, MessageBoxButton.YesNo)
 
         If result = MessageBoxResult.Yes Then
 

@@ -75,21 +75,6 @@
             </Button>
 
 
-
-            <!--Datetime picker -->
-
-            
-            <!--
-              <DatePicker x:Name="datePickerFilter" 
-           Margin="311,0,0,0" 
-           Height="26"
-           VerticalAlignment="Center" 
-           HorizontalAlignment="Left"
-           Width="130"
-           SelectedDateChanged="datePickerFilter_SelectedDateChanged"/>-->
-          
-            <!--Filter button -->
-
             <Button x:Name="Print"    Style="{StaticResource addButton}" 
                 Margin="0,5,260,5" Cursor="Hand" Click="Print_Click_1"
             Width="94" 
@@ -130,18 +115,29 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Button x:Name="editbtn" Margin="5 0 0 0" Style="{StaticResource gridEditButton}" Click="editbtn_Click" Cursor="Hand">
-                                        <Icon:PackIconMaterial Kind="Stocking" Style="{StaticResource gridButtonIcon}"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <!-- Stock In Icon -->
+                                            <Icon:PackIconMaterial Kind="InboxArrowDown" Style="{StaticResource gridButtonIcon}" Margin="0 0 5 0"/>
+                                            <!-- Stock In Text -->
+                                            <TextBlock Text="Stock In" VerticalAlignment="Center"/>
+                                        </StackPanel>
                                     </Button>
 
                                     <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" Click="Button_Click" Cursor="Hand">
-                                        <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <!-- Icon -->
+                                            <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}" Margin="0 0 5 0"/>
+                                            <!-- Text -->
+                                            <TextBlock Text="Delete" VerticalAlignment="Center"/>
+                                        </StackPanel>
                                     </Button>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
-        
+       
+
             </DataGrid>
 
 

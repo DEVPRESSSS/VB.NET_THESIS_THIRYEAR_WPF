@@ -66,29 +66,35 @@ Public Class EditEmployee
     Public Sub UpdateCashier(cashierID As Integer, username As String, firstName As String, lastName As String, email As String)
         Dim query As String = "UPDATE [dbo].[Cashier] SET [Username] = @Username, [FirstName] = @FirstName, [LastName] = @LastName, [Email] = @Email " &
                           "WHERE [CashierID] = @CashierID"
+        Try
+            Using connection As New SqlConnection(con.connectionString)
+                Using command As New SqlCommand(query, connection)
+                    command.Parameters.Add(New SqlParameter("@Username", SqlDbType.NVarChar, 50)).Value = username
+                    command.Parameters.Add(New SqlParameter("@FirstName", SqlDbType.NVarChar, 50)).Value = firstName
+                    command.Parameters.Add(New SqlParameter("@LastName", SqlDbType.NVarChar, 50)).Value = lastName
+                    command.Parameters.Add(New SqlParameter("@Email", SqlDbType.NVarChar, 100)).Value = email
+                    command.Parameters.Add(New SqlParameter("@CashierID", SqlDbType.Int)).Value = editID
 
-        Using connection As New SqlConnection(con.connectionString)
-            Using command As New SqlCommand(query, connection)
-                command.Parameters.Add(New SqlParameter("@Username", SqlDbType.NVarChar, 50)).Value = username
-                command.Parameters.Add(New SqlParameter("@FirstName", SqlDbType.NVarChar, 50)).Value = firstName
-                command.Parameters.Add(New SqlParameter("@LastName", SqlDbType.NVarChar, 50)).Value = lastName
-                command.Parameters.Add(New SqlParameter("@Email", SqlDbType.NVarChar, 100)).Value = email
-                command.Parameters.Add(New SqlParameter("@CashierID", SqlDbType.Int)).Value = editID
 
+                    connection.Open()
+                    Dim rowsAffected As Integer = command.ExecuteNonQuery()
+                    If rowsAffected > 0 Then
+                        MessageBox.Show("Cashier record updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
+                        Refresh()
+                        Me.Close()
+                    Else
+                        MessageBox.Show("No record found to update.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning)
 
-                connection.Open()
-                Dim rowsAffected As Integer = command.ExecuteNonQuery()
-                If rowsAffected > 0 Then
-                    MessageBox.Show("Cashier record updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information)
-                    Refresh()
-                    Me.Close()
-                Else
-                    MessageBox.Show("No record found to update.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning)
+                    End If
 
-                End If
-
+                End Using
             End Using
-        End Using
+
+        Catch ex As Exception
+            MessageBox.Show("The username is already exist, please provide unique username.", "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+
+        End Try
+
 
     End Sub
 

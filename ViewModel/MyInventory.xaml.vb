@@ -74,7 +74,9 @@ Public Class MyInventory
 
         Dim prod As New ObservableCollection(Of ProductInventory)()
 
-        Dim query As String = "SELECT P.InventoryID, P.ProductID, S.ProductName, P.Quantity, P.OriginalStock, P.LastUpdated FROM Inventory P INNER JOIN Product S ON P.ProductID = S.ProductID"
+        Dim query As String = "SELECT P.InventoryID, P.ProductID, S.ProductName, P.Quantity, P.OriginalStock, P.LastUpdated 
+                           FROM Inventory P 
+                           INNER JOIN Product S ON P.ProductID = S.ProductID"
         Using connection As New SqlConnection(con.connectionString)
             Dim command As New SqlCommand(query, connection)
             Dim adapter As New SqlDataAdapter(command)
@@ -84,14 +86,18 @@ Public Class MyInventory
             adapter.Fill(dataTable)
 
             For Each row As DataRow In dataTable.Rows
-                prod.Add(New ProductInventory With {
+                ' Create the product inventory object
+                Dim inventoryItem As New ProductInventory With {
                 .InventoryID = Convert.ToInt32(row("InventoryID")),
                 .ProductID = Convert.ToInt32(row("ProductID")),
                 .ProductName = row("ProductName").ToString(),
                 .CurrentStock = Convert.ToInt32(row("Quantity")),
                 .OriginalStock = Convert.ToInt32(row("OriginalStock")),
                 .LastUpdated = CDate(row("LastUpdated")).ToString("yyyy-MM-dd hh:mm")
-            })
+            }
+
+
+                prod.Add(inventoryItem)
             Next
 
             productDataGrid.ItemsSource = prod
@@ -274,47 +280,6 @@ Public Class MyInventory
         End If
     End Sub
 
-    'Private Async Sub datePickerFilter_SelectedDateChanged(sender As Object, e As SelectionChangedEventArgs)
-    'If dat'ePickerFilter.SelectedDate.HasValue Then
-    'Dim selectedDate As Date = datePickerFilter.SelectedDate.Value
-    '       Await FilterByDate(selectedDate)
-    'Else
-    '    FetchProductData()
-    'End If
-    ' End Sub
 
-    Private Async Function FilterByDate(selectedDate As Date) As Task
-        Dim inventoryItems As New List(Of ProductInventory)()
-
-        Dim query As String = "SELECT P.InventoryID, P.ProductID, S.ProductName, P.Quantity, P.OriginalStock, P.LastUpdated " &
-                          "FROM Inventory P INNER JOIN Product S ON P.ProductID = S.ProductID " &
-                          "WHERE CONVERT(DATE, P.LastUpdated) = @SelectedDate"
-
-        Using connection As New SqlConnection(con.connectionString)
-            connection.Open()
-            Using cmd As New SqlCommand(query, connection)
-                cmd.Parameters.Add("@SelectedDate", SqlDbType.Date).Value = selectedDate
-                Using reader As SqlDataReader = cmd.ExecuteReader()
-                    While reader.Read()
-                        Dim inventoryItem As New ProductInventory() With {
-                        .InventoryID = Convert.ToInt32(reader("InventoryID")),
-                        .ProductID = Convert.ToInt32(reader("ProductID")),
-                        .ProductName = reader("ProductName").ToString(),
-                        .LastUpdated = Convert.ToDateTime(reader("LastUpdated")).ToString("yyyy-MM-dd hh:mm"),
-                        .CurrentStock = Convert.ToInt32(reader("Quantity")),
-                        .OriginalStock = Convert.ToInt32(reader("OriginalStock"))
-                    }
-                        inventoryItems.Add(inventoryItem)
-                    End While
-                End Using
-                productDataGrid.ItemsSource = inventoryItems
-            End Using
-        End Using
-
-        If inventoryItems.Count = 0 Then
-            Await Task.Delay(5000)
-            FetchProductData()
-        End If
-    End Function
 
 End Class
